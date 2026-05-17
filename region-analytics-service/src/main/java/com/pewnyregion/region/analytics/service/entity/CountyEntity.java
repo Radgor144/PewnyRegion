@@ -23,7 +23,7 @@ public class CountyEntity implements Persistable<String> {
     private String name;
     private String parentId;
     private Integer level;
-    private String teryt;
+    private String terytCode;
 
     @Transient
     private boolean isNew;

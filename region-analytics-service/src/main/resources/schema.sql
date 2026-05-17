@@ -3,5 +3,5 @@ CREATE TABLE IF NOT EXISTS counties (
     name VARCHAR(255),
     parent_id VARCHAR(255),
     level INTEGER,
-    teryt VARCHAR(10)
+    teryt_code VARCHAR(10)
 );

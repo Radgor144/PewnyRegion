@@ -56,12 +56,12 @@ public class CountyImportService {
                 .name(unit.name())
                 .parentId(unit.parentId())
                 .level(unit.level())
-                .teryt(extractTeryt(unit.id()))
+                .terytCode(extractTerytCode(unit.id()))
                 .isNew(true)
                 .build();
     }
 
-    private String extractTeryt(String id) {
+    private String extractTerytCode(String id) {
         return id.substring(2, 4) + id.substring(7, 9);
     }
 }
