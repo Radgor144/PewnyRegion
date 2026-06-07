@@ -1,5 +1,6 @@
 package com.pewnyregion.region.analytics.service.service;
 
+import com.pewnyregion.region.analytics.service.client.BdlClient;
 import com.pewnyregion.region.analytics.service.entity.CountyEntity;
 import com.pewnyregion.region.analytics.service.model.AnalyticsResponse;
 import com.pewnyregion.region.analytics.service.model.AnalyticsValueDto;
@@ -10,7 +11,6 @@ import com.pewnyregion.region.analytics.service.repository.CountyRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 import java.util.Comparator;
@@ -23,11 +23,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AnalyticsService {
 
-    private static final String RESPONSE_FORMAT = "json";
-
     private final CountyRepository countyRepository;
     private final BdlVariableService bdlVariableService;
-    private final WebClient bdlWebClient;
+    private final BdlClient bdlClient;
 
     public Mono<List<AnalyticsResponse>> getAnalyticsData(String terytCode, List<String> apiNames) {
         Mono<CountyEntity> countyMono = countyRepository.findByTerytCode(terytCode);
@@ -43,15 +41,7 @@ public class AnalyticsService {
         List<Integer> requestedVarIds = variables.stream()
                                                  .flatMap(variable -> variable.getVarIds().stream())
                                                  .toList();
-
-        return bdlWebClient.get()
-                .uri(uriBuilder -> uriBuilder
-                        .path("/data/by-unit/{id}")
-                        .queryParam("var-id", requestedVarIds.toArray())
-                        .queryParam("format", RESPONSE_FORMAT)
-                        .build(county.getId()))
-                .retrieve()
-                .bodyToMono(BdlRawDataResponse.class);
+        return bdlClient.fetchMetrics(county.getId(), requestedVarIds);
     }
 
     private List<AnalyticsResponse> toAnalyticsResponses(BdlRawDataResponse rawResponse, List<BdlVariableDto> variablesConfig) {
