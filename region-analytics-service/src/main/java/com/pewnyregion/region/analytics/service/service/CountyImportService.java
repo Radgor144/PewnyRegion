@@ -1,12 +1,12 @@
 package com.pewnyregion.region.analytics.service.service;
 
+import com.pewnyregion.region.analytics.service.client.BdlClient;
 import com.pewnyregion.region.analytics.service.entity.CountyEntity;
 import com.pewnyregion.region.analytics.service.model.BdlResponse;
 import com.pewnyregion.region.analytics.service.model.BdlUnit;
 import com.pewnyregion.region.analytics.service.repository.CountyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 import java.util.Objects;
@@ -16,10 +16,8 @@ import java.util.Objects;
 public class CountyImportService {
 
     public static final int LEVEL = 5;
-    public static final String FORMAT = "json";
-    public static final int PAGE_SIZE = 100;
 
-    private final WebClient bdlWebClient;
+    private final BdlClient bdlClient;
     private final CountyRepository countyRepository;
 
     public Mono<Void> importCounties() {
@@ -38,16 +36,7 @@ public class CountyImportService {
     }
 
     private Mono<BdlResponse> fetchPage(int page) {
-        return bdlWebClient.get()
-                .uri(uri -> uri
-                        .path("/Units")
-                        .queryParam("level", LEVEL)
-                        .queryParam("format", FORMAT)
-                        .queryParam("page", page)
-                        .queryParam("page-size", PAGE_SIZE)
-                        .build())
-                .retrieve()
-                .bodyToMono(BdlResponse.class);
+        return bdlClient.fetchPage(LEVEL, page);
     }
 
     private CountyEntity mapToEntity(BdlUnit unit) {
