@@ -4,7 +4,7 @@ import com.pewnyregion.region.analytics.service.entity.CountyEntity;
 import com.pewnyregion.region.analytics.service.model.AnalyticsResponse;
 import com.pewnyregion.region.analytics.service.model.AnalyticsValueDto;
 import com.pewnyregion.region.analytics.service.model.BdlRawDataResponse;
-import com.pewnyregion.region.analytics.service.model.BdlVarId;
+import com.pewnyregion.region.analytics.service.model.BdlVariableDto;
 import com.pewnyregion.region.analytics.service.model.ResultGroup;
 import com.pewnyregion.region.analytics.service.repository.CountyRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,16 +26,20 @@ public class AnalyticsService {
     private static final String RESPONSE_FORMAT = "json";
 
     private final CountyRepository countyRepository;
+    private final BdlVariableService bdlVariableService;
     private final WebClient bdlWebClient;
 
-    public Mono<List<AnalyticsResponse>> getAnalyticsData(String terytCode, List<BdlVarId> variables) {
-        return countyRepository.findByTerytCode(terytCode)
-                               .flatMap(county -> fetchBdlRawData(county, variables))
-                               .map(this::toAnalyticsResponses)
-                               .doOnError(error -> log.error("Error while fetching analytics data", error));
+    public Mono<List<AnalyticsResponse>> getAnalyticsData(String terytCode, List<String> apiNames) {
+        Mono<CountyEntity> countyMono = countyRepository.findByTerytCode(terytCode);
+        Mono<List<BdlVariableDto>> variablesConfigMono = bdlVariableService.getVariablesByApiNames(apiNames).collectList();
+
+        return Mono.zip(countyMono, variablesConfigMono)
+                .flatMap(tuple -> fetchBdlRawData(tuple.getT1(), tuple.getT2())
+                        .map(rawResponse -> toAnalyticsResponses(rawResponse, tuple.getT2())))
+                .doOnError(error -> log.error("Error while fetching analytics data", error));
     }
 
-    private Mono<BdlRawDataResponse> fetchBdlRawData(CountyEntity county, List<BdlVarId> variables) {
+    private Mono<BdlRawDataResponse> fetchBdlRawData(CountyEntity county, List<BdlVariableDto> variables) {
         List<Integer> requestedVarIds = variables.stream()
                                                  .flatMap(variable -> variable.getVarIds().stream())
                                                  .toList();
@@ -50,17 +54,25 @@ public class AnalyticsService {
                 .bodyToMono(BdlRawDataResponse.class);
     }
 
-    private List<AnalyticsResponse> toAnalyticsResponses(BdlRawDataResponse rawResponse) {
-        Map<BdlVarId, List<ResultGroup>> resultsByVariable = rawResponse.results().stream()
-                .collect(Collectors.groupingBy(result -> BdlVarId.fromVarId(result.id())));
+    private List<AnalyticsResponse> toAnalyticsResponses(BdlRawDataResponse rawResponse, List<BdlVariableDto> variablesConfig) {
+        Map<String, List<ResultGroup>> resultsByVariable = rawResponse.results().stream()
+                .collect(Collectors.groupingBy(result -> findApiNameByVarId(result.id(), variablesConfig)));
 
         return resultsByVariable.entrySet().stream()
                 .map(entry -> buildAnalyticsResponseForVariable(rawResponse, entry.getKey(), entry.getValue()))
                 .toList();
     }
 
+    private String findApiNameByVarId(int varId, List<BdlVariableDto> variablesConfig) {
+        return variablesConfig.stream()
+                .filter(v -> v.getVarIds().contains(varId))
+                .map(BdlVariableDto::getApiName)
+                .findFirst()
+                .orElse("unknown_variable");
+    }
+
     private AnalyticsResponse buildAnalyticsResponseForVariable(BdlRawDataResponse rawResponse,
-                                                                BdlVarId variable,
+                                                                String apiName,
                                                                 List<ResultGroup> resultsForVariable) {
 
         List<AnalyticsValueDto> valuesSortedByYear = resultsForVariable.stream()
@@ -69,7 +81,7 @@ public class AnalyticsService {
                 .toList();
 
         return AnalyticsResponse.builder()
-                .variableName(variable.getApiName())
+                .variableName(apiName)
                 .unitId(rawResponse.unitId())
                 .unitName(rawResponse.unitName())
                 .values(valuesSortedByYear)
