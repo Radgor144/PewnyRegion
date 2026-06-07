@@ -48,6 +48,7 @@ subprojects {
         implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
 
         testImplementation 'org.springframework.boot:spring-boot-starter-actuator-test'
+        testImplementation 'org.springframework.boot:spring-boot-testcontainers'
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
         testImplementation 'io.projectreactor:reactor-test'
     }

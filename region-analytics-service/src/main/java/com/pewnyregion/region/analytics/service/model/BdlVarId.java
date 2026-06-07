@@ -20,6 +20,14 @@ public enum BdlVarId {
     POPULATION_DENSITY(
             "population_density",
             List.of(60559)
+    ),
+    Unemployment(
+            "unemployment",
+            List.of(60270)
+    ),
+    GROSS_SALARY(
+            "gross_salary",
+            List.of(64428)
     );
 
     private final String apiName;

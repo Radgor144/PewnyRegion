@@ -19,6 +19,8 @@ public class WebClientConfig {
 
     @Value("${bdl.api.key}")
     public String API_KEY;
+    @Value("${bdl.api.url}")
+    public String API_URL;
 
     @Bean
     public WebClient bdlWebClient() throws SSLException {
@@ -31,7 +33,7 @@ public class WebClientConfig {
                 .secure(t -> t.sslContext(sslContext));
 
         return WebClient.builder()
-                .baseUrl("https://bdl.stat.gov.pl/api/v1")
+                .baseUrl(API_URL)
                 .defaultHeader("X-ClientId", API_KEY)
                 .clientConnector(new ReactorClientHttpConnector(httpClient))
                 .filter((request, next) -> {
