@@ -6,6 +6,7 @@ import com.pewnyregion.region.analytics.service.repository.BdlDataRecordReposito
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
@@ -19,14 +20,22 @@ public class BdlDataPersistenceService {
 
     public Mono<BdlRawDataResponse> saveImportedData(String countyId, BdlRawDataResponse response) {
         return Mono.justOrEmpty(response)
-                .filter(this::hasResults)
-                .flatMap(res -> {
-                    List<BdlDataRecordEntity> entities = mapToEntities(countyId, res);
-                    return recordRepository.saveAll(entities)
-                            .then()
-                            .thenReturn(res);
-                })
-                .defaultIfEmpty(response);
+                   .filter(this::hasResults)
+                   .flatMap(res -> upsertAll(mapToEntities(countyId, res))
+                           .thenReturn(res))
+                   .defaultIfEmpty(response);
+    }
+
+    private Mono<Void> upsertAll(List<BdlDataRecordEntity> entities) {
+        return Flux.fromIterable(entities)
+                   .flatMap(entity -> recordRepository.upsertRecord(
+                           entity.getCountyId(),
+                           entity.getVariableId(),
+                           entity.getYear(),
+                           entity.getValue(),
+                           entity.getImportedAt()
+                   ))
+                   .then();
     }
 
     private boolean hasResults(BdlRawDataResponse response) {
@@ -37,14 +46,14 @@ public class BdlDataPersistenceService {
         LocalDateTime importTime = LocalDateTime.now();
 
         return response.results().stream()
-                .flatMap(result -> result.values().stream()
-                        .map(valueDto -> BdlDataRecordEntity.builder()
-                                .countyId(countyId)
-                                .variableId(result.id())
-                                .year(valueDto.year())
-                                .value(valueDto.val())
-                                .importedAt(importTime)
-                                .build()))
-                .toList();
+                       .flatMap(result -> result.values().stream()
+                                                .map(valueDto -> BdlDataRecordEntity.builder()
+                                                                                    .countyId(countyId)
+                                                                                    .variableId(result.id())
+                                                                                    .year(valueDto.year())
+                                                                                    .value(valueDto.val())
+                                                                                    .importedAt(importTime)
+                                                                                    .build()))
+                       .toList();
     }
 }
