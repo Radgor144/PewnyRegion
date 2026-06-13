@@ -1,6 +1,6 @@
 services:
   postgres:
-    image: postgres:16
+    image: cgr.dev/chainguard/postgres:latest
     container_name: regions-postgres
     environment:
       POSTGRES_DB: regions
@@ -8,3 +8,16 @@ services:
       POSTGRES_PASSWORD: postgres
     ports:
       - "5432:5432"
+
+  analytics-service:
+    container_name: region-analytics-service
+    image: region-analytics-service:latest
+    build:
+      context: ..
+      dockerfile: region-analytics-service/Dockerfile
+    ports:
+      - "8080:8080"
+    env_file:
+      - ../.env
+    depends_on:
+      - postgres
