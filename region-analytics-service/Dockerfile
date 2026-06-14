@@ -1,8 +1,20 @@
-FROM eclipse-temurin:21-jdk AS jlink-stage
-
+# --- STAGE 1: ---
+FROM gradle:8.5-jdk21 AS build-stage
 WORKDIR /app
 
-COPY region-analytics-service/build/libs/*.jar app.jar
+COPY gradle gradle
+COPY gradlew build.gradle settings.gradle ./
+COPY region-analytics-service/build.gradle region-analytics-service/
+
+COPY region-analytics-service/src region-analytics-service/src
+
+RUN ./gradlew :region-analytics-service:bootJar -x test
+
+# --- STAGE 2: ---
+FROM eclipse-temurin:21-jdk AS jlink-stage
+WORKDIR /app
+
+COPY --from=build-stage /app/region-analytics-service/build/libs/*.jar app.jar
 
 RUN jar -xf app.jar
 
@@ -20,8 +32,8 @@ RUN jlink \
     --no-man-pages \
     --output /customjre
 
+# --- STAGE 3: ---
 FROM cgr.dev/chainguard/wolfi-base:latest
-
 WORKDIR /app
 
 ENV JAVA_HOME=/opt/java/runtime
