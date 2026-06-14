@@ -4,6 +4,7 @@ WORKDIR /app
 
 COPY gradle gradle
 COPY gradlew build.gradle settings.gradle ./
+RUN chmod +x gradlew
 COPY region-analytics-service/build.gradle region-analytics-service/
 
 COPY region-analytics-service/src region-analytics-service/src
