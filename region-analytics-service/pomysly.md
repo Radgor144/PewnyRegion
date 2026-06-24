@@ -1,0 +1,1 @@
+1. przenies recordy z serwisow do osobnych plikow
