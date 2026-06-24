@@ -17,9 +17,4 @@ jobs:
           echo "$HOME/.opengrep/cli/latest" >> $GITHUB_PATH
 
       - name: Run Scan
-        run: opengrep scan --format sarif -o opengrep.sarif
-
-      - name: Upload SARIF
-        uses: github/codeql-action/upload-sarif@v4
-        with:
-          sarif_file: opengrep.sarif
+        run: opengrep scan
