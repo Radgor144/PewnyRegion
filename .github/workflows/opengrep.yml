@@ -1,0 +1,23 @@
+name: Opengrep Analysis
+
+on:
+  push:
+
+jobs:
+  opengrep-scan:
+    name: Run Opengrep
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.14'
+
+      - name: Install Opengrep
+        run: pip install opengrep
+
+      - name: Run Scan
+        run: opengrep scan --config=auto
