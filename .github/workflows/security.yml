@@ -1,0 +1,78 @@
+name: Security Analysis
+
+on:
+  push:
+
+jobs:
+  opengrep-scan:
+    name: Opengrep Security Scan
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Install Opengrep
+        run: |
+          curl -L https://raw.githubusercontent.com/opengrep/opengrep/main/install.sh | bash
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+          echo "$HOME/.opengrep/cli/latest" >> $GITHUB_PATH
+
+      - name: Run Scan
+        run: opengrep scan --config=auto --sarif --output results.sarif
+
+      - name: Upload SARIF report
+        uses: github/codeql-action/upload-sarif@v4
+        with:
+          sarif_file: results.sarif
+
+  codeql-analysis:
+    name: CodeQL Security Scan
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v4
+        with:
+          languages: java-kotlin
+
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v4
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v4
+
+  owasp-dependency-check:
+    name: OWASP Dependency Scan
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run OWASP Dependency-Check
+        uses: dependency-check/Dependency-Check_Action@main
+        with:
+          project: 'PewnyRegion'
+          path: '.'
+          format: 'SARIF'
+          out: '.'
+          args: >
+            --failOnCVSS 7
+
+      - name: Upload OWASP SARIF report
+        uses: github/codeql-action/upload-sarif@v4
+        with:
+          sarif_file: 'dependency-check-report.sarif'
