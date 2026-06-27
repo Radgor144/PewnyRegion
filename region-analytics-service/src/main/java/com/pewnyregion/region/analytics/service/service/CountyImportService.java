@@ -1,6 +1,6 @@
 package com.pewnyregion.region.analytics.service.service;
 
-import com.pewnyregion.region.analytics.service.client.BdlClient;
+import com.pewnyregion.region.analytics.service.client.BdlApiClient;
 import com.pewnyregion.region.analytics.service.entity.CountyEntity;
 import com.pewnyregion.region.analytics.service.model.BdlResponse;
 import com.pewnyregion.region.analytics.service.model.BdlUnit;
@@ -16,18 +16,18 @@ import java.util.Objects;
 public class CountyImportService {
 
     public static final int LEVEL = 5;
+    public static final int PAGE_SIZE = 100;
 
-    private final BdlClient bdlClient;
+    private final BdlApiClient bdlApiClient;
     private final CountyRepository countyRepository;
 
-    public Mono<Void> importCounties() {
+    public Mono<Void> runImportLogic() {
         return fetchPage(0)
                 .expand(response -> {
                     if (Objects.isNull(response.links()) || Objects.isNull(response.links().getNext())) {
                         return Mono.empty();
                     }
-                    int nextPage = response.page() + 1;
-                    return fetchPage(nextPage);
+                    return fetchPage(response.page() + 1);
                 })
                 .flatMapIterable(BdlResponse::results)
                 .map(this::mapToEntity)
@@ -36,7 +36,7 @@ public class CountyImportService {
     }
 
     private Mono<BdlResponse> fetchPage(int page) {
-        return bdlClient.fetchPage(LEVEL, page);
+        return bdlApiClient.fetchUnits(page, LEVEL, PAGE_SIZE);
     }
 
     private CountyEntity mapToEntity(BdlUnit unit) {
