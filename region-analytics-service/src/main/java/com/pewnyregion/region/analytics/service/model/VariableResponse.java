@@ -5,5 +5,5 @@ import java.util.List;
 public record VariableResponse(
         String apiName,
         List<Integer> bdlIds,
-        String direction
+        VariableDirection direction
 ) {}

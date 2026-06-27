@@ -15,7 +15,6 @@ public class MapService {
     private final MapRepository mapRepository;
 
     public Flux<MapResponse> getMapData(List<String> apiNames, Integer yearFrom, Integer yearTo) {
-
         validate(apiNames, yearFrom, yearTo);
 
         return mapRepository.getMapData(apiNames, yearFrom, yearTo)
@@ -30,11 +29,9 @@ public class MapService {
         if (apiNames == null || apiNames.isEmpty()) {
             throw new IllegalArgumentException("apiNames cannot be empty");
         }
-
         if (apiNames.size() > 5) {
             throw new IllegalArgumentException("Maximum 5 variables allowed");
         }
-
         if (yearFrom == null || yearTo == null || yearFrom > yearTo) {
             throw new IllegalArgumentException("Invalid year range");
         }

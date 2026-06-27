@@ -92,7 +92,7 @@ public class ImportJobService {
     private Mono<Void> markCompleted(String jobId) {
         return updateJobStatus(jobId, job -> {
             job.setStatus(ImportJobStatus.COMPLETED);
-            job.setFinishedAt(LocalDateTime.now()); // Poprawiony błąd!
+            job.setFinishedAt(LocalDateTime.now());
             job.setMessage("Import completed successfully");
         });
     }

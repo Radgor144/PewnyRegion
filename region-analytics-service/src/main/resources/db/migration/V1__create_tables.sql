@@ -25,13 +25,13 @@ CREATE TABLE IF NOT EXISTS counties
 
 CREATE TABLE IF NOT EXISTS bdl_data_records
 (
-    id             BIGSERIAL PRIMARY KEY,
-    county_id      VARCHAR(255)     NOT NULL,
-    variable_id    INT              NOT NULL,
-    year           INT              NOT NULL,
-    value          DOUBLE PRECISION NOT NULL,
-    imported_at    TIMESTAMP        NOT NULL,
-    score_0_to_100 DOUBLE PRECISION,
+    id               BIGSERIAL PRIMARY KEY,
+    county_id        VARCHAR(255)     NOT NULL,
+    variable_id      INT              NOT NULL,
+    year             INT              NOT NULL,
+    value            DOUBLE PRECISION NOT NULL,
+    imported_at      TIMESTAMP        NOT NULL,
+    normalized_score DOUBLE PRECISION,
 
     CONSTRAINT fk_bdl_data_county FOREIGN KEY (county_id) REFERENCES counties (id),
     CONSTRAINT fk_bdl_data_variable FOREIGN KEY (variable_id) REFERENCES bdl_variable_ids (bdl_id),
