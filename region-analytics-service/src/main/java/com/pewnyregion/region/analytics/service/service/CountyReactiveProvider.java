@@ -1,6 +1,7 @@
 package com.pewnyregion.region.analytics.service.service;
 
 import com.pewnyregion.region.analytics.service.entity.CountyEntity;
+import com.pewnyregion.region.analytics.service.model.PageState;
 import com.pewnyregion.region.analytics.service.repository.CountyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -8,16 +9,12 @@ import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.List;
-
 @Component
 @RequiredArgsConstructor
 public class CountyReactiveProvider {
 
     private static final int PAGE_SIZE = 10;
     private final CountyRepository countyRepository;
-
-    private record PageState(int page, List<CountyEntity> content) {}
 
     public Flux<CountyEntity> streamAllCounties() {
         return countyRepository.findAllBy(PageRequest.of(0, PAGE_SIZE))

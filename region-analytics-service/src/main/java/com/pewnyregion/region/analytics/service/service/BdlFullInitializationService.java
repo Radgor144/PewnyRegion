@@ -1,8 +1,8 @@
 package com.pewnyregion.region.analytics.service.service;
 
 import com.pewnyregion.region.analytics.service.client.BdlApiClient;
-import com.pewnyregion.region.analytics.service.entity.CountyEntity;
 import com.pewnyregion.region.analytics.service.model.BdlRawDataResponse;
+import com.pewnyregion.region.analytics.service.model.InitChunk;
 import com.pewnyregion.region.analytics.service.repository.BdlDataRecordRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,8 +28,6 @@ public class BdlFullInitializationService {
     private final BdlApiClient bdlApiClient;
     private final BdlDataPersistenceService persistenceService;
     private final BdlDataRecordRepository dataRecordRepository;
-
-    private record InitChunk(CountyEntity county, List<Integer> varIds) {}
 
     public Flux<BdlRawDataResponse> runFullInitialization() {
         return dataRecordRepository.count()

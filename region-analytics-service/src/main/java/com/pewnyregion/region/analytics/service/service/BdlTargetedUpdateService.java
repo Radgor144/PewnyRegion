@@ -1,8 +1,8 @@
 package com.pewnyregion.region.analytics.service.service;
 
 import com.pewnyregion.region.analytics.service.client.BdlApiClient;
-import com.pewnyregion.region.analytics.service.entity.CountyEntity;
 import com.pewnyregion.region.analytics.service.model.BdlRawDataResponse;
+import com.pewnyregion.region.analytics.service.model.TargetedChunk;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -26,8 +26,6 @@ public class BdlTargetedUpdateService {
     private final CountyReactiveProvider countyProvider;
     private final BdlApiClient bdlApiClient;
     private final BdlDataPersistenceService persistenceService;
-
-    private record TargetedChunk(CountyEntity county, List<Integer> varIds, List<Integer> years) {}
 
     public Flux<BdlRawDataResponse> runTargetedUpdate(List<String> apiNames, List<Integer> years) {
         log.info("Starting targeted update for: {} and years: {}", apiNames, years);
