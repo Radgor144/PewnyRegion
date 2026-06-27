@@ -75,6 +75,7 @@ jobs:
           out: '.'
           args: >
             --failOnCVSS 7
+            --ossIndexPassword ${{ secrets.OSS_INDEX_TOKEN }}
 
       - name: Upload OWASP SARIF report
         uses: github/codeql-action/upload-sarif@v4
