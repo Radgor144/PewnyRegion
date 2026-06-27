@@ -23,21 +23,31 @@ public class BdlFullInitializationService {
     private static final Duration REQUEST_DELAY = Duration.ofMillis(2000);
     private static final int MAX_RETRIES = 3;
 
-    private final BdlVariableService bdlVariableService;
+    private final VariableService variableService;
     private final CountyReactiveProvider countyProvider;
     private final BdlApiClient bdlApiClient;
     private final BdlDataPersistenceService persistenceService;
     private final BdlDataRecordRepository dataRecordRepository;
+    private final NormalizationService normalizationService;
 
-    public Flux<BdlRawDataResponse> runFullInitialization() {
+    public Mono<Void> runFullInitialization() {
         return dataRecordRepository.count()
-                .filter(count -> count == 0)
-                .switchIfEmpty(Mono.error(new IllegalStateException("Database contains existing records. Full initialization aborted.")))
-                .flatMap(ignored -> bdlVariableService.getAllRawVariableIds())
-                .flatMapMany(this::buildInitChunks)
-                .delayElements(REQUEST_DELAY)
-                .flatMap(this::executeInitTask, 1);
+                                   .flatMapMany(count -> {
+                                       if (count > 0) {
+                                           return Flux.error(new IllegalStateException("Database contains existing records"));
+                                       }
+
+                                       log.info("Starting full initialization");
+                                       return variableService.getAllVariableIds();
+                                   })
+                                   .flatMap(this::buildInitChunks)
+                                   .delayElements(REQUEST_DELAY)
+                                   .flatMap(this::executeInitTask, 1)
+                                   .then()
+                                   .doOnSuccess(v -> log.info("Full initialization finished"))
+                                   .then(runNormalizationAfterImport());
     }
+
 
     private Flux<InitChunk> buildInitChunks(List<Integer> varIds) {
         return countyProvider.streamAllCounties()
@@ -61,5 +71,13 @@ public class BdlFullInitializationService {
     private Retry createRetrySpec(String countyName) {
         return Retry.backoff(MAX_RETRIES, Duration.ofSeconds(1))
                 .doBeforeRetry(retry -> log.warn("BDL API retry {}/{} for: {}", retry.totalRetries() + 1, MAX_RETRIES, countyName));
+    }
+
+    private Mono<Void> runNormalizationAfterImport() {
+        return Mono.defer(() -> {
+                       log.info("Starting normalization after full import completion");
+                       return normalizationService.calculateAndSaveScoresForAllYears();
+                   })
+                   .doOnSuccess(v -> log.info("Normalization completed"));
     }
 }

@@ -1,7 +1,8 @@
 CREATE TABLE IF NOT EXISTS bdl_variables
 (
-    id       SERIAL PRIMARY KEY,
-    api_name VARCHAR(255) NOT NULL UNIQUE
+    id        SERIAL PRIMARY KEY,
+    api_name  VARCHAR(255) NOT NULL UNIQUE,
+    direction VARCHAR(20)  NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS bdl_variable_ids
@@ -24,19 +25,20 @@ CREATE TABLE IF NOT EXISTS counties
 
 CREATE TABLE IF NOT EXISTS bdl_data_records
 (
-    id          BIGSERIAL PRIMARY KEY,
-    county_id   VARCHAR(255)     NOT NULL,
-    variable_id INT              NOT NULL,
-    year        INT              NOT NULL,
-    value       DOUBLE PRECISION NOT NULL,
-    imported_at TIMESTAMP        NOT NULL,
+    id               BIGSERIAL PRIMARY KEY,
+    county_id        VARCHAR(255)     NOT NULL,
+    variable_id      INT              NOT NULL,
+    year             INT              NOT NULL,
+    value            DOUBLE PRECISION NOT NULL,
+    imported_at      TIMESTAMP        NOT NULL,
+    normalized_score DOUBLE PRECISION,
 
     CONSTRAINT fk_bdl_data_county FOREIGN KEY (county_id) REFERENCES counties (id),
     CONSTRAINT fk_bdl_data_variable FOREIGN KEY (variable_id) REFERENCES bdl_variable_ids (bdl_id),
     CONSTRAINT unique_county_variable_year UNIQUE (county_id, variable_id, year)
 );
 
-CREATE TABLE import_jobs
+CREATE TABLE IF NOT EXISTS import_jobs
 (
     id          VARCHAR(36) PRIMARY KEY,
     job_type    VARCHAR(50) NOT NULL,

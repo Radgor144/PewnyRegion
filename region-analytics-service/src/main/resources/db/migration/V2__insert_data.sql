@@ -1,14 +1,14 @@
-INSERT INTO bdl_variables (api_name)
-VALUES ('crimes'),
-       ('population_in_thousands'),
-       ('population_density'),
-       ('unemployment'),
-       ('gross_salary');
+INSERT INTO bdl_variables (id, api_name, direction)
+VALUES (1, 'crimes', 'DESTIMULANT'),
+       (2, 'population_in_thousands', 'STIMULANT'),
+       (3, 'population_density', 'STIMULANT'),
+       (4, 'unemployment', 'DESTIMULANT'),
+       (5, 'gross_salary', 'STIMULANT');
 
 INSERT INTO bdl_variable_ids (bdl_variable_id, bdl_id)
-VALUES ((SELECT id FROM bdl_variables WHERE api_name = 'crimes'), 58559),
-       ((SELECT id FROM bdl_variables WHERE api_name = 'crimes'), 1749155),
-       ((SELECT id FROM bdl_variables WHERE api_name = 'population_in_thousands'), 1645341),
-       ((SELECT id FROM bdl_variables WHERE api_name = 'population_density'), 60559),
-       ((SELECT id FROM bdl_variables WHERE api_name = 'unemployment'), 60270),
-       ((SELECT id FROM bdl_variables WHERE api_name = 'gross_salary'), 64428);
+VALUES (1, 58559),
+       (1, 1749155),
+       (2, 1645341),
+       (3, 60559),
+       (4, 60270),
+       (5, 64428);

@@ -23,4 +23,5 @@ public class BdlDataRecordEntity {
     private Integer year;
     private double value;
     private LocalDateTime importedAt;
+    private Double normalizedScore;
 }
