@@ -23,7 +23,7 @@ public class BdlFullInitializationService {
     private static final Duration REQUEST_DELAY = Duration.ofMillis(2000);
     private static final int MAX_RETRIES = 3;
 
-    private final BdlVariableService bdlVariableService;
+    private final VariableService variableService;
     private final CountyReactiveProvider countyProvider;
     private final BdlApiClient bdlApiClient;
     private final BdlDataPersistenceService persistenceService;
@@ -33,7 +33,7 @@ public class BdlFullInitializationService {
         return dataRecordRepository.count()
                 .filter(count -> count == 0)
                 .switchIfEmpty(Mono.error(new IllegalStateException("Database contains existing records. Full initialization aborted.")))
-                .flatMap(ignored -> bdlVariableService.getAllRawVariableIds())
+                .flatMap(ignored -> variableService.getAllVariableIds())
                 .flatMapMany(this::buildInitChunks)
                 .delayElements(REQUEST_DELAY)
                 .flatMap(this::executeInitTask, 1);

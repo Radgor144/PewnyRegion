@@ -1,5 +1,6 @@
 package com.pewnyregion.region.analytics.service.entity;
 
+import com.pewnyregion.region.analytics.service.model.VariableDirection;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,4 +14,5 @@ public class BdlVariableEntity {
     @Id
     private Integer id;
     private String apiName;
+    private VariableDirection direction;
 }

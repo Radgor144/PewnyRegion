@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface BdlVariableRepository extends ReactiveCrudRepository<BdlVariableEntity, Integer> {
     Flux<BdlVariableEntity> findByApiNameIn(List<String> apiNames);
+    Flux<BdlVariableEntity> findAll();
 }

@@ -22,17 +22,17 @@ public class BdlTargetedUpdateService {
     private static final Duration REQUEST_DELAY = Duration.ofMillis(2000);
     private static final int MAX_RETRIES = 3;
 
-    private final BdlVariableService bdlVariableService;
+    private final VariableService variableService;
     private final CountyReactiveProvider countyProvider;
     private final BdlApiClient bdlApiClient;
     private final BdlDataPersistenceService persistenceService;
 
     public Flux<BdlRawDataResponse> runTargetedUpdate(List<String> apiNames, List<Integer> years) {
         log.info("Starting targeted update for: {} and years: {}", apiNames, years);
-        return bdlVariableService.getRawVariableIdsByApiNames(apiNames)
-                .flatMapMany(varIds -> buildTargetedChunks(varIds, years))
-                .delayElements(REQUEST_DELAY)
-                .flatMap(this::executeTargetedTask, 1);
+        return variableService.getVariableIdsByApiNames(apiNames)
+                              .flatMapMany(varIds -> buildTargetedChunks(varIds, years))
+                              .delayElements(REQUEST_DELAY)
+                              .flatMap(this::executeTargetedTask, 1);
     }
 
     private Flux<TargetedChunk> buildTargetedChunks(List<Integer> varIds, List<Integer> years) {
