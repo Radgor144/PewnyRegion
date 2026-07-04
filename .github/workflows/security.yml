@@ -21,7 +21,9 @@ jobs:
 
       - name: Install Opengrep
         run: |
-          curl -L https://raw.githubusercontent.com/opengrep/opengrep/main/install.sh | bash
+          curl -sSL -o install-opengrep.sh https://raw.githubusercontent.com/opengrep/opengrep/main/install.sh
+          bash install-opengrep.sh
+            
           echo "$HOME/.local/bin" >> $GITHUB_PATH
           echo "$HOME/.opengrep/cli/latest" >> $GITHUB_PATH
 
@@ -62,6 +64,10 @@ jobs:
     permissions:
       contents: read
       security-events: write
+    env:
+      OSS_INDEX_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+      OSS_INDEX_PASSWORD: ${{ secrets.SONATYPE_TOKEN }}
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
@@ -75,7 +81,6 @@ jobs:
           out: '.'
           args: >
             --failOnCVSS 7
-            --ossIndexPassword ${{ secrets.SONATYPE_TOKEN }}
 
       - name: Upload OWASP SARIF report
         uses: github/codeql-action/upload-sarif@v4
