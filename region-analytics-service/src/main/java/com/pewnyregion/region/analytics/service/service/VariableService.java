@@ -39,6 +39,7 @@ public class VariableService {
     }
 
     private Mono<VariableResponse> mapToResponse(BdlVariableEntity entity) {
+//      ToDo: delete N+1 queries
         return variableIdRepository.findByBdlVariableId(entity.getId())
                                    .map(BdlVariableIdEntity::getBdlId)
                                    .collectList()

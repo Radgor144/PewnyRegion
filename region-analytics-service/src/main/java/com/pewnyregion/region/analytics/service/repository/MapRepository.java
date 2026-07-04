@@ -1,6 +1,6 @@
 package com.pewnyregion.region.analytics.service.repository;
 
-import com.pewnyregion.region.analytics.service.entity.BdlDataRecordEntity;
+import com.pewnyregion.region.analytics.service.entity.CountyVariableScoreEntity;
 import com.pewnyregion.region.analytics.service.model.MapCountyScoreDto;
 import org.springframework.data.r2dbc.repository.Query;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
@@ -10,22 +10,21 @@ import reactor.core.publisher.Flux;
 import java.util.List;
 
 @Repository
-public interface MapRepository extends ReactiveCrudRepository<BdlDataRecordEntity, Long> {
+public interface MapRepository extends ReactiveCrudRepository<CountyVariableScoreEntity, Long> {
 
     @Query("""
-        SELECT 
-            r.county_id AS countyId,
-            c.name AS countyName,
-            AVG(r.normalized_score) AS score
-        FROM bdl_data_records r
-        JOIN bdl_variable_ids bvi ON r.variable_id = bvi.bdl_id
-        JOIN bdl_variables v ON bvi.bdl_variable_id = v.id
-        JOIN counties c ON c.id = r.county_id
+        SELECT
+            s.county_id AS county_id,
+            c.name AS county_name,
+            AVG(s.normalized_score) AS score
+        FROM county_variable_scores s
+        JOIN bdl_variables v ON v.id = s.bdl_variable_id
+        JOIN counties c ON c.id = s.county_id
         WHERE v.api_name IN (:apiNames)
-          AND r.year >= :yearFrom
-          AND r.year <= :yearTo
-          AND r.normalized_score IS NOT NULL
-        GROUP BY r.county_id, c.name
+          AND s.year >= :yearFrom
+          AND s.year <= :yearTo
+          AND s.normalized_score IS NOT NULL
+        GROUP BY s.county_id, c.name
     """)
     Flux<MapCountyScoreDto> getMapData(List<String> apiNames, Integer yearFrom, Integer yearTo);
 }

@@ -1,7 +1,9 @@
 package com.pewnyregion.region.analytics.service.service;
 
-import com.pewnyregion.region.analytics.service.model.RawDataStatsDto;
+import com.pewnyregion.region.analytics.service.model.NormalizationStatsDto;
+import com.pewnyregion.region.analytics.service.model.NormalizationSummary;
 import com.pewnyregion.region.analytics.service.repository.BdlDataRecordRepository;
+import com.pewnyregion.region.analytics.service.repository.CountyVariableScoreRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -16,72 +18,67 @@ import java.util.List;
 public class NormalizationService {
 
     private final BdlDataRecordRepository dataRepository;
+    private final CountyVariableScoreRepository scoreRepository;
 
-    public Mono<Void> calculateAndSaveScoresForAllYears() {
-        log.info("Starting normalization for all years");
-
+    public Mono<NormalizationSummary> calculateAndSaveScoresForAllYears() {
+        log.info("[NORM] START");
         return dataRepository.findDistinctYears()
-                             .doOnNext(year -> log.info("Processing year: {}", year))
-                             .concatMap(this::calculateAndSaveScoresForYear)
-                             .then()
-                             .doOnSuccess(v -> log.info("Normalization finished for all years"));
+                             .distinct()
+                             .concatMap(this::processYear)
+                             .collectList()
+                             .map(NormalizationSummary::new)
+                             .doOnSuccess(s -> log.info("[NORM] DONE — {}", s.toMessage()));
     }
 
-    public Mono<Void> calculateAndSaveScoresForYears(List<Integer> years) {
-        log.info("Starting normalization for selected years: {}", years);
-
+    public Mono<NormalizationSummary> calculateAndSaveScoresForYears(List<Integer> years) {
         return Flux.fromIterable(years)
                    .distinct()
-                   .doOnNext(year -> log.info("Processing year: {}", year))
-                   .concatMap(this::calculateAndSaveScoresForYear)
-                   .then()
-                   .doOnSuccess(v -> log.info("Normalization finished for selected years"));
+                   .concatMap(this::processYear)
+                   .collectList()
+                   .map(NormalizationSummary::new)
+                   .doOnSuccess(s -> log.info("[NORM] DONE — {}", s.toMessage()));
     }
 
-    public Mono<Void> calculateAndSaveScoresForYear(Integer year) {
-        log.info("Calculating stats for year: {}", year);
-
-        return dataRepository.getStatsForYear(year)
-                             .flatMap(this::processAndSaveStat)
-                             .then()
-                             .doOnSuccess(v -> log.info("Year {} normalized", year));
+    private Mono<Integer> processYear(Integer year) {
+        log.info("[NORM] Processing year: {}", year);
+        return dataRepository.getNormalizationStatsForYear(year)
+                             .flatMap(this::process)
+                             .then(Mono.just(year))
+                             .doOnSuccess(y -> log.info("[NORM] Year {} done", y));
     }
 
-    private Mono<Void> processAndSaveStat(RawDataStatsDto stat) {
-
-        double z = calculateZScore(stat.value(), stat.meanVal(), stat.stddevVal());
-        double score = scaleTo0To100(z, stat.direction());
-
-        log.debug("County {}, var {}, year {} => score {}",
-                stat.countyId(),
-                stat.variableId(),
-                stat.year(),
-                score
-        );
-
-        return dataRepository.updateNormalizedScore(
-                stat.countyId(),
-                stat.variableId(),
-                stat.year(),
-                score
-        );
-    }
-
-    private double calculateZScore(Double value, Double mean, Double stddev) {
-        if (value == null || mean == null || stddev == null || stddev == 0.0) {
-            return 0.0;
+    private Mono<Void> process(NormalizationStatsDto stat) {
+        if (stat.adjustedValue() == null) {
+            log.warn("[NORM] Missing population data for county={}, variable={}, year={} — skipping",
+                    stat.countyId(), stat.bdlVariableId(), stat.year());
+            return Mono.empty();
         }
+
+        double z = calculateZ(stat.adjustedValue(), stat.meanVal(), stat.stddevVal());
+        if (Double.isNaN(z)) {
+            return Mono.empty();
+        }
+
+        double score = scale(z, stat.direction());
+
+        return scoreRepository.upsertScore(
+                stat.countyId(), stat.bdlVariableId(), stat.year(),
+                stat.rawValue(), stat.adjustedValue(), score
+        ).then();
+    }
+
+    private double calculateZ(Double value, Double mean, Double stddev) {
+        if (value == null || mean == null || stddev == null) return Double.NaN;
+        if (stddev == 0) return 0.0;
         return (value - mean) / stddev;
     }
 
-    private double scaleTo0To100(double zScore, String directionStr) {
-        double clamped = Math.max(-3.0, Math.min(3.0, zScore));
+    private double scale(double z, String direction) {
+        double clamped = Math.max(-3.0, Math.min(3.0, z));
         double score = ((clamped + 3.0) / 6.0) * 100.0;
-
-        if ("DESTIMULANT".equals(directionStr)) {
+        if ("DESTIMULANT".equals(direction)) {
             score = 100.0 - score;
         }
-
         return Math.round(score * 100.0) / 100.0;
     }
 }

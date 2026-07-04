@@ -1,10 +1,11 @@
 package com.pewnyregion.region.analytics.service.model;
 
-public record RawDataStatsDto(
+public record NormalizationStatsDto(
         String countyId,
-        Integer variableId,
+        Integer bdlVariableId,
         Integer year,
-        Double value,
+        Double rawValue,
+        Double adjustedValue,
         Double meanVal,
         Double stddevVal,
         String direction

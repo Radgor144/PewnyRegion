@@ -1,9 +1,7 @@
 package com.pewnyregion.region.analytics.service.service;
 
 import com.pewnyregion.region.analytics.service.client.BdlApiClient;
-import com.pewnyregion.region.analytics.service.entity.CountyEntity;
 import com.pewnyregion.region.analytics.service.model.BdlResponse;
-import com.pewnyregion.region.analytics.service.model.BdlUnit;
 import com.pewnyregion.region.analytics.service.repository.CountyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,24 +28,15 @@ public class CountyImportService {
                     return fetchPage(response.page() + 1);
                 })
                 .flatMapIterable(BdlResponse::results)
-                .map(this::mapToEntity)
-                .as(countyRepository::saveAll)
+                .flatMap(unit -> countyRepository.upsertCounty(
+                        unit.id(), unit.name(), unit.parentId(),
+                        unit.level(), extractTerytCode(unit.id())
+                ))
                 .then();
     }
 
     private Mono<BdlResponse> fetchPage(int page) {
         return bdlApiClient.fetchUnits(page, LEVEL, PAGE_SIZE);
-    }
-
-    private CountyEntity mapToEntity(BdlUnit unit) {
-        return CountyEntity.builder()
-                .id(unit.id())
-                .name(unit.name())
-                .parentId(unit.parentId())
-                .level(unit.level())
-                .terytCode(extractTerytCode(unit.id()))
-                .isNew(true)
-                .build();
     }
 
     private String extractTerytCode(String id) {

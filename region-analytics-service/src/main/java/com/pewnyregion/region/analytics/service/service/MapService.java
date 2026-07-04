@@ -16,12 +16,11 @@ public class MapService {
 
     public Flux<MapResponse> getMapData(List<String> apiNames, Integer yearFrom, Integer yearTo) {
         validate(apiNames, yearFrom, yearTo);
-
         return mapRepository.getMapData(apiNames, yearFrom, yearTo)
                             .map(dto -> new MapResponse(
-                                    dto.getCountyId(),
-                                    dto.getCountyName(),
-                                    normalize(dto.getScore())
+                                    dto.countyId(),
+                                    dto.countyName(),
+                                    dto.score()
                             ));
     }
 
@@ -35,12 +34,5 @@ public class MapService {
         if (yearFrom == null || yearTo == null || yearFrom > yearTo) {
             throw new IllegalArgumentException("Invalid year range");
         }
-    }
-
-    private Double normalize(Double score) {
-        if (score == null) {
-            return 0.0;
-        }
-        return Math.max(0.0, Math.min(100.0, Math.round(score * 100.0) / 100.0));
     }
 }
