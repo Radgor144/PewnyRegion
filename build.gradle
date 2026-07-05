@@ -36,6 +36,7 @@ subprojects {
     dependencyManagement {
         imports {
             mavenBom "org.springframework.ai:spring-ai-bom:${springAiVersion}"
+            mavenBom "org.testcontainers:testcontainers-bom:2.0.5"
         }
     }
 
