@@ -77,8 +77,11 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
       - name: Build project with Gradle
-        run: ./gradlew build -x test
+        run: ./gradlew :region-analytics-service:bootJar -x test
 
       - name: Run OWASP Dependency-Check
         uses: dependency-check/Dependency-Check_Action@main
