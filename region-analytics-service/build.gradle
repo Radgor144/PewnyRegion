@@ -10,9 +10,8 @@ dependencies {
 	runtimeOnly 'org.postgresql:r2dbc-postgresql'
 	runtimeOnly 'org.postgresql:postgresql'
 
-	testImplementation platform('org.testcontainers:testcontainers-bom:1.21.4')
 	testImplementation 'org.springframework.boot:spring-boot-testcontainers'
-	testImplementation 'org.testcontainers:junit-jupiter'
-	testImplementation 'org.testcontainers:postgresql'
-	testImplementation 'org.testcontainers:r2dbc'
+	testImplementation 'org.testcontainers:testcontainers-junit-jupiter'
+	testImplementation 'org.testcontainers:testcontainers-postgresql'
+	testImplementation 'org.testcontainers:testcontainers-r2dbc'
 }
