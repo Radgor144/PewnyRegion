@@ -31,15 +31,13 @@ subprojects {
 
     ext {
         set('springAiVersion', "2.0.0-M2")
+        set('netty.version', '4.2.15.Final')
     }
 
     dependencyManagement {
         imports {
             mavenBom "org.springframework.ai:spring-ai-bom:${springAiVersion}"
             mavenBom "org.testcontainers:testcontainers-bom:2.0.5"
-        }
-        ext {
-                set('netty.version', '4.2.15.Final')
         }
     }
 
