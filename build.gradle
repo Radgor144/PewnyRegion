@@ -38,6 +38,9 @@ subprojects {
             mavenBom "org.springframework.ai:spring-ai-bom:${springAiVersion}"
             mavenBom "org.testcontainers:testcontainers-bom:2.0.5"
         }
+        dependencies {
+            dependency 'io.netty:netty-bom:4.2.15.Final'
+        }
     }
 
     dependencies {
