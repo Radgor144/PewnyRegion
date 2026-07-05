@@ -39,7 +39,8 @@ subprojects {
             mavenBom "org.testcontainers:testcontainers-bom:2.0.5"
         }
         dependencies {
-            dependency 'io.netty:netty-bom:4.2.15.Final'
+            dependency 'io.projectreactor.netty:reactor-netty-core:1.3.6'
+            dependency 'io.projectreactor.netty:reactor-netty-http:1.3.6'
         }
     }
 
