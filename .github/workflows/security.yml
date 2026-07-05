@@ -86,8 +86,7 @@ jobs:
       - name: Run OWASP Dependency-Check
         uses: dependency-check/Dependency-Check_Action@main
         env:
-          JAVA_HOME: ""
-          JAVA_HOME_21_X64: ""
+          JAVA_HOME: /opt/jdk
         with:
           project: ${{ github.repository }}
           path: '.'
