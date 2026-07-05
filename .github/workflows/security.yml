@@ -81,7 +81,7 @@ jobs:
         run: ./gradlew build -x test
 
       - name: Run OWASP Dependency-Check
-        uses: dependency-check/Dependency-Check_Action@v4
+        uses: dependency-check/Dependency-Check_Action@main
         with:
           project: ${{ github.repository }}
           path: '.'
