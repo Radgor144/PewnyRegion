@@ -43,5 +43,7 @@ ENV PATH="${JAVA_HOME}/bin:${PATH}"
 COPY --from=jlink-stage /customjre $JAVA_HOME
 COPY --from=jlink-stage /app/app.jar app.jar
 
+USER 65532
+
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
