@@ -38,11 +38,17 @@ public class ImportJobService {
     }
 
     public Mono<JobResponse> submitTargetedImport(TargetedImportRequest request) {
-        return createAndSubmit(ImportJobType.TARGETED,
-                targetedService.runTargetedUpdate(request.apiNames(), request.years())
-                               .flatMap(init -> normalizationService.calculateAndSaveScoresForYears(request.years())
-                                                                    .map(norm -> init.toMessage() + " | " + norm.toMessage()))
-        );
+        return repository.countByJobTypeAndStatus(ImportJobType.TARGETED, ImportJobStatus.RUNNING)
+                         .flatMap(running -> {
+                             if (running > 0) {
+                                 return Mono.error(new IllegalStateException("Targeted import is already running"));
+                             }
+                             return createAndSubmit(ImportJobType.TARGETED,
+                                     targetedService.runTargetedUpdate(request.apiNames(), request.years())
+                                                    .flatMap(init -> normalizationService.calculateAndSaveScoresForYears(request.years())
+                                                                                         .map(norm -> init.toMessage() + " | " + norm.toMessage()))
+                             );
+                         });
     }
 
     public Mono<JobResponse> submitCountiesImport() {
