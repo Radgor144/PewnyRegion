@@ -1,7 +1,9 @@
 CREATE TABLE IF NOT EXISTS bdl_variables
 (
-    id       SERIAL PRIMARY KEY,
-    api_name VARCHAR(255) NOT NULL UNIQUE
+    id         SERIAL PRIMARY KEY,
+    api_name   VARCHAR(255) NOT NULL UNIQUE,
+    direction  VARCHAR(20)  NOT NULL,
+    per_capita BOOLEAN      NOT NULL DEFAULT false
 );
 
 CREATE TABLE IF NOT EXISTS bdl_variable_ids
@@ -36,7 +38,26 @@ CREATE TABLE IF NOT EXISTS bdl_data_records
     CONSTRAINT unique_county_variable_year UNIQUE (county_id, variable_id, year)
 );
 
-CREATE TABLE import_jobs
+CREATE TABLE IF NOT EXISTS county_variable_scores
+(
+    id               BIGSERIAL PRIMARY KEY,
+    county_id        VARCHAR(255) NOT NULL,
+    bdl_variable_id  INT          NOT NULL,
+    year             INT          NOT NULL,
+    raw_value        DOUBLE PRECISION,
+    adjusted_value   DOUBLE PRECISION,
+    normalized_score DOUBLE PRECISION,
+    calculated_at    TIMESTAMP    NOT NULL,
+
+    CONSTRAINT fk_score_county FOREIGN KEY (county_id) REFERENCES counties (id),
+    CONSTRAINT fk_score_variable FOREIGN KEY (bdl_variable_id) REFERENCES bdl_variables (id) ON DELETE CASCADE,
+    CONSTRAINT unique_county_variable_year_score UNIQUE (county_id, bdl_variable_id, year)
+);
+
+CREATE INDEX idx_scores_variable_year ON county_variable_scores (bdl_variable_id, year);
+CREATE INDEX idx_scores_county ON county_variable_scores (county_id);
+
+CREATE TABLE IF NOT EXISTS import_jobs
 (
     id          VARCHAR(36) PRIMARY KEY,
     job_type    VARCHAR(50) NOT NULL,

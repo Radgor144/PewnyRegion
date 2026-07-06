@@ -5,12 +5,7 @@ import com.pewnyregion.region.analytics.service.model.TargetedImportRequest;
 import com.pewnyregion.region.analytics.service.service.ImportJobService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 @RestController
@@ -20,7 +15,7 @@ public class ImportJobController {
 
     private final ImportJobService importJobService;
 
-    @GetMapping("/teryt")
+    @PostMapping("/teryt")
     public Mono<ResponseEntity<JobResponse>> importCounties() {
         return importJobService.submitCountiesImport()
                                .map(ResponseEntity.accepted()::body);
@@ -41,7 +36,7 @@ public class ImportJobController {
     @GetMapping("/{jobId}")
     public Mono<ResponseEntity<JobResponse>> getStatus(@PathVariable String jobId) {
         return importJobService.getJobResponse(jobId)
-                .map(ResponseEntity::ok)
-                .defaultIfEmpty(ResponseEntity.notFound().build());
+                               .map(ResponseEntity::ok)
+                               .onErrorReturn(IllegalArgumentException.class, ResponseEntity.notFound().build());
     }
 }
