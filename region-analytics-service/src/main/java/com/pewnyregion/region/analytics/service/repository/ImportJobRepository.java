@@ -1,6 +1,13 @@
 package com.pewnyregion.region.analytics.service.repository;
 
 import com.pewnyregion.region.analytics.service.entity.ImportJobEntity;
+import com.pewnyregion.region.analytics.service.model.ImportJobStatus;
+import com.pewnyregion.region.analytics.service.model.ImportJobType;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
+import org.springframework.stereotype.Repository;
+import reactor.core.publisher.Mono;
 
-public interface ImportJobRepository extends ReactiveCrudRepository<ImportJobEntity, String> {}
+@Repository
+public interface ImportJobRepository extends ReactiveCrudRepository<ImportJobEntity, String> {
+    Mono<Long> countByJobTypeAndStatus(ImportJobType jobType, ImportJobStatus status);
+}

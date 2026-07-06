@@ -13,15 +13,15 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table("bdl_data_records")
-public class BdlDataRecordEntity {
-
+@Table("county_variable_scores")
+public class CountyVariableScoreEntity {
     @Id
-    private Long id;
-    private String countyId;
-    private Integer variableId;
-    private Integer year;
-    private double value;
-    private LocalDateTime importedAt;
-    private Double normalizedScore;
+    Long id;
+    String countyId;
+    Integer bdlVariableId;
+    Integer year;
+    Double rawValue;
+    Double adjustedValue;
+    Double normalizedScore;
+    LocalDateTime calculatedAt;
 }

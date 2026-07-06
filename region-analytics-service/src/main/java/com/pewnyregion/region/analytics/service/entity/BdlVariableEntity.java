@@ -8,9 +8,13 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
 @Table("bdl_variables")
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class BdlVariableEntity {
     @Id
     private Integer id;
     private String apiName;
+    private String direction;
 }

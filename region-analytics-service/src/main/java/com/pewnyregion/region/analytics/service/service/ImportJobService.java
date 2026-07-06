@@ -1,20 +1,15 @@
 package com.pewnyregion.region.analytics.service.service;
 
 import com.pewnyregion.region.analytics.service.entity.ImportJobEntity;
-import com.pewnyregion.region.analytics.service.model.ImportJobStatus;
-import com.pewnyregion.region.analytics.service.model.ImportJobType;
-import com.pewnyregion.region.analytics.service.model.JobResponse;
-import com.pewnyregion.region.analytics.service.model.TargetedImportRequest;
+import com.pewnyregion.region.analytics.service.model.*;
 import com.pewnyregion.region.analytics.service.repository.ImportJobRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
-import reactor.core.scheduler.Schedulers;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
-import java.util.function.Consumer;
 
 @Slf4j
 @Service
@@ -25,31 +20,55 @@ public class ImportJobService {
     private final BdlFullInitializationService fullService;
     private final BdlTargetedUpdateService targetedService;
     private final CountyImportService countyImportService;
-
-    public Mono<JobResponse> submitCountiesImport() {
-        return submitTask(ImportJobType.COUNTIES, countyImportService.runImportLogic());
-    }
+    private final NormalizationService normalizationService;
+    private final JobExecutor jobExecutor;
 
     public Mono<JobResponse> submitFullImport() {
-        return submitTask(ImportJobType.FULL, fullService.runFullInitialization().then());
+        return repository.countByJobTypeAndStatus(ImportJobType.FULL, ImportJobStatus.RUNNING)
+                         .flatMap(running -> {
+                             if (running > 0) {
+                                 return Mono.error(new IllegalStateException("Full import is already running"));
+                             }
+                             return createAndSubmit(ImportJobType.FULL,
+                                     fullService.runFullInitialization()
+                                                .flatMap(init -> normalizationService.calculateAndSaveScoresForAllYears()
+                                                                                     .map(norm -> init.toMessage() + " | " + norm.toMessage()))
+                             );
+                         });
     }
 
     public Mono<JobResponse> submitTargetedImport(TargetedImportRequest request) {
-        return submitTask(ImportJobType.TARGETED, targetedService.runTargetedUpdate(request.apiNames(), request.years()).then());
+        return repository.countByJobTypeAndStatus(ImportJobType.TARGETED, ImportJobStatus.RUNNING)
+                         .flatMap(running -> {
+                             if (running > 0) {
+                                 return Mono.error(new IllegalStateException("Targeted import is already running"));
+                             }
+                             return createAndSubmit(ImportJobType.TARGETED,
+                                     targetedService.runTargetedUpdate(request.apiNames(), request.years())
+                                                    .flatMap(init -> normalizationService.calculateAndSaveScoresForYears(request.years())
+                                                                                         .map(norm -> init.toMessage() + " | " + norm.toMessage()))
+                             );
+                         });
+    }
+
+    public Mono<JobResponse> submitCountiesImport() {
+        return createAndSubmit(ImportJobType.COUNTIES,
+                countyImportService.runImportLogic().thenReturn("Counties imported successfully")
+        );
     }
 
     public Mono<JobResponse> getJobResponse(String id) {
         return repository.findById(id)
-                         .map(this::toResponse);
+                         .map(this::toResponse)
+                         .switchIfEmpty(Mono.error(new IllegalArgumentException("Job not found: " + id)));
     }
 
-    private Mono<JobResponse> submitTask(ImportJobType type, Mono<Void> task) {
-        ImportJobEntity job = buildPendingJob(type);
-
-        return repository.save(job)
-                         .doOnError(e -> log.error("Database save error: ", e))
-                         .doOnNext(savedJob -> executeAsync(savedJob.getId(), task))
-                         .map(this::toResponse);
+    private Mono<JobResponse> createAndSubmit(ImportJobType type, Mono<String> task) {
+        return repository.save(buildPendingJob(type))
+                         .map(job -> {
+                             jobExecutor.run(job.getId(), task);
+                             return toResponse(job);
+                         });
     }
 
     private ImportJobEntity buildPendingJob(ImportJobType type) {
@@ -61,48 +80,6 @@ public class ImportJobService {
                               .message("Import submitted")
                               .isNew(true)
                               .build();
-    }
-
-    private void executeAsync(String jobId, Mono<Void> task) {
-        markRunning(jobId).then(task)
-                          .then(markCompleted(jobId))
-                          .onErrorResume(error -> {
-                              log.error("Job {} failed: {}", jobId, error.getMessage());
-                              return markFailed(jobId, error.getMessage());
-                          })
-                          .subscribeOn(Schedulers.boundedElastic())
-                          .subscribe();
-    }
-
-    private Mono<Void> updateJobStatus(String jobId, Consumer<ImportJobEntity> jobModifier) {
-        return repository.findById(jobId)
-                         .doOnNext(jobModifier)
-                         .flatMap(repository::save)
-                         .then();
-    }
-
-    private Mono<Void> markRunning(String jobId) {
-        return updateJobStatus(jobId, job -> {
-            job.setStatus(ImportJobStatus.RUNNING);
-            job.setStartedAt(LocalDateTime.now());
-            job.setMessage("Import in progress");
-        });
-    }
-
-    private Mono<Void> markCompleted(String jobId) {
-        return updateJobStatus(jobId, job -> {
-            job.setStatus(ImportJobStatus.COMPLETED);
-            job.setFinishedAt(LocalDateTime.now()); // Poprawiony błąd!
-            job.setMessage("Import completed successfully");
-        });
-    }
-
-    private Mono<Void> markFailed(String jobId, String error) {
-        return updateJobStatus(jobId, job -> {
-            job.setStatus(ImportJobStatus.FAILED);
-            job.setFinishedAt(LocalDateTime.now());
-            job.setMessage(error);
-        });
     }
 
     private JobResponse toResponse(ImportJobEntity job) {
