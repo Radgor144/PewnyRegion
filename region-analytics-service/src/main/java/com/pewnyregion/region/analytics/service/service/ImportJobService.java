@@ -1,5 +1,6 @@
 package com.pewnyregion.region.analytics.service.service;
 
+import com.pewnyregion.region.analytics.service.component.JobExecutor;
 import com.pewnyregion.region.analytics.service.entity.ImportJobEntity;
 import com.pewnyregion.region.analytics.service.model.*;
 import com.pewnyregion.region.analytics.service.model.consts.ImportJobStatus;

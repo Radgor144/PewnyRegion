@@ -1,4 +1,4 @@
-package com.pewnyregion.region.analytics.service.service;
+package com.pewnyregion.region.analytics.service.component;
 
 import com.pewnyregion.region.analytics.service.entity.ImportJobEntity;
 import com.pewnyregion.region.analytics.service.model.consts.ImportJobStatus;
