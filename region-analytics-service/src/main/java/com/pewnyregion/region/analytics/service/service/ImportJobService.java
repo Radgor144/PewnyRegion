@@ -2,6 +2,8 @@ package com.pewnyregion.region.analytics.service.service;
 
 import com.pewnyregion.region.analytics.service.entity.ImportJobEntity;
 import com.pewnyregion.region.analytics.service.model.*;
+import com.pewnyregion.region.analytics.service.model.consts.ImportJobStatus;
+import com.pewnyregion.region.analytics.service.model.consts.ImportJobType;
 import com.pewnyregion.region.analytics.service.repository.ImportJobRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

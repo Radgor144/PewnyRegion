@@ -1,6 +1,6 @@
 package com.pewnyregion.region.analytics.service.service;
 
-import com.pewnyregion.region.analytics.service.model.NormalizationStatsDto;
+import com.pewnyregion.region.analytics.service.model.dto.NormalizationStatsDto;
 import com.pewnyregion.region.analytics.service.model.NormalizationSummary;
 import com.pewnyregion.region.analytics.service.repository.BdlDataRecordRepository;
 import com.pewnyregion.region.analytics.service.repository.CountyVariableScoreRepository;

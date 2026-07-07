@@ -1,4 +1,4 @@
-package com.pewnyregion.region.analytics.service.model.exception;
+package com.pewnyregion.region.analytics.service.exception;
 
 import org.springframework.http.HttpStatus;
 

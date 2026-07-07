@@ -1,4 +1,4 @@
-package com.pewnyregion.region.analytics.service.model;
+package com.pewnyregion.region.analytics.service.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -22,9 +22,6 @@ public class MapController {
 
     @PostMapping("/county-scores")
     public Flux<MapResponse> getMap(@Valid @RequestBody MapRequest request) {
-        return mapService.getMapData(request.apiNames(),
-                                     request.yearFrom(),
-                                     request.yearTo()
-        );
+        return mapService.getMapData(request);
     }
 }

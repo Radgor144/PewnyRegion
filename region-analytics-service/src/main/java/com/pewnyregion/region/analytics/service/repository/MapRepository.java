@@ -1,7 +1,7 @@
 package com.pewnyregion.region.analytics.service.repository;
 
 import com.pewnyregion.region.analytics.service.entity.CountyVariableScoreEntity;
-import com.pewnyregion.region.analytics.service.model.MapCountyScoreDto;
+import com.pewnyregion.region.analytics.service.model.dto.MapCountyScoreDto;
 import org.springframework.data.r2dbc.repository.Query;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import org.springframework.stereotype.Repository;

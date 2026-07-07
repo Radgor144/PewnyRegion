@@ -1,4 +1,4 @@
-package com.pewnyregion.region.analytics.service.model;
+package com.pewnyregion.region.analytics.service.model.dto;
 
 public record MapCountyScoreDto(
         String countyId,
