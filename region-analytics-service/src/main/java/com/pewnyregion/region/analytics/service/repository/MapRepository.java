@@ -27,4 +27,7 @@ public interface MapRepository extends ReactiveCrudRepository<CountyVariableScor
         GROUP BY s.county_id, c.name
     """)
     Flux<MapCountyScoreDto> getMapData(List<String> apiNames, Integer yearFrom, Integer yearTo);
+
+    @Query("SELECT api_name FROM bdl_variables WHERE api_name IN (:apiNames)")
+    Flux<String> findExistingApiNames(List<String> apiNames);
 }
