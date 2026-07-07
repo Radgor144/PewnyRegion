@@ -1,7 +1,7 @@
 package com.pewnyregion.region.analytics.service.repository;
 
 import com.pewnyregion.region.analytics.service.entity.BdlDataRecordEntity;
-import com.pewnyregion.region.analytics.service.model.NormalizationStatsDto;
+import com.pewnyregion.region.analytics.service.model.dto.NormalizationStatsDto;
 import org.springframework.data.r2dbc.repository.Modifying;
 import org.springframework.data.r2dbc.repository.Query;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;

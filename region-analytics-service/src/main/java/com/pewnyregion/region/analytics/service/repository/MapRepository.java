@@ -1,7 +1,7 @@
 package com.pewnyregion.region.analytics.service.repository;
 
 import com.pewnyregion.region.analytics.service.entity.CountyVariableScoreEntity;
-import com.pewnyregion.region.analytics.service.model.MapCountyScoreDto;
+import com.pewnyregion.region.analytics.service.model.dto.MapCountyScoreDto;
 import org.springframework.data.r2dbc.repository.Query;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import org.springframework.stereotype.Repository;
@@ -27,4 +27,7 @@ public interface MapRepository extends ReactiveCrudRepository<CountyVariableScor
         GROUP BY s.county_id, c.name
     """)
     Flux<MapCountyScoreDto> getMapData(List<String> apiNames, Integer yearFrom, Integer yearTo);
+
+    @Query("SELECT api_name FROM bdl_variables WHERE api_name IN (:apiNames)")
+    Flux<String> findExistingApiNames(List<String> apiNames);
 }
