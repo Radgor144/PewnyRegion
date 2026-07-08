@@ -1,0 +1,38 @@
+[
+  {
+    "apiName": "crimes",
+    "bdlIds": [
+      58559,
+      1749155
+    ],
+    "direction": "DESTIMULANT"
+  },
+  {
+    "apiName": "population_in_thousands",
+    "bdlIds": [
+      1645341
+    ],
+    "direction": "STIMULANT"
+  },
+  {
+    "apiName": "population_density",
+    "bdlIds": [
+      60559
+    ],
+    "direction": "STIMULANT"
+  },
+  {
+    "apiName": "unemployment",
+    "bdlIds": [
+      60270
+    ],
+    "direction": "DESTIMULANT"
+  },
+  {
+    "apiName": "gross_salary",
+    "bdlIds": [
+      64428
+    ],
+    "direction": "STIMULANT"
+  }
+]
