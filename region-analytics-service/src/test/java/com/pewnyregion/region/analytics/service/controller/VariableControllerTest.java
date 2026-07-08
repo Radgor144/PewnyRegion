@@ -15,13 +15,12 @@ import reactor.core.publisher.Flux;
 import java.io.IOException;
 import java.util.List;
 
+import static com.pewnyregion.region.analytics.service.utils.TestConstants.GET_ALL_VARIABLES_RESPONSE_JSON;
+import static com.pewnyregion.region.analytics.service.utils.TestConstants.GET_VARIABLES_API_PATH;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class VariableControllerTest {
-
-    public static final String PATH_TO_FILE = "src/test/resources/getAllVariablesResponse.json";
-    public static final String GET_VARIABLES_PATH = "/api/variables";
 
     private VariableController variableController;
     private ObjectMapper objectMapper = new ObjectMapper();
@@ -39,13 +38,13 @@ public class VariableControllerTest {
     @Test
     public void getAllVariables() throws IOException {
         List<VariableResponse> expectedList = List.of(
-                JsonFileReader.readJson(objectMapper, PATH_TO_FILE, VariableResponse[].class)
+                JsonFileReader.readJson(objectMapper, GET_ALL_VARIABLES_RESPONSE_JSON, VariableResponse[].class)
         );
 
         when(variableService.getAllVariables()).thenReturn(Flux.fromIterable(expectedList));
 
         webTestClient.get()
-                     .uri(GET_VARIABLES_PATH)
+                     .uri(GET_VARIABLES_API_PATH)
                      .exchange()
                      .expectStatus().isOk()
                      .expectBodyList(VariableResponse.class)
