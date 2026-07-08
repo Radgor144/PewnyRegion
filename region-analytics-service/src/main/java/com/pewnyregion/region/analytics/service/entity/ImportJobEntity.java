@@ -1,7 +1,7 @@
 package com.pewnyregion.region.analytics.service.entity;
 
-import com.pewnyregion.region.analytics.service.model.ImportJobStatus;
-import com.pewnyregion.region.analytics.service.model.ImportJobType;
+import com.pewnyregion.region.analytics.service.model.consts.ImportJobStatus;
+import com.pewnyregion.region.analytics.service.model.consts.ImportJobType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

@@ -2,7 +2,7 @@ package com.pewnyregion.region.analytics.service.service;
 
 import com.pewnyregion.region.analytics.service.entity.BdlVariableEntity;
 import com.pewnyregion.region.analytics.service.entity.BdlVariableIdEntity;
-import com.pewnyregion.region.analytics.service.model.VariableDirection;
+import com.pewnyregion.region.analytics.service.model.consts.VariableDirection;
 import com.pewnyregion.region.analytics.service.model.VariableResponse;
 import com.pewnyregion.region.analytics.service.repository.BdlVariableIdRepository;
 import com.pewnyregion.region.analytics.service.repository.BdlVariableRepository;
