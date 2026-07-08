@@ -1,4 +1,4 @@
-name: pr-tests-check.yml
+name: PR Tests Check.yml
 
 on:
   pull_request:
