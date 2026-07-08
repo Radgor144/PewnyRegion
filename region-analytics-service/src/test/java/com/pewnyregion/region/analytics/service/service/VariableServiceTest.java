@@ -123,8 +123,7 @@ public class VariableServiceTest {
         when(variableRepository.findByApiNameIn(nonExistentNames)).thenReturn(Flux.empty());
 
         StepVerifier.create(variableService.getVariableIdsByApiNames(nonExistentNames))
-//                    .assertNext(actualList -> assertThat(actualList).isEmpty())
-                    .assertNext(actualList -> assertThat(actualList).isNotEmpty())
+                    .assertNext(actualList -> assertThat(actualList).isEmpty())
                     .verifyComplete();
 
         verifyNoInteractions(variableIdRepository);
