@@ -23,6 +23,7 @@ import java.util.List;
 import static com.pewnyregion.region.analytics.service.utils.TestConstants.GET_ALL_VARIABLES_RESPONSE_JSON;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -63,7 +64,7 @@ public class VariableServiceTest {
     }
 
     @Test
-    public void getAllVariableIds() {
+    public void getAllVariableIds_ShouldReturnAllIds_WhenDataExists() {
         when(variableIdRepository.findAll()).thenReturn(Flux.fromIterable(bdlVariablesId));
 
         List<Integer> expectedIds = bdlVariablesId.stream()
@@ -77,7 +78,7 @@ public class VariableServiceTest {
     }
 
     @Test
-    public void getVariableIdsByApiNames() {
+    public void getVariableIdsByApiNames_ShouldReturnMatchingIds_WhenApiNamesAreValid() {
         List<String> apiNames = List.of("crimes", "population_in_thousands", "population_density", "unemployment", "gross_salary");
         List<Integer> expectedIds = bdlVariablesId.stream()
                                                   .map(BdlVariableIdEntity::getBdlId)
@@ -90,5 +91,42 @@ public class VariableServiceTest {
                     .assertNext(actualList ->
                             assertThat(actualList).containsExactlyInAnyOrderElementsOf(expectedIds))
                     .verifyComplete();
+    }
+
+    @Test
+    public void getAllVariables_ShouldReturnEmptyFlux_WhenNoVariablesExist() {
+        when(variableRepository.findAll()).thenReturn(Flux.empty());
+
+        StepVerifier.create(variableService.getAllVariables())
+                    .verifyComplete();
+
+        verifyNoInteractions(variableIdRepository);
+    }
+
+    @Test
+    public void getAllVariables_ShouldReturnVariablesWithEmptyIdsList_WhenNoIdsInDatabase() {
+        when(variableRepository.findAll()).thenReturn(Flux.fromIterable(bdlVariables));
+        when(variableIdRepository.findByBdlVariableIdIn(any())).thenReturn(Flux.empty());
+
+        StepVerifier.create(variableService.getAllVariables())
+                    .recordWith(ArrayList::new)
+                    .expectNextCount(bdlVariables.size())
+                    .consumeRecordedWith(actualList -> {
+                        assertThat(actualList).allMatch(response -> response.bdlIds().isEmpty());
+                    })
+                    .verifyComplete();
+    }
+
+    @Test
+    public void getVariableIdsByApiNames_ShouldReturnEmpty_WhenApiNamesNotFound() {
+        List<String> nonExistentNames = List.of("fake_variable_1", "fake_variable_2");
+        when(variableRepository.findByApiNameIn(nonExistentNames)).thenReturn(Flux.empty());
+
+        StepVerifier.create(variableService.getVariableIdsByApiNames(nonExistentNames))
+//                    .assertNext(actualList -> assertThat(actualList).isEmpty())
+                    .assertNext(actualList -> assertThat(actualList).isNotEmpty())
+                    .verifyComplete();
+
+        verifyNoInteractions(variableIdRepository);
     }
 }
