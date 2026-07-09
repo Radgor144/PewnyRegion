@@ -14,7 +14,6 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Flux;
@@ -26,14 +25,15 @@ import java.util.stream.Stream;
 import static com.pewnyregion.region.analytics.service.utils.TestConstants.GET_MAP_COUNTY_SCORES_API_PATH;
 import static com.pewnyregion.region.analytics.service.utils.TestConstants.GET_POST_MAP_COUNTY_SCORES_RESPONSE_JSON;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class MapControllerTest {
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
     private MapController mapController;
     private WebTestClient webTestClient;
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Mock
     private MapService mapService;
@@ -64,6 +64,27 @@ public class MapControllerTest {
                      .expectBodyList(MapResponse.class)
                      .isEqualTo(expectedList);
 
+        verify(mapService).getMapData(mapRequest);
+    }
+
+    @ParameterizedTest(name = "{0}")
+    @MethodSource("provideValidBoundaryMapRequests")
+    public void getCountyScores_shouldReturnOk_whenRequestIsAtBoundary(String testCaseName, MapRequest mapRequest) throws IOException {
+        List<MapResponse> expectedList = List.of(
+                JsonFileReader.readJson(objectMapper, GET_POST_MAP_COUNTY_SCORES_RESPONSE_JSON, MapResponse[].class)
+        );
+
+        when(mapService.getMapData(mapRequest)).thenReturn(Flux.fromIterable(expectedList));
+
+        webTestClient.post()
+                     .uri(GET_MAP_COUNTY_SCORES_API_PATH)
+                     .bodyValue(mapRequest)
+                     .exchange()
+                     .expectStatus().isOk()
+                     .expectBodyList(MapResponse.class)
+                     .isEqualTo(expectedList);
+
+        verify(mapService).getMapData(mapRequest);
     }
 
     @ParameterizedTest(name = "{0}")
@@ -77,11 +98,7 @@ public class MapControllerTest {
                      .expectHeader().contentType("application/problem+json")
                      .expectBody(ProblemDetail.class)
                      .consumeWith(result -> {
-                         ProblemDetail response = result.getResponseBody();
-                         assertThat(response).isNotNull();
-                         assertThat(response.getStatus()).isEqualTo(400);
-                         assertThat(response.getTitle()).isEqualTo("Bad Request");
-                         assertThat(response.getInstance().getPath()).isEqualTo(GET_MAP_COUNTY_SCORES_API_PATH);
+                         ProblemDetail response = assertProblemDetailBasics(result.getResponseBody(), 400, "Bad Request");
 
                          String[] expectedErrors = expectedDetailMessage.split(", ");
                          assertThat(response.getDetail()).contains(expectedErrors);
@@ -100,13 +117,7 @@ public class MapControllerTest {
                      .expectStatus().isBadRequest()
                      .expectHeader().contentType("application/problem+json")
                      .expectBody(ProblemDetail.class)
-                     .consumeWith(result -> {
-                         ProblemDetail response = result.getResponseBody();
-                         assertThat(response).isNotNull();
-                         assertThat(response.getStatus()).isEqualTo(400);
-                         assertThat(response.getTitle()).isEqualTo("Bad Request");
-                         assertThat(response.getInstance().getPath()).isEqualTo(GET_MAP_COUNTY_SCORES_API_PATH);
-                     });
+                     .consumeWith(result -> assertProblemDetailBasics(result.getResponseBody(), 400, "Bad Request"));
     }
 
     @Test
@@ -117,13 +128,45 @@ public class MapControllerTest {
                      .expectStatus().isBadRequest()
                      .expectHeader().contentType("application/problem+json")
                      .expectBody(ProblemDetail.class)
-                     .consumeWith(result -> {
-                         ProblemDetail response = result.getResponseBody();
-                         assertThat(response).isNotNull();
-                         assertThat(response.getStatus()).isEqualTo(400);
-                         assertThat(response.getTitle()).isEqualTo("Bad Request");
-                         assertThat(response.getInstance().getPath()).isEqualTo(GET_MAP_COUNTY_SCORES_API_PATH);
-                     });
+                     .consumeWith(result -> assertProblemDetailBasics(result.getResponseBody(), 400, "Bad Request"));
+    }
+
+    private ProblemDetail assertProblemDetailBasics(ProblemDetail response, int expectedStatus, String expectedTitle) {
+        assertThat(response).isNotNull();
+        assertThat(response.getStatus()).isEqualTo(expectedStatus);
+        assertThat(response.getTitle()).isEqualTo(expectedTitle);
+        assertThat(response.getInstance()).isNotNull();
+        assertThat(response.getInstance().getPath()).isEqualTo(GET_MAP_COUNTY_SCORES_API_PATH);
+        return response;
+    }
+
+    private static Stream<Arguments> provideValidBoundaryMapRequests() {
+        return Stream.of(
+                Arguments.of(
+                        "apiNames has exactly 5 elements (max allowed)",
+                        new MapRequest(List.of("one", "two", "three", "four", "five"), 2020, 2023)
+                ),
+                Arguments.of(
+                        "apiNames has exactly 1 element (min allowed)",
+                        new MapRequest(List.of("one"), 2020, 2023)
+                ),
+                Arguments.of(
+                        "yearFrom is exactly the minimum allowed (2012)",
+                        new MapRequest(List.of("one"), 2012, 2023)
+                ),
+                Arguments.of(
+                        "yearTo is exactly the maximum allowed (2026)",
+                        new MapRequest(List.of("one"), 2020, 2026)
+                ),
+                Arguments.of(
+                        "yearFrom equals yearTo",
+                        new MapRequest(List.of("one"), 2020, 2020)
+                ),
+                Arguments.of(
+                        "yearFrom and yearTo are both at their extreme boundaries (2012 and 2026)",
+                        new MapRequest(List.of("one"), 2012, 2026)
+                )
+        );
     }
 
     private static Stream<Arguments> provideInvalidMapRequests() {
@@ -132,6 +175,16 @@ public class MapControllerTest {
                         "Too many API names (more than 5)",
                         new MapRequest(List.of("one", "two", "three", "four", "five", "six"), 2020, 2023),
                         "apiNames: Maximum 5 variables allowed"
+                ),
+                Arguments.of(
+                        "yearFrom is one below the minimum allowed (2011)",
+                        new MapRequest(List.of("one"), 2011, 2023),
+                        "yearFrom: yearFrom cannot be earlier than 2012"
+                ),
+                Arguments.of(
+                        "yearTo is one above the maximum allowed (2027)",
+                        new MapRequest(List.of("one"), 2020, 2027),
+                        "yearTo: yearTo cannot be later than 2026"
                 ),
                 Arguments.of(
                         "yearFrom is earlier than minimum allowed (2012)",
