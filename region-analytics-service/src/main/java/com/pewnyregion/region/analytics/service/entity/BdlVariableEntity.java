@@ -17,4 +17,5 @@ public class BdlVariableEntity {
     private Integer id;
     private String apiName;
     private String direction;
+    private boolean per_capita;
 }
