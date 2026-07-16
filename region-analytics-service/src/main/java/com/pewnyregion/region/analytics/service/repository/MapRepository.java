@@ -16,7 +16,7 @@ public interface MapRepository extends ReactiveCrudRepository<CountyVariableScor
         SELECT
             s.county_id AS county_id,
             c.name AS county_name,
-            AVG(s.normalized_score) AS score
+            ROUND(AVG(s.normalized_score)::numeric, 2) AS score
         FROM county_variable_scores s
         JOIN bdl_variables v ON v.id = s.bdl_variable_id
         JOIN counties c ON c.id = s.county_id
