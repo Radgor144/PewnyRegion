@@ -1,0 +1,1902 @@
+[
+    {
+        "countyId": "011212001000",
+        "countyName": "Powiat bocheński",
+        "score": 49.58125
+    },
+    {
+        "countyId": "011212006000",
+        "countyName": "Powiat krakowski",
+        "score": 69.5475
+    },
+    {
+        "countyId": "011212008000",
+        "countyName": "Powiat miechowski",
+        "score": 48.02125
+    },
+    {
+        "countyId": "011212009000",
+        "countyName": "Powiat myślenicki",
+        "score": 58.45125
+    },
+    {
+        "countyId": "011212014000",
+        "countyName": "Powiat proszowicki",
+        "score": 54.775
+    },
+    {
+        "countyId": "011212019000",
+        "countyName": "Powiat wielicki",
+        "score": 56.654999999999994
+    },
+    {
+        "countyId": "011212161000",
+        "countyName": "Powiat m. Kraków",
+        "score": 70.83125000000001
+    },
+    {
+        "countyId": "011212205000",
+        "countyName": "Powiat gorlicki",
+        "score": 50.76875
+    },
+    {
+        "countyId": "011212207000",
+        "countyName": "Powiat limanowski",
+        "score": 56.25125
+    },
+    {
+        "countyId": "011212210000",
+        "countyName": "Powiat nowosądecki",
+        "score": 53.90625
+    },
+    {
+        "countyId": "011212262000",
+        "countyName": "Powiat m. Nowy Sącz",
+        "score": 34.24625
+    },
+    {
+        "countyId": "011212303000",
+        "countyName": "Powiat chrzanowski",
+        "score": 44.2525
+    },
+    {
+        "countyId": "011212312000",
+        "countyName": "Powiat olkuski",
+        "score": 52.973749999999995
+    },
+    {
+        "countyId": "011212313000",
+        "countyName": "Powiat oświęcimski",
+        "score": 54.001250000000006
+    },
+    {
+        "countyId": "011212318000",
+        "countyName": "Powiat wadowicki",
+        "score": 56.9875
+    },
+    {
+        "countyId": "011212402000",
+        "countyName": "Powiat brzeski",
+        "score": 44.557500000000005
+    },
+    {
+        "countyId": "011212404000",
+        "countyName": "Powiat dąbrowski",
+        "score": 49.0025
+    },
+    {
+        "countyId": "011212416000",
+        "countyName": "Powiat tarnowski",
+        "score": 59.928749999999994
+    },
+    {
+        "countyId": "011212463000",
+        "countyName": "Powiat m. Tarnów",
+        "score": 41.182500000000005
+    },
+    {
+        "countyId": "011216911000",
+        "countyName": "Powiat nowotarski",
+        "score": 60.63875
+    },
+    {
+        "countyId": "011216915000",
+        "countyName": "Powiat suski",
+        "score": 54.041250000000005
+    },
+    {
+        "countyId": "011216917000",
+        "countyName": "Powiat tatrzański",
+        "score": 44.19
+    },
+    {
+        "countyId": "012414402000",
+        "countyName": "Powiat bielski",
+        "score": 57.11874999999999
+    },
+    {
+        "countyId": "012414403000",
+        "countyName": "Powiat cieszyński",
+        "score": 54.99249999999999
+    },
+    {
+        "countyId": "012414417000",
+        "countyName": "Powiat żywiecki",
+        "score": 55.26625000000001
+    },
+    {
+        "countyId": "012414461000",
+        "countyName": "Powiat m. Bielsko-Biała",
+        "score": 48.96499999999999
+    },
+    {
+        "countyId": "012414507000",
+        "countyName": "Powiat lubliniecki",
+        "score": 50.13000000000001
+    },
+    {
+        "countyId": "012414513000",
+        "countyName": "Powiat tarnogórski",
+        "score": 53.625
+    },
+    {
+        "countyId": "012414562000",
+        "countyName": "Powiat m. Bytom",
+        "score": 48.42125
+    },
+    {
+        "countyId": "012414571000",
+        "countyName": "Powiat m. Piekary Śląskie",
+        "score": 39.7325
+    },
+    {
+        "countyId": "012414604000",
+        "countyName": "Powiat częstochowski",
+        "score": 58.6175
+    },
+    {
+        "countyId": "012414606000",
+        "countyName": "Powiat kłobucki",
+        "score": 54.654999999999994
+    },
+    {
+        "countyId": "012414609000",
+        "countyName": "Powiat myszkowski",
+        "score": 46.67
+    },
+    {
+        "countyId": "012414664000",
+        "countyName": "Powiat m. Częstochowa",
+        "score": 54.49375
+    },
+    {
+        "countyId": "012414705000",
+        "countyName": "Powiat gliwicki",
+        "score": 53.79875
+    },
+    {
+        "countyId": "012414766000",
+        "countyName": "Powiat m. Gliwice",
+        "score": 48.356249999999996
+    },
+    {
+        "countyId": "012414778000",
+        "countyName": "Powiat m. Zabrze",
+        "score": 49.2225
+    },
+    {
+        "countyId": "012414863000",
+        "countyName": "Powiat m. Chorzów",
+        "score": 44.0975
+    },
+    {
+        "countyId": "012414869000",
+        "countyName": "Powiat m. Katowice",
+        "score": 43.9925
+    },
+    {
+        "countyId": "012414870000",
+        "countyName": "Powiat m. Mysłowice",
+        "score": 39.801249999999996
+    },
+    {
+        "countyId": "012414872000",
+        "countyName": "Powiat m. Ruda Śląska",
+        "score": 41.53875
+    },
+    {
+        "countyId": "012414874000",
+        "countyName": "Powiat m. Siemianowice Śląskie",
+        "score": 42.1225
+    },
+    {
+        "countyId": "012414876000",
+        "countyName": "Powiat m. Świętochłowice",
+        "score": 38.0875
+    },
+    {
+        "countyId": "012414911000",
+        "countyName": "Powiat raciborski",
+        "score": 47.285000000000004
+    },
+    {
+        "countyId": "012414912000",
+        "countyName": "Powiat rybnicki",
+        "score": 51.58875
+    },
+    {
+        "countyId": "012414915000",
+        "countyName": "Powiat wodzisławski",
+        "score": 51.4725
+    },
+    {
+        "countyId": "012414967000",
+        "countyName": "Powiat m. Jastrzębie-Zdrój",
+        "score": 46.72999999999999
+    },
+    {
+        "countyId": "012414973000",
+        "countyName": "Powiat m. Rybnik",
+        "score": 50.2675
+    },
+    {
+        "countyId": "012414979000",
+        "countyName": "Powiat m. Żory",
+        "score": 46.95250000000001
+    },
+    {
+        "countyId": "012415001000",
+        "countyName": "Powiat będziński",
+        "score": 41.82875
+    },
+    {
+        "countyId": "012415016000",
+        "countyName": "Powiat zawierciański",
+        "score": 45.642500000000005
+    },
+    {
+        "countyId": "012415065000",
+        "countyName": "Powiat m. Dąbrowa Górnicza",
+        "score": 36.745000000000005
+    },
+    {
+        "countyId": "012415068000",
+        "countyName": "Powiat m. Jaworzno",
+        "score": 43.941250000000004
+    },
+    {
+        "countyId": "012415075000",
+        "countyName": "Powiat m. Sosnowiec",
+        "score": 41.238749999999996
+    },
+    {
+        "countyId": "012415108000",
+        "countyName": "Powiat mikołowski",
+        "score": 48.627500000000005
+    },
+    {
+        "countyId": "012415110000",
+        "countyName": "Powiat pszczyński",
+        "score": 52.947500000000005
+    },
+    {
+        "countyId": "012415114000",
+        "countyName": "Powiat bieruńsko-lędziński",
+        "score": 50.9425
+    },
+    {
+        "countyId": "012415177000",
+        "countyName": "Powiat m. Tychy",
+        "score": 50.21
+    },
+    {
+        "countyId": "020811301000",
+        "countyName": "Powiat gorzowski",
+        "score": 50.6275
+    },
+    {
+        "countyId": "020811303000",
+        "countyName": "Powiat międzyrzecki",
+        "score": 46.52125
+    },
+    {
+        "countyId": "020811305000",
+        "countyName": "Powiat słubicki",
+        "score": 35.07
+    },
+    {
+        "countyId": "020811306000",
+        "countyName": "Powiat strzelecko-drezdenecki",
+        "score": 46.45625
+    },
+    {
+        "countyId": "020811307000",
+        "countyName": "Powiat sulęciński",
+        "score": 41.79625
+    },
+    {
+        "countyId": "020811361000",
+        "countyName": "Powiat m. Gorzów Wielkopolski",
+        "score": 40.795
+    },
+    {
+        "countyId": "020811402000",
+        "countyName": "Powiat krośnieński",
+        "score": 45.03875
+    },
+    {
+        "countyId": "020811404000",
+        "countyName": "Powiat nowosolski",
+        "score": 45.18375
+    },
+    {
+        "countyId": "020811408000",
+        "countyName": "Powiat świebodziński",
+        "score": 46.83625
+    },
+    {
+        "countyId": "020811409000",
+        "countyName": "Powiat zielonogórski",
+        "score": 49.14249999999999
+    },
+    {
+        "countyId": "020811410000",
+        "countyName": "Powiat żagański",
+        "score": 41.61625
+    },
+    {
+        "countyId": "020811411000",
+        "countyName": "Powiat żarski",
+        "score": 46.628750000000004
+    },
+    {
+        "countyId": "020811412000",
+        "countyName": "Powiat wschowski",
+        "score": 43.223749999999995
+    },
+    {
+        "countyId": "020811462000",
+        "countyName": "Powiat m. Zielona Góra",
+        "score": 46.08625
+    },
+    {
+        "countyId": "023015706000",
+        "countyName": "Powiat jarociński",
+        "score": 52.675
+    },
+    {
+        "countyId": "023015707000",
+        "countyName": "Powiat kaliski",
+        "score": 56.20625
+    },
+    {
+        "countyId": "023015708000",
+        "countyName": "Powiat kępiński",
+        "score": 45.230000000000004
+    },
+    {
+        "countyId": "023015712000",
+        "countyName": "Powiat krotoszyński",
+        "score": 50.236250000000005
+    },
+    {
+        "countyId": "023015717000",
+        "countyName": "Powiat ostrowski",
+        "score": 55.748749999999994
+    },
+    {
+        "countyId": "023015718000",
+        "countyName": "Powiat ostrzeszowski",
+        "score": 51.575
+    },
+    {
+        "countyId": "023015720000",
+        "countyName": "Powiat pleszewski",
+        "score": 50.89125
+    },
+    {
+        "countyId": "023015761000",
+        "countyName": "Powiat m. Kalisz",
+        "score": 44.835
+    },
+    {
+        "countyId": "023015803000",
+        "countyName": "Powiat gnieźnieński",
+        "score": 54.44874999999999
+    },
+    {
+        "countyId": "023015809000",
+        "countyName": "Powiat kolski",
+        "score": 51.76625000000001
+    },
+    {
+        "countyId": "023015810000",
+        "countyName": "Powiat koniński",
+        "score": 58.86125
+    },
+    {
+        "countyId": "023015823000",
+        "countyName": "Powiat słupecki",
+        "score": 51.192499999999995
+    },
+    {
+        "countyId": "023015827000",
+        "countyName": "Powiat turecki",
+        "score": 45.8425
+    },
+    {
+        "countyId": "023015830000",
+        "countyName": "Powiat wrzesiński",
+        "score": 52.041250000000005
+    },
+    {
+        "countyId": "023015862000",
+        "countyName": "Powiat m. Konin",
+        "score": 39.93625
+    },
+    {
+        "countyId": "023015904000",
+        "countyName": "Powiat gostyński",
+        "score": 51.73
+    },
+    {
+        "countyId": "023015905000",
+        "countyName": "Powiat grodziski",
+        "score": 47.3075
+    },
+    {
+        "countyId": "023015911000",
+        "countyName": "Powiat kościański",
+        "score": 52.73875000000001
+    },
+    {
+        "countyId": "023015913000",
+        "countyName": "Powiat leszczyński",
+        "score": 54.345
+    },
+    {
+        "countyId": "023015914000",
+        "countyName": "Powiat międzychodzki",
+        "score": 47.36
+    },
+    {
+        "countyId": "023015915000",
+        "countyName": "Powiat nowotomyski",
+        "score": 49.39999999999999
+    },
+    {
+        "countyId": "023015922000",
+        "countyName": "Powiat rawicki",
+        "score": 47.6675
+    },
+    {
+        "countyId": "023015929000",
+        "countyName": "Powiat wolsztyński",
+        "score": 53.04875
+    },
+    {
+        "countyId": "023015963000",
+        "countyName": "Powiat m. Leszno",
+        "score": 40.82875
+    },
+    {
+        "countyId": "023016001000",
+        "countyName": "Powiat chodzieski",
+        "score": 47.40875
+    },
+    {
+        "countyId": "023016002000",
+        "countyName": "Powiat czarnkowsko-trzcianecki",
+        "score": 51.37499999999999
+    },
+    {
+        "countyId": "023016019000",
+        "countyName": "Powiat pilski",
+        "score": 52.44
+    },
+    {
+        "countyId": "023016028000",
+        "countyName": "Powiat wągrowiecki",
+        "score": 50.7625
+    },
+    {
+        "countyId": "023016031000",
+        "countyName": "Powiat złotowski",
+        "score": 51.94375
+    },
+    {
+        "countyId": "023016116000",
+        "countyName": "Powiat obornicki",
+        "score": 47.94375
+    },
+    {
+        "countyId": "023016121000",
+        "countyName": "Powiat poznański",
+        "score": 77.07375
+    },
+    {
+        "countyId": "023016124000",
+        "countyName": "Powiat szamotulski",
+        "score": 49.99250000000001
+    },
+    {
+        "countyId": "023016125000",
+        "countyName": "Powiat średzki",
+        "score": 45.655
+    },
+    {
+        "countyId": "023016126000",
+        "countyName": "Powiat śremski",
+        "score": 52.185
+    },
+    {
+        "countyId": "023016264000",
+        "countyName": "Powiat m. Poznań",
+        "score": 70.3025
+    },
+    {
+        "countyId": "023216301000",
+        "countyName": "Powiat białogardzki",
+        "score": 47.40875
+    },
+    {
+        "countyId": "023216308000",
+        "countyName": "Powiat kołobrzeski",
+        "score": 47.14
+    },
+    {
+        "countyId": "023216309000",
+        "countyName": "Powiat koszaliński",
+        "score": 50.31625
+    },
+    {
+        "countyId": "023216313000",
+        "countyName": "Powiat sławieński",
+        "score": 49.08875
+    },
+    {
+        "countyId": "023216361000",
+        "countyName": "Powiat m. Koszalin",
+        "score": 48.03125
+    },
+    {
+        "countyId": "023216402000",
+        "countyName": "Powiat choszczeński",
+        "score": 38.83125
+    },
+    {
+        "countyId": "023216403000",
+        "countyName": "Powiat drawski",
+        "score": 45.96124999999999
+    },
+    {
+        "countyId": "023216410000",
+        "countyName": "Powiat myśliborski",
+        "score": 48.91875
+    },
+    {
+        "countyId": "023216412000",
+        "countyName": "Powiat pyrzycki",
+        "score": 45.8
+    },
+    {
+        "countyId": "023216415000",
+        "countyName": "Powiat szczecinecki",
+        "score": 52.82625
+    },
+    {
+        "countyId": "023216416000",
+        "countyName": "Powiat świdwiński",
+        "score": 48.011250000000004
+    },
+    {
+        "countyId": "023216417000",
+        "countyName": "Powiat wałecki",
+        "score": 46.397499999999994
+    },
+    {
+        "countyId": "023216418000",
+        "countyName": "Powiat łobeski",
+        "score": 40.19875
+    },
+    {
+        "countyId": "023216562000",
+        "countyName": "Powiat m. Szczecin",
+        "score": 63.808749999999996
+    },
+    {
+        "countyId": "023216604000",
+        "countyName": "Powiat goleniowski",
+        "score": 46.47125
+    },
+    {
+        "countyId": "023216605000",
+        "countyName": "Powiat gryficki",
+        "score": 43.19625
+    },
+    {
+        "countyId": "023216606000",
+        "countyName": "Powiat gryfiński",
+        "score": 48.6425
+    },
+    {
+        "countyId": "023216607000",
+        "countyName": "Powiat kamieński",
+        "score": 43.08
+    },
+    {
+        "countyId": "023216611000",
+        "countyName": "Powiat policki",
+        "score": 53.55375
+    },
+    {
+        "countyId": "023216614000",
+        "countyName": "Powiat stargardzki",
+        "score": 51.9175
+    },
+    {
+        "countyId": "023216663000",
+        "countyName": "Powiat m. Świnoujście",
+        "score": 43.772499999999994
+    },
+    {
+        "countyId": "030210101000",
+        "countyName": "Powiat bolesławiecki",
+        "score": 40.15500000000001
+    },
+    {
+        "countyId": "030210105000",
+        "countyName": "Powiat jaworski",
+        "score": 42.56375
+    },
+    {
+        "countyId": "030210106000",
+        "countyName": "Powiat karkonoski",
+        "score": 44.572500000000005
+    },
+    {
+        "countyId": "030210107000",
+        "countyName": "Powiat kamiennogórski",
+        "score": 41.4575
+    },
+    {
+        "countyId": "030210110000",
+        "countyName": "Powiat lubański",
+        "score": 39.58125
+    },
+    {
+        "countyId": "030210112000",
+        "countyName": "Powiat lwówecki",
+        "score": 38.408750000000005
+    },
+    {
+        "countyId": "030210125000",
+        "countyName": "Powiat zgorzelecki",
+        "score": 35.588750000000005
+    },
+    {
+        "countyId": "030210126000",
+        "countyName": "Powiat złotoryjski",
+        "score": 39.6325
+    },
+    {
+        "countyId": "030210161000",
+        "countyName": "Powiat m. Jelenia Góra",
+        "score": 30.4025
+    },
+    {
+        "countyId": "030210203000",
+        "countyName": "Powiat głogowski",
+        "score": 42.41375
+    },
+    {
+        "countyId": "030210204000",
+        "countyName": "Powiat górowski",
+        "score": 37.65624999999999
+    },
+    {
+        "countyId": "030210209000",
+        "countyName": "Powiat legnicki",
+        "score": 44.16375
+    },
+    {
+        "countyId": "030210211000",
+        "countyName": "Powiat lubiński",
+        "score": 42.9275
+    },
+    {
+        "countyId": "030210216000",
+        "countyName": "Powiat polkowicki",
+        "score": 38.205
+    },
+    {
+        "countyId": "030210262000",
+        "countyName": "Powiat m. Legnica",
+        "score": 32.629999999999995
+    },
+    {
+        "countyId": "030210302000",
+        "countyName": "Powiat dzierżoniowski",
+        "score": 50.90624999999999
+    },
+    {
+        "countyId": "030210308000",
+        "countyName": "Powiat kłodzki",
+        "score": 52.096250000000005
+    },
+    {
+        "countyId": "030210319000",
+        "countyName": "Powiat świdnicki",
+        "score": 51.915
+    },
+    {
+        "countyId": "030210321000",
+        "countyName": "Powiat wałbrzyski",
+        "score": 43.57125
+    },
+    {
+        "countyId": "030210324000",
+        "countyName": "Powiat ząbkowicki",
+        "score": 50.095000000000006
+    },
+    {
+        "countyId": "030210365000",
+        "countyName": "Powiat m. Wałbrzych od 2013",
+        "score": 34.945
+    },
+    {
+        "countyId": "030210413000",
+        "countyName": "Powiat milicki",
+        "score": 49.335
+    },
+    {
+        "countyId": "030210414000",
+        "countyName": "Powiat oleśnicki",
+        "score": 51.58875
+    },
+    {
+        "countyId": "030210415000",
+        "countyName": "Powiat oławski",
+        "score": 47.285000000000004
+    },
+    {
+        "countyId": "030210417000",
+        "countyName": "Powiat strzeliński",
+        "score": 45.010000000000005
+    },
+    {
+        "countyId": "030210418000",
+        "countyName": "Powiat średzki",
+        "score": 47.542500000000004
+    },
+    {
+        "countyId": "030210420000",
+        "countyName": "Powiat trzebnicki",
+        "score": 51.528749999999995
+    },
+    {
+        "countyId": "030210422000",
+        "countyName": "Powiat wołowski",
+        "score": 46.8125
+    },
+    {
+        "countyId": "030210423000",
+        "countyName": "Powiat wrocławski",
+        "score": 57.8175
+    },
+    {
+        "countyId": "030210564000",
+        "countyName": "Powiat m. Wrocław",
+        "score": 67.64874999999999
+    },
+    {
+        "countyId": "031613101000",
+        "countyName": "Powiat brzeski",
+        "score": 48.59
+    },
+    {
+        "countyId": "031613102000",
+        "countyName": "Powiat głubczycki",
+        "score": 50.57750000000001
+    },
+    {
+        "countyId": "031613106000",
+        "countyName": "Powiat namysłowski",
+        "score": 49.362500000000004
+    },
+    {
+        "countyId": "031613107000",
+        "countyName": "Powiat nyski",
+        "score": 52.449999999999996
+    },
+    {
+        "countyId": "031613110000",
+        "countyName": "Powiat prudnicki",
+        "score": 49.216249999999995
+    },
+    {
+        "countyId": "031613203000",
+        "countyName": "Powiat kędzierzyńsko-kozielski",
+        "score": 53.451249999999995
+    },
+    {
+        "countyId": "031613204000",
+        "countyName": "Powiat kluczborski",
+        "score": 50.40375
+    },
+    {
+        "countyId": "031613205000",
+        "countyName": "Powiat krapkowicki",
+        "score": 50.5925
+    },
+    {
+        "countyId": "031613208000",
+        "countyName": "Powiat oleski",
+        "score": 48.00999999999999
+    },
+    {
+        "countyId": "031613209000",
+        "countyName": "Powiat opolski",
+        "score": 57.385
+    },
+    {
+        "countyId": "031613211000",
+        "countyName": "Powiat strzelecki",
+        "score": 51.9
+    },
+    {
+        "countyId": "031613261000",
+        "countyName": "Powiat m. Opole",
+        "score": 48.47375000000001
+    },
+    {
+        "countyId": "040410603000",
+        "countyName": "Powiat bydgoski",
+        "score": 55.8175
+    },
+    {
+        "countyId": "040410615000",
+        "countyName": "Powiat toruński",
+        "score": 54.85625
+    },
+    {
+        "countyId": "040410661000",
+        "countyName": "Powiat m. Bydgoszcz",
+        "score": 62.94125000000001
+    },
+    {
+        "countyId": "040410663000",
+        "countyName": "Powiat m. Toruń",
+        "score": 51.325
+    },
+    {
+        "countyId": "040410702000",
+        "countyName": "Powiat brodnicki",
+        "score": 50.62875
+    },
+    {
+        "countyId": "040410704000",
+        "countyName": "Powiat chełmiński",
+        "score": 49.52875
+    },
+    {
+        "countyId": "040410705000",
+        "countyName": "Powiat golubsko-dobrzyński",
+        "score": 47.13250000000001
+    },
+    {
+        "countyId": "040410706000",
+        "countyName": "Powiat grudziądzki",
+        "score": 53.557500000000005
+    },
+    {
+        "countyId": "040410712000",
+        "countyName": "Powiat rypiński",
+        "score": 49.724999999999994
+    },
+    {
+        "countyId": "040410717000",
+        "countyName": "Powiat wąbrzeski",
+        "score": 44.41125
+    },
+    {
+        "countyId": "040410762000",
+        "countyName": "Powiat m. Grudziądz",
+        "score": 46.7825
+    },
+    {
+        "countyId": "040410801000",
+        "countyName": "Powiat aleksandrowski",
+        "score": 43.3125
+    },
+    {
+        "countyId": "040410808000",
+        "countyName": "Powiat lipnowski",
+        "score": 49.50125
+    },
+    {
+        "countyId": "040410811000",
+        "countyName": "Powiat radziejowski",
+        "score": 51.849999999999994
+    },
+    {
+        "countyId": "040410818000",
+        "countyName": "Powiat włocławski",
+        "score": 54.15125
+    },
+    {
+        "countyId": "040410864000",
+        "countyName": "Powiat m. Włocławek",
+        "score": 36.80375
+    },
+    {
+        "countyId": "040416707000",
+        "countyName": "Powiat inowrocławski",
+        "score": 53.83
+    },
+    {
+        "countyId": "040416709000",
+        "countyName": "Powiat mogileński",
+        "score": 51.0375
+    },
+    {
+        "countyId": "040416710000",
+        "countyName": "Powiat nakielski",
+        "score": 46.93
+    },
+    {
+        "countyId": "040416719000",
+        "countyName": "Powiat żniński",
+        "score": 51.2675
+    },
+    {
+        "countyId": "040416813000",
+        "countyName": "Powiat sępoleński",
+        "score": 48.505
+    },
+    {
+        "countyId": "040416814000",
+        "countyName": "Powiat świecki",
+        "score": 51.67375
+    },
+    {
+        "countyId": "040416816000",
+        "countyName": "Powiat tucholski",
+        "score": 50.83749999999999
+    },
+    {
+        "countyId": "042214004000",
+        "countyName": "Powiat gdański",
+        "score": 45.97375
+    },
+    {
+        "countyId": "042214005000",
+        "countyName": "Powiat kartuski",
+        "score": 51.68750000000001
+    },
+    {
+        "countyId": "042214010000",
+        "countyName": "Powiat nowodworski",
+        "score": 44.705
+    },
+    {
+        "countyId": "042214011000",
+        "countyName": "Powiat pucki",
+        "score": 50.78125
+    },
+    {
+        "countyId": "042214015000",
+        "countyName": "Powiat wejherowski",
+        "score": 60.31375
+    },
+    {
+        "countyId": "042214101000",
+        "countyName": "Powiat bytowski",
+        "score": 51.181250000000006
+    },
+    {
+        "countyId": "042214108000",
+        "countyName": "Powiat lęborski",
+        "score": 47.56125
+    },
+    {
+        "countyId": "042214112000",
+        "countyName": "Powiat słupski",
+        "score": 52.1575
+    },
+    {
+        "countyId": "042214163000",
+        "countyName": "Powiat m. Słupsk",
+        "score": 45.56625
+    },
+    {
+        "countyId": "042214207000",
+        "countyName": "Powiat kwidzyński",
+        "score": 50.45249999999999
+    },
+    {
+        "countyId": "042214209000",
+        "countyName": "Powiat malborski",
+        "score": 47.9775
+    },
+    {
+        "countyId": "042214213000",
+        "countyName": "Powiat starogardzki",
+        "score": 53.135
+    },
+    {
+        "countyId": "042214214000",
+        "countyName": "Powiat tczewski",
+        "score": 51.12
+    },
+    {
+        "countyId": "042214216000",
+        "countyName": "Powiat sztumski",
+        "score": 49.675
+    },
+    {
+        "countyId": "042214361000",
+        "countyName": "Powiat m. Gdańsk",
+        "score": 68.75125
+    },
+    {
+        "countyId": "042214362000",
+        "countyName": "Powiat m. Gdynia",
+        "score": 57.84625
+    },
+    {
+        "countyId": "042214364000",
+        "countyName": "Powiat m. Sopot",
+        "score": 27.0025
+    },
+    {
+        "countyId": "042217202000",
+        "countyName": "Powiat chojnicki",
+        "score": 52.80125
+    },
+    {
+        "countyId": "042217203000",
+        "countyName": "Powiat człuchowski",
+        "score": 51.00875
+    },
+    {
+        "countyId": "042217206000",
+        "countyName": "Powiat kościerski",
+        "score": 50.261250000000004
+    },
+    {
+        "countyId": "042815402000",
+        "countyName": "Powiat braniewski",
+        "score": 46.052499999999995
+    },
+    {
+        "countyId": "042815403000",
+        "countyName": "Powiat działdowski",
+        "score": 49.285000000000004
+    },
+    {
+        "countyId": "042815404000",
+        "countyName": "Powiat elbląski",
+        "score": 50.0975
+    },
+    {
+        "countyId": "042815407000",
+        "countyName": "Powiat iławski",
+        "score": 50.105000000000004
+    },
+    {
+        "countyId": "042815412000",
+        "countyName": "Powiat nowomiejski",
+        "score": 48.769999999999996
+    },
+    {
+        "countyId": "042815415000",
+        "countyName": "Powiat ostródzki",
+        "score": 50.91375
+    },
+    {
+        "countyId": "042815461000",
+        "countyName": "Powiat m. Elbląg",
+        "score": 47.70375
+    },
+    {
+        "countyId": "042815505000",
+        "countyName": "Powiat ełcki",
+        "score": 50.89750000000001
+    },
+    {
+        "countyId": "042815506000",
+        "countyName": "Powiat giżycki",
+        "score": 48.515
+    },
+    {
+        "countyId": "042815513000",
+        "countyName": "Powiat olecki",
+        "score": 47.707499999999996
+    },
+    {
+        "countyId": "042815516000",
+        "countyName": "Powiat piski",
+        "score": 47.56625
+    },
+    {
+        "countyId": "042815518000",
+        "countyName": "Powiat gołdapski",
+        "score": 43.0275
+    },
+    {
+        "countyId": "042815519000",
+        "countyName": "Powiat węgorzewski",
+        "score": 47.228750000000005
+    },
+    {
+        "countyId": "042815601000",
+        "countyName": "Powiat bartoszycki",
+        "score": 49.22375000000001
+    },
+    {
+        "countyId": "042815608000",
+        "countyName": "Powiat kętrzyński",
+        "score": 49.7475
+    },
+    {
+        "countyId": "042815609000",
+        "countyName": "Powiat lidzbarski",
+        "score": 49.55
+    },
+    {
+        "countyId": "042815610000",
+        "countyName": "Powiat mrągowski",
+        "score": 46.6225
+    },
+    {
+        "countyId": "042815611000",
+        "countyName": "Powiat nidzicki",
+        "score": 36.93875
+    },
+    {
+        "countyId": "042815614000",
+        "countyName": "Powiat olsztyński",
+        "score": 55.785
+    },
+    {
+        "countyId": "042815617000",
+        "countyName": "Powiat szczycieński",
+        "score": 48.78125
+    },
+    {
+        "countyId": "042815662000",
+        "countyName": "Powiat m. Olsztyn",
+        "score": 54.47
+    },
+    {
+        "countyId": "051011506000",
+        "countyName": "Powiat łódzki wschodni",
+        "score": 51.058749999999996
+    },
+    {
+        "countyId": "051011508000",
+        "countyName": "Powiat pabianicki",
+        "score": 53.464999999999996
+    },
+    {
+        "countyId": "051011520000",
+        "countyName": "Powiat zgierski",
+        "score": 56.098749999999995
+    },
+    {
+        "countyId": "051011521000",
+        "countyName": "Powiat brzeziński",
+        "score": 48.15875
+    },
+    {
+        "countyId": "051011661000",
+        "countyName": "Powiat m. Łódź",
+        "score": 72.43624999999999
+    },
+    {
+        "countyId": "051011701000",
+        "countyName": "Powiat bełchatowski",
+        "score": 52.88625
+    },
+    {
+        "countyId": "051011707000",
+        "countyName": "Powiat opoczyński",
+        "score": 50.46125000000001
+    },
+    {
+        "countyId": "051011710000",
+        "countyName": "Powiat piotrkowski",
+        "score": 54.945
+    },
+    {
+        "countyId": "051011712000",
+        "countyName": "Powiat radomszczański",
+        "score": 53.3275
+    },
+    {
+        "countyId": "051011716000",
+        "countyName": "Powiat tomaszowski",
+        "score": 51.51875
+    },
+    {
+        "countyId": "051011762000",
+        "countyName": "Powiat m. Piotrków Trybunalski",
+        "score": 42.383750000000006
+    },
+    {
+        "countyId": "051011803000",
+        "countyName": "Powiat łaski",
+        "score": 49.46875
+    },
+    {
+        "countyId": "051011809000",
+        "countyName": "Powiat pajęczański",
+        "score": 53.61874999999999
+    },
+    {
+        "countyId": "051011811000",
+        "countyName": "Powiat poddębicki",
+        "score": 50.6825
+    },
+    {
+        "countyId": "051011814000",
+        "countyName": "Powiat sieradzki",
+        "score": 39.714999999999996
+    },
+    {
+        "countyId": "051011817000",
+        "countyName": "Powiat wieluński",
+        "score": 49.83625
+    },
+    {
+        "countyId": "051011818000",
+        "countyName": "Powiat wieruszowski",
+        "score": 48.2075
+    },
+    {
+        "countyId": "051011819000",
+        "countyName": "Powiat zduńskowolski",
+        "score": 48.58
+    },
+    {
+        "countyId": "051011902000",
+        "countyName": "Powiat kutnowski",
+        "score": 50.70625
+    },
+    {
+        "countyId": "051011904000",
+        "countyName": "Powiat łęczycki",
+        "score": 49.015
+    },
+    {
+        "countyId": "051011905000",
+        "countyName": "Powiat łowicki",
+        "score": 47.89999999999999
+    },
+    {
+        "countyId": "051011913000",
+        "countyName": "Powiat rawski",
+        "score": 46.985
+    },
+    {
+        "countyId": "051011915000",
+        "countyName": "Powiat skierniewicki",
+        "score": 52.34625
+    },
+    {
+        "countyId": "051011963000",
+        "countyName": "Powiat m. Skierniewice",
+        "score": 44.661249999999995
+    },
+    {
+        "countyId": "052615204000",
+        "countyName": "Powiat kielecki",
+        "score": 63.60625
+    },
+    {
+        "countyId": "052615205000",
+        "countyName": "Powiat konecki",
+        "score": 50.500000000000014
+    },
+    {
+        "countyId": "052615207000",
+        "countyName": "Powiat ostrowiecki",
+        "score": 52.9675
+    },
+    {
+        "countyId": "052615210000",
+        "countyName": "Powiat skarżyski",
+        "score": 45.06625
+    },
+    {
+        "countyId": "052615211000",
+        "countyName": "Powiat starachowicki",
+        "score": 46.255
+    },
+    {
+        "countyId": "052615261000",
+        "countyName": "Powiat m. Kielce",
+        "score": 48.77
+    },
+    {
+        "countyId": "052615301000",
+        "countyName": "Powiat buski",
+        "score": 50.75125
+    },
+    {
+        "countyId": "052615302000",
+        "countyName": "Powiat jędrzejowski",
+        "score": 47.44125
+    },
+    {
+        "countyId": "052615303000",
+        "countyName": "Powiat kazimierski",
+        "score": 50.28124999999999
+    },
+    {
+        "countyId": "052615306000",
+        "countyName": "Powiat opatowski",
+        "score": 49.72874999999999
+    },
+    {
+        "countyId": "052615308000",
+        "countyName": "Powiat pińczowski",
+        "score": 48.96625
+    },
+    {
+        "countyId": "052615309000",
+        "countyName": "Powiat sandomierski",
+        "score": 51.88625
+    },
+    {
+        "countyId": "052615312000",
+        "countyName": "Powiat staszowski",
+        "score": 50.06375
+    },
+    {
+        "countyId": "052615313000",
+        "countyName": "Powiat włoszczowski",
+        "score": 51.51125
+    },
+    {
+        "countyId": "060610901000",
+        "countyName": "Powiat bialski",
+        "score": 53.503750000000004
+    },
+    {
+        "countyId": "060610913000",
+        "countyName": "Powiat parczewski",
+        "score": 48.03625
+    },
+    {
+        "countyId": "060610915000",
+        "countyName": "Powiat radzyński",
+        "score": 44.12875
+    },
+    {
+        "countyId": "060610919000",
+        "countyName": "Powiat włodawski",
+        "score": 50.20125
+    },
+    {
+        "countyId": "060610961000",
+        "countyName": "Powiat m. Biała Podlaska",
+        "score": 45.00625
+    },
+    {
+        "countyId": "060611002000",
+        "countyName": "Powiat biłgorajski",
+        "score": 56.30625
+    },
+    {
+        "countyId": "060611003000",
+        "countyName": "Powiat chełmski",
+        "score": 52.993750000000006
+    },
+    {
+        "countyId": "060611004000",
+        "countyName": "Powiat hrubieszowski",
+        "score": 49.9425
+    },
+    {
+        "countyId": "060611006000",
+        "countyName": "Powiat krasnostawski",
+        "score": 51.2825
+    },
+    {
+        "countyId": "060611018000",
+        "countyName": "Powiat tomaszowski",
+        "score": 51.8125
+    },
+    {
+        "countyId": "060611020000",
+        "countyName": "Powiat zamojski",
+        "score": 55.81125
+    },
+    {
+        "countyId": "060611062000",
+        "countyName": "Powiat m. Chełm",
+        "score": 44.286249999999995
+    },
+    {
+        "countyId": "060611064000",
+        "countyName": "Powiat m. Zamość",
+        "score": 48.425
+    },
+    {
+        "countyId": "060611108000",
+        "countyName": "Powiat lubartowski",
+        "score": 53.714999999999996
+    },
+    {
+        "countyId": "060611109000",
+        "countyName": "Powiat lubelski",
+        "score": 61.5025
+    },
+    {
+        "countyId": "060611110000",
+        "countyName": "Powiat łęczyński",
+        "score": 50.87624999999999
+    },
+    {
+        "countyId": "060611117000",
+        "countyName": "Powiat świdnicki",
+        "score": 52.545
+    },
+    {
+        "countyId": "060611163000",
+        "countyName": "Powiat m. Lublin",
+        "score": 64.17999999999999
+    },
+    {
+        "countyId": "060611205000",
+        "countyName": "Powiat janowski",
+        "score": 53.34125
+    },
+    {
+        "countyId": "060611207000",
+        "countyName": "Powiat kraśnicki",
+        "score": 54.415
+    },
+    {
+        "countyId": "060611211000",
+        "countyName": "Powiat łukowski",
+        "score": 54.04125
+    },
+    {
+        "countyId": "060611212000",
+        "countyName": "Powiat opolski",
+        "score": 51.365
+    },
+    {
+        "countyId": "060611214000",
+        "countyName": "Powiat puławski",
+        "score": 52.885
+    },
+    {
+        "countyId": "060611216000",
+        "countyName": "Powiat rycki",
+        "score": 47.647499999999994
+    },
+    {
+        "countyId": "061813301000",
+        "countyName": "Powiat bieszczadzki",
+        "score": 49.40125
+    },
+    {
+        "countyId": "061813302000",
+        "countyName": "Powiat brzozowski",
+        "score": 55.06125
+    },
+    {
+        "countyId": "061813305000",
+        "countyName": "Powiat jasielski",
+        "score": 57.5975
+    },
+    {
+        "countyId": "061813307000",
+        "countyName": "Powiat krośnieński",
+        "score": 57.082499999999996
+    },
+    {
+        "countyId": "061813317000",
+        "countyName": "Powiat sanocki",
+        "score": 51.5425
+    },
+    {
+        "countyId": "061813321000",
+        "countyName": "Powiat leski",
+        "score": 49.15
+    },
+    {
+        "countyId": "061813361000",
+        "countyName": "Powiat m. Krosno",
+        "score": 33.87625
+    },
+    {
+        "countyId": "061813404000",
+        "countyName": "Powiat jarosławski",
+        "score": 58.60625
+    },
+    {
+        "countyId": "061813409000",
+        "countyName": "Powiat lubaczowski",
+        "score": 54.26125
+    },
+    {
+        "countyId": "061813413000",
+        "countyName": "Powiat przemyski",
+        "score": 56.19250000000001
+    },
+    {
+        "countyId": "061813414000",
+        "countyName": "Powiat przeworski",
+        "score": 55.285000000000004
+    },
+    {
+        "countyId": "061813462000",
+        "countyName": "Powiat m. Przemyśl",
+        "score": 48.72375
+    },
+    {
+        "countyId": "061813506000",
+        "countyName": "Powiat kolbuszowski",
+        "score": 53.3025
+    },
+    {
+        "countyId": "061813510000",
+        "countyName": "Powiat łańcucki",
+        "score": 54.91375
+    },
+    {
+        "countyId": "061813515000",
+        "countyName": "Powiat ropczycko-sędziszowski",
+        "score": 54.2875
+    },
+    {
+        "countyId": "061813516000",
+        "countyName": "Powiat rzeszowski",
+        "score": 63.448750000000004
+    },
+    {
+        "countyId": "061813519000",
+        "countyName": "Powiat strzyżowski",
+        "score": 56.10625
+    },
+    {
+        "countyId": "061813563000",
+        "countyName": "Powiat m. Rzeszów",
+        "score": 57.05375
+    },
+    {
+        "countyId": "061813603000",
+        "countyName": "Powiat dębicki",
+        "score": 57.0525
+    },
+    {
+        "countyId": "061813608000",
+        "countyName": "Powiat leżajski",
+        "score": 55.04749999999999
+    },
+    {
+        "countyId": "061813611000",
+        "countyName": "Powiat mielecki",
+        "score": 57.27375
+    },
+    {
+        "countyId": "061813612000",
+        "countyName": "Powiat niżański",
+        "score": 52.940000000000005
+    },
+    {
+        "countyId": "061813618000",
+        "countyName": "Powiat stalowowolski",
+        "score": 54.580000000000005
+    },
+    {
+        "countyId": "061813620000",
+        "countyName": "Powiat tarnobrzeski",
+        "score": 48.31
+    },
+    {
+        "countyId": "061813664000",
+        "countyName": "Powiat m. Tarnobrzeg",
+        "score": 45.09375
+    },
+    {
+        "countyId": "062013702000",
+        "countyName": "Powiat białostocki",
+        "score": 58.458749999999995
+    },
+    {
+        "countyId": "062013711000",
+        "countyName": "Powiat sokólski",
+        "score": 49.31625
+    },
+    {
+        "countyId": "062013761000",
+        "countyName": "Powiat m. Białystok",
+        "score": 63.20625
+    },
+    {
+        "countyId": "062013803000",
+        "countyName": "Powiat bielski",
+        "score": 51.8625
+    },
+    {
+        "countyId": "062013805000",
+        "countyName": "Powiat hajnowski",
+        "score": 48.394999999999996
+    },
+    {
+        "countyId": "062013806000",
+        "countyName": "Powiat kolneński",
+        "score": 52.74
+    },
+    {
+        "countyId": "062013807000",
+        "countyName": "Powiat łomżyński",
+        "score": 52.80625
+    },
+    {
+        "countyId": "062013810000",
+        "countyName": "Powiat siemiatycki",
+        "score": 49.96125
+    },
+    {
+        "countyId": "062013813000",
+        "countyName": "Powiat wysokomazowiecki",
+        "score": 52.87375
+    },
+    {
+        "countyId": "062013814000",
+        "countyName": "Powiat zambrowski",
+        "score": 48.44
+    },
+    {
+        "countyId": "062013862000",
+        "countyName": "Powiat m. Łomża",
+        "score": 47.235
+    },
+    {
+        "countyId": "062013901000",
+        "countyName": "Powiat augustowski",
+        "score": 49.083749999999995
+    },
+    {
+        "countyId": "062013904000",
+        "countyName": "Powiat grajewski",
+        "score": 44.33875
+    },
+    {
+        "countyId": "062013908000",
+        "countyName": "Powiat moniecki",
+        "score": 52.286249999999995
+    },
+    {
+        "countyId": "062013909000",
+        "countyName": "Powiat sejneński",
+        "score": 47.79625
+    },
+    {
+        "countyId": "062013912000",
+        "countyName": "Powiat suwalski",
+        "score": 51.915
+    },
+    {
+        "countyId": "062013963000",
+        "countyName": "Powiat m. Suwałki",
+        "score": 47.12125
+    },
+    {
+        "countyId": "071412865000",
+        "countyName": "Powiat m. st. Warszawa",
+        "score": 69.84875
+    },
+    {
+        "countyId": "071412908000",
+        "countyName": "Powiat legionowski",
+        "score": 51.7275
+    },
+    {
+        "countyId": "071412912000",
+        "countyName": "Powiat miński",
+        "score": 58.95
+    },
+    {
+        "countyId": "071412917000",
+        "countyName": "Powiat otwocki",
+        "score": 51.86125
+    },
+    {
+        "countyId": "071412934000",
+        "countyName": "Powiat wołomiński",
+        "score": 59.042500000000004
+    },
+    {
+        "countyId": "071413005000",
+        "countyName": "Powiat grodziski",
+        "score": 51.287499999999994
+    },
+    {
+        "countyId": "071413014000",
+        "countyName": "Powiat nowodworski",
+        "score": 47.462500000000006
+    },
+    {
+        "countyId": "071413018000",
+        "countyName": "Powiat piaseczyński",
+        "score": 59.254999999999995
+    },
+    {
+        "countyId": "071413021000",
+        "countyName": "Powiat pruszkowski",
+        "score": 55.673750000000005
+    },
+    {
+        "countyId": "071413032000",
+        "countyName": "Powiat warszawski zachodni",
+        "score": 53.755
+    },
+    {
+        "countyId": "071422502000",
+        "countyName": "Powiat ciechanowski",
+        "score": 49.91375000000001
+    },
+    {
+        "countyId": "071422513000",
+        "countyName": "Powiat mławski",
+        "score": 48.91499999999999
+    },
+    {
+        "countyId": "071422520000",
+        "countyName": "Powiat płoński",
+        "score": 41.7675
+    },
+    {
+        "countyId": "071422524000",
+        "countyName": "Powiat pułtuski",
+        "score": 44.95875
+    },
+    {
+        "countyId": "071422537000",
+        "countyName": "Powiat żuromiński",
+        "score": 51.88375
+    },
+    {
+        "countyId": "071422611000",
+        "countyName": "Powiat makowski",
+        "score": 42.708749999999995
+    },
+    {
+        "countyId": "071422615000",
+        "countyName": "Powiat ostrołęcki",
+        "score": 55.51625
+    },
+    {
+        "countyId": "071422616000",
+        "countyName": "Powiat ostrowski",
+        "score": 49.2175
+    },
+    {
+        "countyId": "071422622000",
+        "countyName": "Powiat przasnyski",
+        "score": 46.8975
+    },
+    {
+        "countyId": "071422635000",
+        "countyName": "Powiat wyszkowski",
+        "score": 50.77375
+    },
+    {
+        "countyId": "071422661000",
+        "countyName": "Powiat m. Ostrołęka",
+        "score": 38.72625
+    },
+    {
+        "countyId": "071422701000",
+        "countyName": "Powiat białobrzeski",
+        "score": 49.58749999999999
+    },
+    {
+        "countyId": "071422707000",
+        "countyName": "Powiat kozienicki",
+        "score": 50.65375
+    },
+    {
+        "countyId": "071422709000",
+        "countyName": "Powiat lipski",
+        "score": 44.856249999999996
+    },
+    {
+        "countyId": "071422723000",
+        "countyName": "Powiat przysuski",
+        "score": 51.63000000000001
+    },
+    {
+        "countyId": "071422725000",
+        "countyName": "Powiat radomski",
+        "score": 59.322500000000005
+    },
+    {
+        "countyId": "071422730000",
+        "countyName": "Powiat szydłowiecki",
+        "score": 48.62625
+    },
+    {
+        "countyId": "071422736000",
+        "countyName": "Powiat zwoleński",
+        "score": 50.3375
+    },
+    {
+        "countyId": "071422763000",
+        "countyName": "Powiat m. Radom",
+        "score": 55.197500000000005
+    },
+    {
+        "countyId": "071427004000",
+        "countyName": "Powiat gostyniński",
+        "score": 49.69375000000001
+    },
+    {
+        "countyId": "071427019000",
+        "countyName": "Powiat płocki",
+        "score": 57.012499999999996
+    },
+    {
+        "countyId": "071427027000",
+        "countyName": "Powiat sierpecki",
+        "score": 39.71
+    },
+    {
+        "countyId": "071427062000",
+        "countyName": "Powiat m. Płock",
+        "score": 50.418749999999996
+    },
+    {
+        "countyId": "071427103000",
+        "countyName": "Powiat garwoliński",
+        "score": 55.20875
+    },
+    {
+        "countyId": "071427110000",
+        "countyName": "Powiat łosicki",
+        "score": 47.1975
+    },
+    {
+        "countyId": "071427126000",
+        "countyName": "Powiat siedlecki",
+        "score": 55.041250000000005
+    },
+    {
+        "countyId": "071427129000",
+        "countyName": "Powiat sokołowski",
+        "score": 47.89125
+    },
+    {
+        "countyId": "071427133000",
+        "countyName": "Powiat węgrowski",
+        "score": 49.10125
+    },
+    {
+        "countyId": "071427164000",
+        "countyName": "Powiat m. Siedlce",
+        "score": 47.044999999999995
+    },
+    {
+        "countyId": "071427306000",
+        "countyName": "Powiat grójecki",
+        "score": 49.44375
+    },
+    {
+        "countyId": "071427328000",
+        "countyName": "Powiat sochaczewski",
+        "score": 47.28874999999999
+    },
+    {
+        "countyId": "071427338000",
+        "countyName": "Powiat żyrardowski",
+        "score": 47.325
+    }
+]

@@ -21,7 +21,7 @@ public class MapController {
     private final MapService mapService;
 
     @PostMapping("/county-scores")
-    public Flux<MapResponse> getMap(@Valid @RequestBody MapRequest request) {
+    public Flux<MapResponse> getCountyScores(@Valid @RequestBody MapRequest request) {
         return mapService.getMapData(request);
     }
 }

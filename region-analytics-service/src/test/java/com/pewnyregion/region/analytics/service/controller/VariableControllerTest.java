@@ -22,8 +22,8 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class VariableControllerTest {
 
+    private final  ObjectMapper objectMapper = new ObjectMapper();
     private VariableController variableController;
-    private ObjectMapper objectMapper = new ObjectMapper();
     private WebTestClient webTestClient;
 
     @Mock
