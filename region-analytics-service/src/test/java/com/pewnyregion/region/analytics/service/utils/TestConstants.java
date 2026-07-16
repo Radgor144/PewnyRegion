@@ -6,6 +6,8 @@ import lombok.experimental.UtilityClass;
 public class TestConstants {
 
     public static final String GET_ALL_VARIABLES_RESPONSE_JSON = "src/test/resources/getAllVariablesResponse.json";
+    public static final String GET_POST_MAP_COUNTY_SCORES_RESPONSE_JSON = "src/test/resources/postMapCountyScores.json";
 
     public static final String GET_VARIABLES_API_PATH = "/api/variables";
+    public static final String GET_MAP_COUNTY_SCORES_API_PATH = "/api/map/county-scores";
 }
