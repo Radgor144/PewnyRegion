@@ -44,6 +44,34 @@ class MapCountyScoresIntegrationTest extends AbstractIntegrationTest {
                 );
     }
 
+    @Test
+    void shouldReturnCountyScores_forFullPipeline_whenRequestIsValid2() {
+        MapRequest request = new MapRequest(List.of("crimes"), 2017, 2018);
+
+        List<MapResponse> actual = postAndExpectStatus(request, HttpStatus.OK);
+
+        assertThat(actual).isNotEmpty();
+        assertThat(actual)
+                .hasSize(3)
+                .extracting(MapResponse::countyId, MapResponse::countyName, MapResponse::score)
+                .containsExactlyInAnyOrder(
+                        tuple("011212006000", "Powiat krakowski", 56.52),
+                        tuple("011212008000", "Powiat miechowski", 53.63),
+                        tuple("011212019000", "Powiat wielicki", 30.2)
+                );
+    }
+
+    @Test
+    void shouldReturnCountyScores_forFullPipeline_whenRequestIsValid3() {
+        MapRequest request = new MapRequest(List.of(), 2015, 2018);
+
+        List<MapResponse> actual = postAndExpectStatus(request, HttpStatus.BAD_REQUEST);
+
+        assertThat(actual).isNotEmpty();
+        assertThat(actual)
+                .hasSize(0);
+    }
+
     private List<MapResponse> postAndExpectStatus(MapRequest request, HttpStatus expectedStatus) {
         return webTestClient.post()
                             .uri(GET_MAP_COUNTY_SCORES_API_PATH)
