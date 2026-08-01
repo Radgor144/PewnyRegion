@@ -88,6 +88,7 @@ public class BackgroundJobQueue implements DisposableBean {
     private Mono<Void> updateJobStatus(String jobId, Consumer<ImportJobEntity> modifier) {
         return importJobRepository.findById(jobId)
                                   .doOnNext(modifier)
+                                  .flatMap(importJobRepository::save)
                                   .then();
     }
 }
