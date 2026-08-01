@@ -1,8 +1,9 @@
 package com.pewnyregion.region.analytics.service.service;
 
-import com.pewnyregion.region.analytics.service.component.JobExecutor;
+import com.pewnyregion.region.analytics.service.component.BackgroundJobQueue;
 import com.pewnyregion.region.analytics.service.entity.ImportJobEntity;
-import com.pewnyregion.region.analytics.service.model.*;
+import com.pewnyregion.region.analytics.service.model.JobResponse;
+import com.pewnyregion.region.analytics.service.model.TargetedImportRequest;
 import com.pewnyregion.region.analytics.service.model.consts.ImportJobStatus;
 import com.pewnyregion.region.analytics.service.model.consts.ImportJobType;
 import com.pewnyregion.region.analytics.service.repository.ImportJobRepository;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -20,42 +22,33 @@ import java.util.UUID;
 public class ImportJobService {
 
     private final ImportJobRepository repository;
-    private final BdlFullInitializationService fullService;
-    private final BdlTargetedUpdateService targetedService;
+    private final BdlDataImportService dataImportService;
     private final CountyImportService countyImportService;
     private final NormalizationService normalizationService;
-    private final JobExecutor jobExecutor;
+    private final BackgroundJobQueue jobQueue;
 
     public Mono<JobResponse> submitFullImport() {
-        return repository.countByJobTypeAndStatus(ImportJobType.FULL, ImportJobStatus.RUNNING)
-                         .flatMap(running -> {
-                             if (running > 0) {
-                                 return Mono.error(new IllegalStateException("Full import is already running"));
-                             }
-                             return createAndSubmit(ImportJobType.FULL,
-                                     fullService.runFullInitialization()
-                                                .flatMap(init -> normalizationService.calculateAndSaveScoresForAllYears()
-                                                                                     .map(norm -> init.toMessage() + " | " + norm.toMessage()))
-                             );
-                         });
+        return ensureNotRunning(ImportJobType.FULL)
+                .then(createAndEnqueue(
+                        ImportJobType.FULL,
+                        dataImportService.runImport(null, null)
+                                         .flatMap(init -> normalizationService.calculateAndSaveScoresForAllYears()
+                                                                              .map(norm -> init.toMessage() + " | " + norm.toMessage()))
+                ));
     }
 
     public Mono<JobResponse> submitTargetedImport(TargetedImportRequest request) {
-        return repository.countByJobTypeAndStatus(ImportJobType.TARGETED, ImportJobStatus.RUNNING)
-                         .flatMap(running -> {
-                             if (running > 0) {
-                                 return Mono.error(new IllegalStateException("Targeted import is already running"));
-                             }
-                             return createAndSubmit(ImportJobType.TARGETED,
-                                     targetedService.runTargetedUpdate(request.apiNames(), request.years())
-                                                    .flatMap(init -> normalizationService.calculateAndSaveScoresForYears(request.years())
-                                                                                         .map(norm -> init.toMessage() + " | " + norm.toMessage()))
-                             );
-                         });
+        return ensureNotRunning(ImportJobType.TARGETED)
+                .then(createAndEnqueue(
+                        ImportJobType.TARGETED,
+                        dataImportService.runImport(request.apiNames(), request.years())
+                                         .flatMap(init -> normalizationService.calculateAndSaveScoresForYears(request.years())
+                                                                              .map(norm -> init.toMessage() + " | " + norm.toMessage()))
+                ));
     }
 
     public Mono<JobResponse> submitCountiesImport() {
-        return createAndSubmit(ImportJobType.COUNTIES,
+        return createAndEnqueue(ImportJobType.COUNTIES,
                 countyImportService.runImportLogic().thenReturn("Counties imported successfully")
         );
     }
@@ -66,12 +59,17 @@ public class ImportJobService {
                          .switchIfEmpty(Mono.error(new IllegalArgumentException("Job not found: " + id)));
     }
 
-    private Mono<JobResponse> createAndSubmit(ImportJobType type, Mono<String> task) {
+    private Mono<Void> ensureNotRunning(ImportJobType type) {
+        return repository.countByJobTypeAndStatusIn(type, List.of(ImportJobStatus.RUNNING, ImportJobStatus.PENDING))
+                         .flatMap(running -> running > 0
+                                 ? Mono.error(new IllegalStateException("Job already in progress or enqueued: " + type))
+                                 : Mono.empty());
+    }
+
+    private Mono<JobResponse> createAndEnqueue(ImportJobType type, Mono<String> task) {
         return repository.save(buildPendingJob(type))
-                         .map(job -> {
-                             jobExecutor.run(job.getId(), task);
-                             return toResponse(job);
-                         });
+                         .doOnNext(job -> jobQueue.enqueueJob(job.getId(), task))
+                         .map(this::toResponse);
     }
 
     private ImportJobEntity buildPendingJob(ImportJobType type) {
@@ -80,7 +78,7 @@ public class ImportJobService {
                               .jobType(type)
                               .status(ImportJobStatus.PENDING)
                               .startedAt(LocalDateTime.now())
-                              .message("Import submitted")
+                              .message("Import enqueued")
                               .isNew(true)
                               .build();
     }
