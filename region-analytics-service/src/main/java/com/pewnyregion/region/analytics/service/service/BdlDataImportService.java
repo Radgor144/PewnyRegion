@@ -8,7 +8,6 @@ import com.pewnyregion.region.analytics.service.repository.CountyRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.util.retry.Retry;
@@ -30,23 +29,23 @@ public class BdlDataImportService {
     private final BdlDataPersistenceService persistenceService;
     private final CountyRepository countyRepository;
 
-    public Mono<ImportSummary> runImport(List<String> apiNames, List<Integer> years) {
-        String mode = CollectionUtils.isEmpty(years) ? "FULL" : "TARGETED";
-        log.info("Starting process: {}", mode);
+    public Mono<ImportSummary> runFullImport() {
+        log.info("Starting process: FULL");
+        return executeImport(variableService.getAllVariableIds(), List.of());
+    }
 
-        return resolveVariableIds(apiNames)
+    public Mono<ImportSummary> runTargetedImport(List<String> apiNames, List<Integer> years) {
+        log.info("Starting process: TARGETED");
+        return executeImport(variableService.getVariableIdsByApiNames(apiNames), years);
+    }
+
+    private Mono<ImportSummary> executeImport(Mono<List<Integer>> variableIds, List<Integer> years) {
+        return variableIds
                 .flatMapMany(varIds -> buildChunks(varIds, years))
                 .concatMap(task -> Mono.delay(REQUEST_DELAY).then(executeTask(task)))
                 .count()
-                .map((count) -> new ImportSummary(count.intValue()))
-                .doOnSuccess(s -> log.info("Import completed - {}", s.toMessage()));
-    }
-
-    private Mono<List<Integer>> resolveVariableIds(List<String> apiNames) {
-        if (CollectionUtils.isEmpty(apiNames)) {
-            return variableService.getAllVariableIds();
-        }
-        return variableService.getVariableIdsByApiNames(apiNames);
+                .map(count -> new ImportSummary(count.intValue()))
+                .doOnSuccess(importSummary -> log.info("Import completed - {}", importSummary.toMessage()));
     }
 
     private Mono<BdlRawDataResponse> executeTask(ImportChunk task) {
@@ -59,7 +58,7 @@ public class BdlDataImportService {
         return apiCall
                 .retryWhen(createRetrySpec(task.county().getName()))
                 .flatMap(response -> persistenceService.saveImportedData(task.county().getId(), response))
-                .doOnNext(res -> log.info("Saved data for county: {}", task.county().getName()))
+                .doOnNext(response -> log.info("Saved data for county: {}", task.county().getName()))
                 .onErrorResume(e -> {
                     log.error("Failure for county: {}, due to: {}", task.county().getName(), e.getMessage());
                     return Mono.empty();

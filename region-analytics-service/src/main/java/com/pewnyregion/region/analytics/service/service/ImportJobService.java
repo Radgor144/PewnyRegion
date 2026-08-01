@@ -30,16 +30,16 @@ public class ImportJobService {
 
     public Mono<JobResponse> submitFullImport() {
         return createAndEnqueue(ImportJobType.FULL,
-                dataImportService.runImport(null, null)
-                                 .flatMap(init -> normalizationService.calculateAndSaveScoresForAllYears()
-                                                                      .map(norm -> init.toMessage() + " | " + norm.toMessage())));
+                dataImportService.runFullImport()
+                                 .flatMap(importSummary -> normalizationService.calculateAndSaveScoresForAllYears()
+                                                                      .map(normSummary -> importSummary.toMessage() + " | " + normSummary.toMessage())));
     }
 
     public Mono<JobResponse> submitTargetedImport(TargetedImportRequest request) {
         return createAndEnqueue(ImportJobType.TARGETED,
-                dataImportService.runImport(request.apiNames(), request.years())
-                                 .flatMap(init -> normalizationService.calculateAndSaveScoresForYears(request.years())
-                                                                      .map(norm -> init.toMessage() + " | " + norm.toMessage())));
+                dataImportService.runTargetedImport(request.apiNames(), request.years())
+                                 .flatMap(importSummary -> normalizationService.calculateAndSaveScoresForYears(request.years())
+                                                                      .map(normSummary -> importSummary.toMessage() + " | " + normSummary.toMessage())));
     }
 
     public Mono<JobResponse> submitCountiesImport() {
@@ -58,7 +58,7 @@ public class ImportJobService {
         return repository.save(buildPendingJob(type))
                          .onErrorMap(DataIntegrityViolationException.class,
                                  e -> new ConflictException("Another import is already running or pending"))
-                         .doOnNext(job -> jobQueue.enqueueJob(job.getId(), task))
+                         .flatMap(job -> jobQueue.enqueueJob(job.getId(), task).thenReturn(job))
                          .map(this::toResponse);
     }
 

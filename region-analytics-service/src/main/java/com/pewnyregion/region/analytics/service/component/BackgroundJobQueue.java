@@ -12,10 +12,8 @@ import org.springframework.stereotype.Component;
 import reactor.core.Disposable;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Sinks;
-import reactor.core.scheduler.Schedulers;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
 import java.util.function.Consumer;
 
 import static com.pewnyregion.region.analytics.service.model.consts.ImportJobStatus.COMPLETED;
@@ -31,13 +29,18 @@ public class BackgroundJobQueue implements DisposableBean {
     private final Sinks.Many<PendingJob> sink = Sinks.many().unicast().onBackpressureBuffer();
     private Disposable subscriptionDisposable;
 
-    public void enqueueJob(String jobId, Mono<String> task) {
+    public Mono<Void> enqueueJob(String jobId, Mono<String> task) {
         Sinks.EmitResult emitResult = sink.tryEmitNext(new PendingJob(jobId, task));
-        if (!Objects.equals(emitResult, Sinks.EmitResult.OK)) {
+        if (emitResult.isFailure()) {
             log.error("Error enqueueing job {}, emitResult {}", jobId, emitResult);
-        } else {
-            log.info("Job {} enqueued successfully", jobId);
+            return updateJobStatus(jobId, entity -> {
+                entity.setStatus(FAILED);
+                entity.setFinishedAt(LocalDateTime.now());
+                entity.setMessage("Failed to enqueue job: " + emitResult);
+            });
         }
+        log.info("Job {} enqueued successfully", jobId);
+        return Mono.empty();
     }
 
     @EventListener(ApplicationReadyEvent.class)
@@ -46,7 +49,6 @@ public class BackgroundJobQueue implements DisposableBean {
 
         subscriptionDisposable = sink.asFlux()
                                      .flatMap(this::processJob, 1)
-                                     .subscribeOn(Schedulers.boundedElastic())
                                      .subscribe(
                                              result -> log.debug("job processing completed with signal"),
                                              error -> log.error("Fatal error in job stream: {}", error.getMessage(), error),
