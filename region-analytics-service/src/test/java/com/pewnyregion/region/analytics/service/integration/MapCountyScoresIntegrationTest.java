@@ -6,8 +6,8 @@ import com.pewnyregion.region.analytics.service.model.MapResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.webtestclient.autoconfigure.AutoConfigureWebTestClient;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ProblemDetail;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 import java.util.List;
@@ -16,7 +16,6 @@ import static com.pewnyregion.region.analytics.service.utils.TestConstants.GET_M
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
-@AutoConfigureWebTestClient
 class MapCountyScoresIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
@@ -24,18 +23,16 @@ class MapCountyScoresIntegrationTest extends AbstractIntegrationTest {
 
     @BeforeEach
     void setUp() {
-        runSqlScript("testdata/init-test-data.sql");
+        runSqlScript("testdata/map-county-scores-test-data.sql");
     }
 
     @Test
-    void shouldReturnCountyScores_forFullPipeline_whenRequestIsValid() {
+    void shouldReturnAggregatedScores_whenMultipleVariablesRequestedAcrossFullYearRange() {
         MapRequest request = new MapRequest(List.of("crimes", "gross_salary"), 2015, 2018);
 
         List<MapResponse> actual = postAndExpectStatus(request, HttpStatus.OK);
 
-        assertThat(actual).isNotEmpty();
         assertThat(actual)
-                .hasSize(3)
                 .extracting(MapResponse::countyId, MapResponse::countyName, MapResponse::score)
                 .containsExactlyInAnyOrder(
                         tuple("011212006000", "Powiat krakowski", 53.64),
@@ -45,31 +42,47 @@ class MapCountyScoresIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
-    void shouldReturnCountyScores_forFullPipeline_whenRequestIsValid2() {
+    void shouldReturnAggregatedScores_whenSingleVariableRequestedForPartialYearRange() {
         MapRequest request = new MapRequest(List.of("crimes"), 2017, 2018);
 
         List<MapResponse> actual = postAndExpectStatus(request, HttpStatus.OK);
 
-        assertThat(actual).isNotEmpty();
         assertThat(actual)
-                .hasSize(3)
                 .extracting(MapResponse::countyId, MapResponse::countyName, MapResponse::score)
                 .containsExactlyInAnyOrder(
                         tuple("011212006000", "Powiat krakowski", 56.52),
                         tuple("011212008000", "Powiat miechowski", 53.63),
-                        tuple("011212019000", "Powiat wielicki", 30.2)
+                        tuple("011212019000", "Powiat wielicki", 30.20)
                 );
     }
 
     @Test
-    void shouldReturnCountyScores_forFullPipeline_whenRequestIsValid3() {
-        MapRequest request = new MapRequest(List.of(), 2015, 2018);
+    void shouldReturnEmptyList_whenNoRecordsMatchRequestedYearRange() {
+        MapRequest request = new MapRequest(List.of("crimes"), 2012, 2013);
 
-        List<MapResponse> actual = postAndExpectStatus(request, HttpStatus.BAD_REQUEST);
+        List<MapResponse> actual = postAndExpectStatus(request, HttpStatus.OK);
 
-        assertThat(actual).isNotEmpty();
-        assertThat(actual)
-                .hasSize(0);
+        assertThat(actual).isEmpty();
+    }
+
+    @Test
+    void shouldReturnBadRequest_whenApiNameDoesNotExistInDatabase() {
+        MapRequest request = new MapRequest(List.of("crimes", "unknown_variable"), 2015, 2018);
+
+        webTestClient.post()
+                     .uri(GET_MAP_COUNTY_SCORES_API_PATH)
+                     .bodyValue(request)
+                     .exchange()
+                     .expectStatus().isBadRequest()
+                     .expectHeader().contentType("application/problem+json")
+                     .expectBody(ProblemDetail.class)
+                     .consumeWith(result -> assertUnknownApiNameProblem(result.getResponseBody()));
+    }
+
+    private void assertUnknownApiNameProblem(ProblemDetail problem) {
+        assertThat(problem).isNotNull();
+        assertThat(problem.getStatus()).isEqualTo(400);
+        assertThat(problem.getDetail()).contains("Invalid names");
     }
 
     private List<MapResponse> postAndExpectStatus(MapRequest request, HttpStatus expectedStatus) {

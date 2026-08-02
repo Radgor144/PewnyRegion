@@ -1,9 +1,9 @@
 package com.pewnyregion.region.analytics.service.service;
 
 import com.pewnyregion.region.analytics.service.component.MapValidator;
-import com.pewnyregion.region.analytics.service.model.dto.MapCountyScoreDto;
 import com.pewnyregion.region.analytics.service.model.MapRequest;
 import com.pewnyregion.region.analytics.service.model.MapResponse;
+import com.pewnyregion.region.analytics.service.model.dto.MapCountyScoreDto;
 import com.pewnyregion.region.analytics.service.repository.MapRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

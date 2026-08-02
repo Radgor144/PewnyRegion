@@ -4,10 +4,12 @@ import io.r2dbc.spi.ConnectionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
+import org.springframework.boot.webtestclient.autoconfigure.AutoConfigureWebTestClient;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.r2dbc.connection.init.ResourceDatabasePopulator;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
 
 @SpringBootTest(
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
@@ -16,10 +18,14 @@ import org.testcontainers.junit.jupiter.Testcontainers;
         }
 )
 @Testcontainers
+@AutoConfigureWebTestClient
 public abstract class AbstractIntegrationTest {
 
     @ServiceConnection
-    protected static final PostgreSQLContainer<?> postgresContainer = new PostgreSQLContainer<>("postgres:16");
+    protected static final PostgreSQLContainer<?> postgresContainer = new PostgreSQLContainer<>(
+            DockerImageName.parse("cgr.dev/chainguard/postgres:latest")
+                           .asCompatibleSubstituteFor("postgres")
+    ).withCommand();
 
     static {
         postgresContainer.start();
