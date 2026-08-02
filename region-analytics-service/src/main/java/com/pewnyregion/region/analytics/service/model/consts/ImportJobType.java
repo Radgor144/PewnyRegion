@@ -1,7 +1,0 @@
-package com.pewnyregion.region.analytics.service.model.consts;
-
-public enum ImportJobType {
-    FULL,
-    TARGETED,
-    COUNTIES
-}
