@@ -30,9 +30,9 @@ class MapCountyScoresIntegrationTest extends AbstractIntegrationTest {
     void shouldReturnAggregatedScores_whenMultipleVariablesRequestedAcrossFullYearRange() {
         MapRequest request = new MapRequest(List.of("crimes", "gross_salary"), 2015, 2018);
 
-        List<MapResponse> actual = postAndExpectStatus(request, HttpStatus.OK);
+        List<MapResponse> responses = postAndExpectStatus(request, HttpStatus.OK);
 
-        assertThat(actual)
+        assertThat(responses)
                 .extracting(MapResponse::countyId, MapResponse::countyName, MapResponse::score)
                 .containsExactlyInAnyOrder(
                         tuple("011212006000", "Powiat krakowski", 53.64),
@@ -45,9 +45,9 @@ class MapCountyScoresIntegrationTest extends AbstractIntegrationTest {
     void shouldReturnAggregatedScores_whenSingleVariableRequestedForPartialYearRange() {
         MapRequest request = new MapRequest(List.of("crimes"), 2017, 2018);
 
-        List<MapResponse> actual = postAndExpectStatus(request, HttpStatus.OK);
+        List<MapResponse> responses = postAndExpectStatus(request, HttpStatus.OK);
 
-        assertThat(actual)
+        assertThat(responses)
                 .extracting(MapResponse::countyId, MapResponse::countyName, MapResponse::score)
                 .containsExactlyInAnyOrder(
                         tuple("011212006000", "Powiat krakowski", 56.52),
@@ -60,29 +60,43 @@ class MapCountyScoresIntegrationTest extends AbstractIntegrationTest {
     void shouldReturnEmptyList_whenNoRecordsMatchRequestedYearRange() {
         MapRequest request = new MapRequest(List.of("crimes"), 2012, 2013);
 
-        List<MapResponse> actual = postAndExpectStatus(request, HttpStatus.OK);
+        List<MapResponse> responses = postAndExpectStatus(request, HttpStatus.OK);
 
-        assertThat(actual).isEmpty();
+        assertThat(responses).isEmpty();
     }
 
     @Test
     void shouldReturnBadRequest_whenApiNameDoesNotExistInDatabase() {
         MapRequest request = new MapRequest(List.of("crimes", "unknown_variable"), 2015, 2018);
 
-        webTestClient.post()
-                     .uri(GET_MAP_COUNTY_SCORES_API_PATH)
-                     .bodyValue(request)
-                     .exchange()
-                     .expectStatus().isBadRequest()
-                     .expectHeader().contentType("application/problem+json")
-                     .expectBody(ProblemDetail.class)
-                     .consumeWith(result -> assertUnknownApiNameProblem(result.getResponseBody()));
-    }
+        ProblemDetail problem = postAndExpectProblem(request);
 
-    private void assertUnknownApiNameProblem(ProblemDetail problem) {
         assertThat(problem).isNotNull();
         assertThat(problem.getStatus()).isEqualTo(400);
         assertThat(problem.getDetail()).contains("Invalid names");
+    }
+
+    @Test
+    void shouldReturnBadRequest_whenApiNamesListIsEmpty() {
+        MapRequest request = new MapRequest(List.of(), 2015, 2018);
+
+        ProblemDetail problem = postAndExpectProblem(request);
+
+        assertThat(problem).isNotNull();
+        assertThat(problem.getStatus()).isEqualTo(400);
+        assertThat(problem.getDetail()).contains("apiNames cannot be empty");
+    }
+
+    private ProblemDetail postAndExpectProblem(MapRequest request) {
+        return webTestClient.post()
+                            .uri(GET_MAP_COUNTY_SCORES_API_PATH)
+                            .bodyValue(request)
+                            .exchange()
+                            .expectStatus().isBadRequest()
+                            .expectHeader().contentType("application/problem+json")
+                            .expectBody(ProblemDetail.class)
+                            .returnResult()
+                            .getResponseBody();
     }
 
     private List<MapResponse> postAndExpectStatus(MapRequest request, HttpStatus expectedStatus) {
