@@ -3,6 +3,7 @@ package com.pewnyregion.region.analytics.service.controller;
 import com.pewnyregion.region.analytics.service.model.JobResponse;
 import com.pewnyregion.region.analytics.service.model.TargetedImportRequest;
 import com.pewnyregion.region.analytics.service.service.ImportJobService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,7 +34,7 @@ public class ImportJobController {
     }
 
     @PostMapping("/targeted")
-    public Mono<ResponseEntity<JobResponse>> createTargetedImport(@RequestBody TargetedImportRequest request) {
+    public Mono<ResponseEntity<JobResponse>> createTargetedImport(@Valid @RequestBody TargetedImportRequest request) {
         return importJobService.submitTargetedImport(request)
                                .map(ResponseEntity.accepted()::body);
     }
