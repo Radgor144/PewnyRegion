@@ -23,7 +23,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -35,8 +34,7 @@ class NormalizationServiceTest {
 
     private static final double RAW_VAL = 120.0;
     private static final double ADJ_VAL = 60.0;
-    private static final double MEAN_VAL = 50.0;
-    private static final double STD_DEV = 10.0;
+    private static final double PERCENTILE = 0.6667;
 
     private static final double EXPECTED_STIM_SCORE = 66.67;
     private static final double EXPECTED_DESTIM_SCORE = 33.33;
@@ -53,8 +51,6 @@ class NormalizationServiceTest {
         normalizationService = new NormalizationService(dataRepository, scoreRepository);
     }
 
-    // --- calculateAndSaveScoresForYears ---
-
     @ParameterizedTest(name = "{0}")
     @MethodSource("provideValidStatsForScoring")
     void calculateForYears_savesCorrectScoreBasedOnDirection(String testCaseName, String direction, double expectedScore) {
@@ -66,18 +62,6 @@ class NormalizationServiceTest {
                     .verifyComplete();
 
         verifyScoreSaved(expectedScore);
-    }
-
-    @ParameterizedTest(name = "{0}")
-    @MethodSource("provideInvalidStatsForSkipping")
-    void calculateForYears_skipsWhenRequiredDataIsMissing(String testCaseName, Double adjustedValue, Double meanValue) {
-        mockDataRepoWith(createStatWithNulls(adjustedValue, meanValue));
-
-        StepVerifier.create(normalizationService.calculateAndSaveScoresForYears(List.of(YEAR)))
-                    .expectNextCount(1)
-                    .verifyComplete();
-
-        verifyNoInteractions(scoreRepository);
     }
 
     @ParameterizedTest(name = "{0}")
@@ -93,8 +77,6 @@ class NormalizationServiceTest {
             verify(dataRepository, times(1)).getNormalizationStatsForYear(expectedYear);
         }
     }
-
-    // --- calculateAndSaveScoresForAllYears ---
 
     @Test
     void calculateForAllYears_fetchesAndCalculatesScores() {
@@ -129,14 +111,6 @@ class NormalizationServiceTest {
         );
     }
 
-    private static Stream<Arguments> provideInvalidStatsForSkipping() {
-        return Stream.of(
-                Arguments.of("Skips when adjustedValue is null", null, MEAN_VAL),
-                Arguments.of("Skips when mean is null (Z-Score is NaN)", ADJ_VAL, null),
-                Arguments.of("Skips when both required values are null", null, null)
-        );
-    }
-
     private static Stream<Arguments> provideYearLists() {
         return Stream.of(
                 Arguments.of("Deduplicates input years", List.of(2023, 2023), List.of(2023)),
@@ -146,11 +120,7 @@ class NormalizationServiceTest {
     }
 
     private NormalizationStatsDto createStat(String direction) {
-        return new NormalizationStatsDto(COUNTY_ID, VAR_ID, YEAR, RAW_VAL, ADJ_VAL, MEAN_VAL, STD_DEV, direction);
-    }
-
-    private NormalizationStatsDto createStatWithNulls(Double adjustedValue, Double meanValue) {
-        return new NormalizationStatsDto(COUNTY_ID, VAR_ID, YEAR, RAW_VAL, adjustedValue, meanValue, STD_DEV, "DESTIMULANT");
+        return new NormalizationStatsDto(COUNTY_ID, VAR_ID, YEAR, RAW_VAL, ADJ_VAL, direction, PERCENTILE);
     }
 
     private void mockDataRepoWith(NormalizationStatsDto stat) {

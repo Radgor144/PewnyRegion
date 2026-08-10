@@ -51,17 +51,17 @@ public interface BdlDataRecordRepository extends ReactiveCrudRepository<BdlDataR
             res.direction
         FROM resolved res
         LEFT JOIN population p ON p.county_id = res.county_id AND p.year = res.year
-    ),
-    stats AS (
-        SELECT bdl_variable_id, AVG(adjusted_value) AS mean_val, STDDEV_POP(adjusted_value) AS stddev_val
-        FROM adjusted
-        WHERE adjusted_value IS NOT NULL
-        GROUP BY bdl_variable_id
     )
-    SELECT a.county_id, a.bdl_variable_id, a.year, a.raw_value, a.adjusted_value,
-           s.mean_val, s.stddev_val, a.direction
+    SELECT 
+        a.county_id, 
+        a.bdl_variable_id, 
+        a.year, 
+        a.raw_value, 
+        a.adjusted_value,
+        a.direction,
+        PERCENT_RANK() OVER (PARTITION BY a.bdl_variable_id ORDER BY a.adjusted_value) AS percentile
     FROM adjusted a
-    JOIN stats s ON a.bdl_variable_id = s.bdl_variable_id
+    WHERE a.adjusted_value IS NOT NULL
 """)
     Flux<NormalizationStatsDto> getNormalizationStatsForYear(Integer year);
 
