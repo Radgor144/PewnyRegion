@@ -6,7 +6,6 @@ public record NormalizationStatsDto(
         Integer year,
         Double rawValue,
         Double adjustedValue,
-        Double meanVal,
-        Double stddevVal,
-        String direction
+        String direction,
+        Double percentile
 ) {}
