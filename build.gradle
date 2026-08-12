@@ -43,7 +43,7 @@ subprojects {
         implementation 'org.springframework.boot:spring-boot-starter-actuator'
         implementation 'org.springframework.boot:spring-boot-starter-opentelemetry'
 
-        implementation 'io.opentelemetry.instrumentation:opentelemetry-logback-appender-1.0:2.28.0-alpha'
+        implementation 'io.opentelemetry.instrumentation:opentelemetry-logback-appender-1.0:2.30.0-alpha'
         implementation 'io.opentelemetry:opentelemetry-exporter-otlp'
         implementation 'io.micrometer:micrometer-registry-prometheus'
         implementation 'io.micrometer:micrometer-tracing-bridge-otel'
