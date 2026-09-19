@@ -18,7 +18,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class NormalizationService {
 
-    private static final double Z_SCORE_CLAMP = 3.0;
     private static final double SCORE_SCALE_MAX = 100.0;
 
     private final BdlDataRecordRepository dataRepository;
@@ -55,41 +54,22 @@ public class NormalizationService {
     }
 
     private Mono<Double> calculateScore(NormalizationStatsDto stat) {
-        if (stat.adjustedValue() == null) {
-            log.warn("[NORM] Missing population data for county={}, variable={}, year={} — skipping",
-                    stat.countyId(), stat.bdlVariableId(), stat.year());
-            return Mono.empty();
-        }
+        double score = VariableDirection.valueOf(stat.direction()) == VariableDirection.DESTIMULANT
+                ? (1.0 - stat.percentile()) * SCORE_SCALE_MAX
+                : stat.percentile() * SCORE_SCALE_MAX;
 
-        double z = calculateZ(stat.adjustedValue(), stat.meanVal(), stat.stddevVal());
-        if (Double.isNaN(z)) {
-            log.warn("[NORM] Could not compute z-score for county={}, variable={}, year={} — skipping",
-                    stat.countyId(), stat.bdlVariableId(), stat.year());
-            return Mono.empty();
-        }
-
-        return Mono.just(scale(z, stat.direction()));
+        return Mono.just(roundToTwoDecimals(score));
     }
 
     private Mono<Void> saveScore(NormalizationStatsDto stat, double score) {
-        return scoreRepository.upsertScore(stat.countyId(), stat.bdlVariableId(), stat.year(),
-                                           stat.rawValue(), stat.adjustedValue(), score
+        return scoreRepository.upsertScore(
+                stat.countyId(),
+                stat.bdlVariableId(),
+                stat.year(),
+                stat.rawValue(),
+                stat.adjustedValue(),
+                score
         ).then();
-    }
-
-    private double calculateZ(Double value, Double mean, Double stddev) {
-        if (value == null || mean == null || stddev == null) return Double.NaN;
-        if (stddev == 0) return 0.0;
-        return (value - mean) / stddev;
-    }
-
-    private double scale(double z, String direction) {
-        double clamped = Math.max(-Z_SCORE_CLAMP, Math.min(Z_SCORE_CLAMP, z));
-        double score = ((clamped + Z_SCORE_CLAMP) / (Z_SCORE_CLAMP * 2)) * SCORE_SCALE_MAX;
-        if (VariableDirection.valueOf(direction) == VariableDirection.DESTIMULANT) {
-            score = SCORE_SCALE_MAX - score;
-        }
-        return roundToTwoDecimals(score);
     }
 
     private double roundToTwoDecimals(double value) {

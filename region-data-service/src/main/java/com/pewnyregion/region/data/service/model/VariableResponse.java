@@ -7,5 +7,6 @@ import java.util.List;
 public record VariableResponse(
         String apiName,
         List<Integer> bdlIds,
-        VariableDirection direction
+        VariableDirection direction,
+        boolean per_capita
 ) {}
