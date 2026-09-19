@@ -25,8 +25,8 @@ public class GlobalExceptionHandler {
                                    ? fe.getField() + ": " + fe.getDefaultMessage()
                                    : error.getDefaultMessage())
                            .collect(Collectors.joining(", "));
-        logClientError(exchange, ex, HttpStatus.BAD_REQUEST.value(), details);
-        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, details);
+        logClientError(exchange, ex, ex.getStatusCode().value(), details);
+        return ProblemDetail.forStatusAndDetail(ex.getStatusCode(), details);
     }
 
     @ExceptionHandler(ApiException.class)
@@ -42,8 +42,8 @@ public class GlobalExceptionHandler {
         return ProblemDetail.forStatusAndDetail(ex.getStatusCode(), detail);
     }
 
-    @ExceptionHandler(RuntimeException.class)
-    public ProblemDetail handleRuntimeException(RuntimeException ex, ServerWebExchange exchange) {
+    @ExceptionHandler(Exception.class)
+    public ProblemDetail handleGenericException(Exception ex, ServerWebExchange exchange) {
         logServerError(exchange, ex, HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage());
         return ProblemDetail.forStatusAndDetail(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred");
     }
