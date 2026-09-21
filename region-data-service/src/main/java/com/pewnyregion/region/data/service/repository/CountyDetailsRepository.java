@@ -1,6 +1,7 @@
 package com.pewnyregion.region.data.service.repository;
 
 import com.pewnyregion.region.data.service.entity.CountyVariableScoreEntity;
+import com.pewnyregion.region.data.service.model.AverageScoreDto;
 import org.springframework.data.r2dbc.repository.Query;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import org.springframework.stereotype.Repository;
@@ -12,16 +13,31 @@ import java.util.List;
 public interface CountyDetailsRepository extends ReactiveCrudRepository<CountyVariableScoreEntity, Long> {
 
     @Query("""
-                SELECT cvs.* 
+                SELECT cvs.*
                 FROM county_variable_scores cvs
                 JOIN counties c ON cvs.county_id = c.id
                 WHERE c.teryt_code = :terytCode
                   AND cvs.bdl_variable_id IN (
-                      SELECT bdl_variable_id 
-                      FROM bdl_variable_ids 
+                      SELECT bdl_variable_id
+                      FROM bdl_variable_ids
                       WHERE bdl_id IN (:bdlVariableIds)
                   )
                 ORDER BY cvs.year ASC
             """)
     Flux<CountyVariableScoreEntity> findByTerytCodeAndBdlIds(String terytCode, List<Integer> bdlVariableIds);
+
+    @Query("""
+                SELECT cvs.bdl_variable_id AS bdl_variable_id,
+                       cvs.year AS year,
+                       ROUND(AVG(cvs.raw_value)::numeric, 2) AS average_score
+                FROM county_variable_scores cvs
+                WHERE cvs.bdl_variable_id IN (
+                      SELECT bdl_variable_id
+                      FROM bdl_variable_ids
+                      WHERE bdl_id IN (:bdlVariableIds)
+                )
+                  AND cvs.raw_value IS NOT NULL
+                GROUP BY cvs.bdl_variable_id, cvs.year
+            """)
+    Flux<AverageScoreDto> findAverageScoresByBdlIds(List<Integer> bdlVariableIds);
 }
