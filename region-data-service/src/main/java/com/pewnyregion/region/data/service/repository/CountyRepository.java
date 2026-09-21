@@ -10,8 +10,6 @@ import reactor.core.publisher.Mono;
 @Repository
 public interface CountyRepository extends R2dbcRepository<CountyEntity, String> {
 
-    Mono<CountyEntity> findByTerytCode(String terytCode);
-
     @Modifying
     @Query("""
         INSERT INTO counties (id, name, parent_id, level, teryt_code)
