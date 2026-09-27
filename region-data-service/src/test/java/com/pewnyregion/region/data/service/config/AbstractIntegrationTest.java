@@ -7,9 +7,10 @@ import org.springframework.boot.testcontainers.service.connection.ServiceConnect
 import org.springframework.boot.webtestclient.autoconfigure.AutoConfigureWebTestClient;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.r2dbc.connection.init.ResourceDatabasePopulator;
-import org.testcontainers.postgresql.PostgreSQLContainer;
+import org.springframework.test.annotation.DirtiesContext;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.postgresql.PostgreSQLContainer;
 import org.testcontainers.utility.DockerImageName;
 
 @SpringBootTest(
@@ -17,6 +18,7 @@ import org.testcontainers.utility.DockerImageName;
         properties = "bdl.api.key=test-api-key"
 )
 @Testcontainers
+@DirtiesContext
 @AutoConfigureWebTestClient
 public abstract class AbstractIntegrationTest {
 
@@ -32,6 +34,7 @@ public abstract class AbstractIntegrationTest {
 
     protected void runSqlScript(String classpathResourcePath) {
         new ResourceDatabasePopulator(new ClassPathResource(classpathResourcePath))
-                .populate(connectionFactory).block();
+                .populate(connectionFactory)
+                .block();
     }
 }
