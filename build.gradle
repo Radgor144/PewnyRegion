@@ -72,6 +72,8 @@ subprojects {
     tasks.named('test') {
         useJUnitPlatform()
         systemProperty 'management.otlp.metrics.export.enabled', 'false'
+        systemProperty 'management.logging.export.otlp.enabled', 'false'
+        systemProperty 'management.tracing.export.otlp.enabled', 'false'
     }
 
     test {
