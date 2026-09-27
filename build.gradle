@@ -26,7 +26,7 @@ subprojects {
 
     repositories {
         mavenCentral()
-        maven { url 'https://repo.spring.io/milestone' }
+        maven { url = 'https://repo.spring.io/milestone' }
     }
 
     dependencyManagement {
@@ -36,6 +36,10 @@ subprojects {
         dependencies {
             dependency "io.opentelemetry:opentelemetry-api-incubator:1.62.0-alpha"
         }
+    }
+
+    configurations {
+        mockitoAgent
     }
 
     dependencies {
@@ -67,20 +71,27 @@ subprojects {
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
         testImplementation 'org.springframework.boot:spring-boot-webtestclient'
         testImplementation 'io.projectreactor:reactor-test'
+
+        mockitoAgent('org.mockito:mockito-core') {
+            transitive = false
+        }
     }
 
     tasks.named('test') {
         useJUnitPlatform()
+        systemProperty 'management.otlp.metrics.export.enabled', 'false'
+        systemProperty 'management.logging.export.otlp.enabled', 'false'
+        systemProperty 'management.tracing.export.otlp.enabled', 'false'
+        jvmArgs "-javaagent:${configurations.mockitoAgent.singleFile.absolutePath}"
     }
 
     test {
         testLogging {
             events "failed"
-
-            exceptionFormat "full"
-            showExceptions true
-            showCauses true
-            showStackTraces true
+            exceptionFormat = "full"
+            showExceptions = true
+            showCauses = true
+            showStackTraces = true
         }
     }
 }
