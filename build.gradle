@@ -71,12 +71,12 @@ subprojects {
 
     tasks.named('test') {
         useJUnitPlatform()
+        systemProperty 'management.otlp.metrics.export.enabled', 'false'
     }
 
     test {
         testLogging {
             events "failed"
-
             exceptionFormat "full"
             showExceptions true
             showCauses true
