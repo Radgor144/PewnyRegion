@@ -1,10 +1,9 @@
 package com.pewnyregion.region.data.service.service;
 
 import com.pewnyregion.region.data.service.entity.CountyEntity;
-import com.pewnyregion.region.data.service.entity.CountyVariableScoreEntity;
 import com.pewnyregion.region.data.service.exception.NotFoundException;
-import com.pewnyregion.region.data.service.model.AverageScoreDto;
 import com.pewnyregion.region.data.service.model.CountyDetailsResponse;
+import com.pewnyregion.region.data.service.model.CountyScoreWithAverage;
 import com.pewnyregion.region.data.service.model.VariableDetail;
 import com.pewnyregion.region.data.service.model.YearlyData;
 import com.pewnyregion.region.data.service.repository.BdlVariableIdRepository;
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,7 +27,9 @@ public class CountyDetailsService {
     public Mono<CountyDetailsResponse> getCountyDetails(String terytCode, List<Integer> bdlIds) {
         return findCountyOrThrow(terytCode)
                 .flatMap(county -> validateBdlIds(bdlIds).thenReturn(county))
-                .flatMap(county -> fetchCountyDetails(county, bdlIds));
+                .flatMap(county -> countyVariableScoreRepository.findCountyDetailsByCountyIdAndBdlIds(county.getId(), bdlIds)
+                                                                .collectList()
+                                                                .map(scores -> buildResponse(county.getTerytCode(), scores)));
     }
 
     private Mono<CountyEntity> findCountyOrThrow(String terytCode) {
@@ -38,7 +38,9 @@ public class CountyDetailsService {
     }
 
     private Mono<Void> validateBdlIds(List<Integer> bdlIds) {
-        long distinctRequested = bdlIds.stream().distinct().count();
+        long distinctRequested = bdlIds.stream()
+                                       .distinct()
+                                       .count();
 
         return bdlVariableIdRepository.findByBdlIdIn(bdlIds)
                                       .count()
@@ -47,60 +49,23 @@ public class CountyDetailsService {
                                       .then();
     }
 
-    private Mono<CountyDetailsResponse> fetchCountyDetails(CountyEntity county, List<Integer> bdlIds) {
-        Mono<List<CountyVariableScoreEntity>> countyScores = countyVariableScoreRepository
-                .findByCountyIdAndBdlIds(county.getId(), bdlIds)
-                .collectList();
-
-        Mono<List<AverageScoreDto>> averageScores = countyVariableScoreRepository.findAverageScoresByBdlIds(bdlIds)
-                                                                                 .collectList();
-
-        return Mono.zip(countyScores, averageScores, (scores, averages) -> buildResponse(county.getTerytCode(), scores, averages));
-    }
-
-    private CountyDetailsResponse buildResponse(String terytCode,
-                                                List<CountyVariableScoreEntity> countyScores,
-                                                List<AverageScoreDto> averageScores) {
-
-        Map<Integer, Map<Integer, Double>> averageScoresMap = buildAverageScoresMap(averageScores);
-        List<VariableDetail> variables = buildVariableDetails(countyScores, averageScoresMap);
+    private CountyDetailsResponse buildResponse(String terytCode, List<CountyScoreWithAverage> scores) {
+        List<VariableDetail> variables = scores.stream()
+                                               .collect(Collectors.groupingBy(CountyScoreWithAverage::bdlVariableId))
+                                               .entrySet()
+                                               .stream()
+                                               .map(entry -> new VariableDetail(
+                                                       entry.getKey(),
+                                                       entry.getValue().stream()
+                                                            .map(score -> new YearlyData(
+                                                                    score.year(),
+                                                                    score.rawValue(),
+                                                                    score.averageScore()
+                                                            ))
+                                                            .toList()
+                                               ))
+                                               .toList();
 
         return new CountyDetailsResponse(terytCode, variables);
-    }
-
-    private Map<Integer, Map<Integer, Double>> buildAverageScoresMap(List<AverageScoreDto> averageScores) {
-        return averageScores.stream()
-                            .collect(Collectors.groupingBy(
-                                    AverageScoreDto::bdlVariableId,
-                                    Collectors.toMap(AverageScoreDto::year,
-                                                     AverageScoreDto::averageScore)));
-    }
-
-    private List<VariableDetail> buildVariableDetails(List<CountyVariableScoreEntity> countyScores,
-                                                      Map<Integer, Map<Integer, Double>> averageScoresMap) {
-
-        return countyScores.stream()
-                           .collect(Collectors.groupingBy(CountyVariableScoreEntity::getBdlVariableId))
-                           .entrySet()
-                           .stream()
-                           .map(entry -> createVariableDetail(entry.getKey(),
-                                                              entry.getValue(),
-                                                              averageScoresMap))
-                           .toList();
-    }
-
-    private VariableDetail createVariableDetail(Integer variableId,
-                                                List<CountyVariableScoreEntity> countyScores,
-                                                Map<Integer, Map<Integer, Double>> averageScoresMap) {
-
-        Map<Integer, Double> averages = averageScoresMap.getOrDefault(variableId, Map.of());
-
-        List<YearlyData> yearlyData = countyScores.stream()
-                                                  .map(entity -> new YearlyData(entity.getYear(),
-                                                                                entity.getRawValue(),
-                                                                                averages.get(entity.getYear())))
-                                                  .toList();
-
-        return new VariableDetail(variableId, yearlyData);
     }
 }
