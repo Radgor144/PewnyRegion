@@ -1,14 +1,50 @@
 package com.pewnyregion.region.data.service.repository;
 
 import com.pewnyregion.region.data.service.entity.CountyVariableScoreEntity;
+import com.pewnyregion.region.data.service.model.CountyScoreWithAverage;
 import org.springframework.data.r2dbc.repository.Modifying;
 import org.springframework.data.r2dbc.repository.Query;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import org.springframework.stereotype.Repository;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.util.List;
 
 @Repository
 public interface CountyVariableScoreRepository extends ReactiveCrudRepository<CountyVariableScoreEntity, Long> {
+
+    @Query("""
+        SELECT scores.bdl_variable_id,
+               scores.year,
+               scores.raw_value,
+               scores.average_score
+        FROM (
+            SELECT cvs.county_id,
+                   cvs.bdl_variable_id,
+                   cvs.year,
+                   cvs.raw_value,
+                   ROUND(
+                       AVG(cvs.raw_value) OVER (
+                           PARTITION BY cvs.bdl_variable_id, cvs.year
+                       )::numeric,
+                       2
+                   ) AS average_score
+            FROM county_variable_scores cvs
+            WHERE cvs.raw_value IS NOT NULL
+              AND cvs.bdl_variable_id IN (
+                  SELECT bdl_variable_id
+                  FROM bdl_variable_ids
+                  WHERE bdl_id IN (:bdlIds)
+              )
+        ) scores
+        WHERE scores.county_id = :countyId
+        ORDER BY scores.bdl_variable_id, scores.year
+    """)
+    Flux<CountyScoreWithAverage> findCountyDetailsByCountyIdAndBdlIds(
+            String countyId,
+            List<Integer> bdlIds
+    );
 
     @Modifying
     @Query("""
