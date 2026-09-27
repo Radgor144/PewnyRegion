@@ -16,4 +16,5 @@ public class TestConstants {
     public static final String POST_FULL_IMPORT_API_PATH = BASE_IMPORT_PATH + "/full";
     public static final String POST_TARGETED_IMPORT_API_PATH = BASE_IMPORT_PATH + "/targeted";
 
+    public static final String GET_COUNTY_DETAILS_API_PATH = "/api/countyDetails";
 }

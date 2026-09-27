@@ -10,4 +10,6 @@ import java.util.Collection;
 @Repository
 public interface BdlVariableIdRepository extends ReactiveCrudRepository<BdlVariableIdEntity, Integer> {
     Flux<BdlVariableIdEntity> findByBdlVariableIdIn(Collection<Integer> bdlVariableIds);
+
+    Flux<BdlVariableIdEntity> findByBdlIdIn(Collection<Integer> bdlIds);
 }
