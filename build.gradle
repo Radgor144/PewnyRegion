@@ -38,6 +38,10 @@ subprojects {
         }
     }
 
+    configurations {
+        mockitoAgent
+    }
+
     dependencies {
         compileOnly 'org.projectlombok:lombok'
         annotationProcessor 'org.projectlombok:lombok'
@@ -67,13 +71,15 @@ subprojects {
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
         testImplementation 'org.springframework.boot:spring-boot-webtestclient'
         testImplementation 'io.projectreactor:reactor-test'
+
+        mockitoAgent('org.mockito:mockito-core') {
+            transitive = false
+        }
     }
 
     tasks.named('test') {
         useJUnitPlatform()
-        systemProperty 'management.otlp.metrics.export.enabled', 'false'
-        systemProperty 'management.logging.export.otlp.enabled', 'false'
-        systemProperty 'management.tracing.export.otlp.enabled', 'false'
+        jvmArgs "-javaagent:${configurations.mockitoAgent.singleFile.absolutePath}"
     }
 
     test {

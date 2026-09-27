@@ -7,7 +7,8 @@ import org.springframework.boot.testcontainers.service.connection.ServiceConnect
 import org.springframework.boot.webtestclient.autoconfigure.AutoConfigureWebTestClient;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.r2dbc.connection.init.ResourceDatabasePopulator;
-import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.postgresql.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
@@ -19,11 +20,12 @@ import org.testcontainers.utility.DockerImageName;
 @AutoConfigureWebTestClient
 public abstract class AbstractIntegrationTest {
 
+    @Container
     @ServiceConnection
-    protected static final PostgreSQLContainer<?> postgresContainer = new PostgreSQLContainer<>(
+    protected static final PostgreSQLContainer postgresContainer = new PostgreSQLContainer(
             DockerImageName.parse("cgr.dev/chainguard/postgres:latest")
                            .asCompatibleSubstituteFor("postgres")
-    );
+    ).withCommand();
 
     @Autowired
     private ConnectionFactory connectionFactory;
