@@ -13,9 +13,7 @@ import org.testcontainers.utility.DockerImageName;
 
 @SpringBootTest(
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
-        properties = {
-                "bdl.api.key=test-api-key"
-        }
+        properties = "bdl.api.key=test-api-key"
 )
 @Testcontainers
 @AutoConfigureWebTestClient
@@ -25,19 +23,13 @@ public abstract class AbstractIntegrationTest {
     protected static final PostgreSQLContainer<?> postgresContainer = new PostgreSQLContainer<>(
             DockerImageName.parse("cgr.dev/chainguard/postgres:latest")
                            .asCompatibleSubstituteFor("postgres")
-    ).withCommand();
-
-    static {
-        postgresContainer.start();
-    }
+    );
 
     @Autowired
     private ConnectionFactory connectionFactory;
 
     protected void runSqlScript(String classpathResourcePath) {
-        ResourceDatabasePopulator populator = new ResourceDatabasePopulator(
-                new ClassPathResource(classpathResourcePath)
-        );
-        populator.populate(connectionFactory).block();
+        new ResourceDatabasePopulator(new ClassPathResource(classpathResourcePath))
+                .populate(connectionFactory).block();
     }
 }
