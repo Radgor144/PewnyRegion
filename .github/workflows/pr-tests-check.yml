@@ -23,7 +23,7 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Run Tests with Gradle
-        run: ./gradlew test
+        run: ./gradlew test -Dmanagement.otlp.metrics.export.enabled=false
 
       - name: Upload Test Report
         uses: actions/upload-artifact@v7
