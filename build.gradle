@@ -34,7 +34,7 @@ subprojects {
             mavenBom "org.testcontainers:testcontainers-bom:2.0.5"
         }
         dependencies {
-            dependency "io.opentelemetry:opentelemetry-api-incubator:1.62.0-alpha"
+            dependency "io.opentelemetry:opentelemetry-api-incubator:1.66.0-alpha"
         }
     }
 
