@@ -70,6 +70,7 @@ subprojects {
         testImplementation 'org.springframework.boot:spring-boot-testcontainers'
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
         testImplementation 'org.springframework.boot:spring-boot-webtestclient'
+        testImplementation 'org.springframework.cloud:spring-cloud-contract-wiremock:5.0.3'
         testImplementation 'io.projectreactor:reactor-test'
 
         mockitoAgent('org.mockito:mockito-core') {

@@ -1,0 +1,813 @@
+{
+  "totalRecords": 382,
+  "page": 0,
+  "pageSize": 100,
+  "links": {
+    "first": "https://bdl.stat.gov.pl/api/v1/Units?format=json&page-size=100&LEVEL=5&page=0",
+    "self": "https://bdl.stat.gov.pl/api/v1/Units?format=json&page-size=100&LEVEL=5&page=0",
+    "next": "https://bdl.stat.gov.pl/api/v1/Units?format=json&page-size=100&LEVEL=5&page=1",
+    "last": "https://bdl.stat.gov.pl/api/v1/Units?format=json&page-size=100&LEVEL=5&page=3"
+  },
+  "results": [
+    {
+      "id": "011212001000",
+      "name": "Powiat bocheński",
+      "parentId": "011212000000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "011212006000",
+      "name": "Powiat krakowski",
+      "parentId": "011212000000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "011212008000",
+      "name": "Powiat miechowski",
+      "parentId": "011212000000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "011212009000",
+      "name": "Powiat myślenicki",
+      "parentId": "011212000000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "011212014000",
+      "name": "Powiat proszowicki",
+      "parentId": "011212000000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "011212019000",
+      "name": "Powiat wielicki",
+      "parentId": "011212000000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "011212161000",
+      "name": "Powiat m. Kraków",
+      "parentId": "011212100000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": false
+    },
+    {
+      "id": "011212205000",
+      "name": "Powiat gorlicki",
+      "parentId": "011212200000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "011212207000",
+      "name": "Powiat limanowski",
+      "parentId": "011212200000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "011212210000",
+      "name": "Powiat nowosądecki",
+      "parentId": "011212200000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "011212262000",
+      "name": "Powiat m. Nowy Sącz",
+      "parentId": "011212200000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": false
+    },
+    {
+      "id": "011212303000",
+      "name": "Powiat chrzanowski",
+      "parentId": "011212300000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "011212312000",
+      "name": "Powiat olkuski",
+      "parentId": "011212300000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": true
+    },
+    {
+      "id": "011212313000",
+      "name": "Powiat oświęcimski",
+      "parentId": "011212300000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "011212318000",
+      "name": "Powiat wadowicki",
+      "parentId": "011212300000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "011212402000",
+      "name": "Powiat brzeski",
+      "parentId": "011212400000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "011212404000",
+      "name": "Powiat dąbrowski",
+      "parentId": "011212400000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "011212416000",
+      "name": "Powiat tarnowski",
+      "parentId": "011212400000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": true
+    },
+    {
+      "id": "011212463000",
+      "name": "Powiat m. Tarnów",
+      "parentId": "011212400000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": false
+    },
+    {
+      "id": "011216911000",
+      "name": "Powiat nowotarski",
+      "parentId": "011216900000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "011216915000",
+      "name": "Powiat suski",
+      "parentId": "011216900000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "011216917000",
+      "name": "Powiat tatrzański",
+      "parentId": "011216900000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "012414402000",
+      "name": "Powiat bielski",
+      "parentId": "012414400000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "012414403000",
+      "name": "Powiat cieszyński",
+      "parentId": "012414400000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "012414417000",
+      "name": "Powiat żywiecki",
+      "parentId": "012414400000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "012414461000",
+      "name": "Powiat m. Bielsko-Biała",
+      "parentId": "012414400000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": false
+    },
+    {
+      "id": "012414507000",
+      "name": "Powiat lubliniecki",
+      "parentId": "012414500000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "012414513000",
+      "name": "Powiat tarnogórski",
+      "parentId": "012414500000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "012414562000",
+      "name": "Powiat m. Bytom",
+      "parentId": "012414500000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": false
+    },
+    {
+      "id": "012414571000",
+      "name": "Powiat m. Piekary Śląskie",
+      "parentId": "012414500000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": false
+    },
+    {
+      "id": "012414604000",
+      "name": "Powiat częstochowski",
+      "parentId": "012414600000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "012414606000",
+      "name": "Powiat kłobucki",
+      "parentId": "012414600000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "012414609000",
+      "name": "Powiat myszkowski",
+      "parentId": "012414600000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "012414664000",
+      "name": "Powiat m. Częstochowa",
+      "parentId": "012414600000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": false
+    },
+    {
+      "id": "012414705000",
+      "name": "Powiat gliwicki",
+      "parentId": "012414700000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "012414766000",
+      "name": "Powiat m. Gliwice",
+      "parentId": "012414700000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": false
+    },
+    {
+      "id": "012414778000",
+      "name": "Powiat m. Zabrze",
+      "parentId": "012414700000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": false
+    },
+    {
+      "id": "012414863000",
+      "name": "Powiat m. Chorzów",
+      "parentId": "012414800000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": false
+    },
+    {
+      "id": "012414869000",
+      "name": "Powiat m. Katowice",
+      "parentId": "012414800000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": false
+    },
+    {
+      "id": "012414870000",
+      "name": "Powiat m. Mysłowice",
+      "parentId": "012414800000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": false
+    },
+    {
+      "id": "012414872000",
+      "name": "Powiat m. Ruda Śląska",
+      "parentId": "012414800000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": false
+    },
+    {
+      "id": "012414874000",
+      "name": "Powiat m. Siemianowice Śląskie",
+      "parentId": "012414800000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": false
+    },
+    {
+      "id": "012414876000",
+      "name": "Powiat m. Świętochłowice",
+      "parentId": "012414800000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": false
+    },
+    {
+      "id": "012414911000",
+      "name": "Powiat raciborski",
+      "parentId": "012414900000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "012414912000",
+      "name": "Powiat rybnicki",
+      "parentId": "012414900000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "012414915000",
+      "name": "Powiat wodzisławski",
+      "parentId": "012414900000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "012414967000",
+      "name": "Powiat m. Jastrzębie-Zdrój",
+      "parentId": "012414900000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": false
+    },
+    {
+      "id": "012414973000",
+      "name": "Powiat m. Rybnik",
+      "parentId": "012414900000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": false
+    },
+    {
+      "id": "012414979000",
+      "name": "Powiat m. Żory",
+      "parentId": "012414900000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": false
+    },
+    {
+      "id": "012415001000",
+      "name": "Powiat będziński",
+      "parentId": "012415000000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": true
+    },
+    {
+      "id": "012415016000",
+      "name": "Powiat zawierciański",
+      "parentId": "012415000000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "012415065000",
+      "name": "Powiat m. Dąbrowa Górnicza",
+      "parentId": "012415000000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": false
+    },
+    {
+      "id": "012415068000",
+      "name": "Powiat m. Jaworzno",
+      "parentId": "012415000000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": false
+    },
+    {
+      "id": "012415075000",
+      "name": "Powiat m. Sosnowiec",
+      "parentId": "012415000000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": false
+    },
+    {
+      "id": "012415108000",
+      "name": "Powiat mikołowski",
+      "parentId": "012415100000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "012415110000",
+      "name": "Powiat pszczyński",
+      "parentId": "012415100000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "012415114000",
+      "name": "Powiat bieruńsko-lędziński",
+      "parentId": "012415100000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": true
+    },
+    {
+      "id": "012415177000",
+      "name": "Powiat m. Tychy",
+      "parentId": "012415100000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": false
+    },
+    {
+      "id": "020811301000",
+      "name": "Powiat gorzowski",
+      "parentId": "020811300000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "020811303000",
+      "name": "Powiat międzyrzecki",
+      "parentId": "020811300000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "020811305000",
+      "name": "Powiat słubicki",
+      "parentId": "020811300000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "020811306000",
+      "name": "Powiat strzelecko-drezdenecki",
+      "parentId": "020811300000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "020811307000",
+      "name": "Powiat sulęciński",
+      "parentId": "020811300000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "020811361000",
+      "name": "Powiat m. Gorzów Wielkopolski",
+      "parentId": "020811300000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": false
+    },
+    {
+      "id": "020811402000",
+      "name": "Powiat krośnieński",
+      "parentId": "020811400000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "020811404000",
+      "name": "Powiat nowosolski",
+      "parentId": "020811400000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": true
+    },
+    {
+      "id": "020811408000",
+      "name": "Powiat świebodziński",
+      "parentId": "020811400000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "020811409000",
+      "name": "Powiat zielonogórski",
+      "parentId": "020811400000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "020811410000",
+      "name": "Powiat żagański",
+      "parentId": "020811400000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "020811411000",
+      "name": "Powiat żarski",
+      "parentId": "020811400000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "020811412000",
+      "name": "Powiat wschowski",
+      "parentId": "020811400000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": true
+    },
+    {
+      "id": "020811462000",
+      "name": "Powiat m. Zielona Góra",
+      "parentId": "020811400000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": true
+    },
+    {
+      "id": "023015706000",
+      "name": "Powiat jarociński",
+      "parentId": "023015700000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "023015707000",
+      "name": "Powiat kaliski",
+      "parentId": "023015700000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "023015708000",
+      "name": "Powiat kępiński",
+      "parentId": "023015700000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "023015712000",
+      "name": "Powiat krotoszyński",
+      "parentId": "023015700000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "023015717000",
+      "name": "Powiat ostrowski",
+      "parentId": "023015700000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "023015718000",
+      "name": "Powiat ostrzeszowski",
+      "parentId": "023015700000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "023015720000",
+      "name": "Powiat pleszewski",
+      "parentId": "023015700000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "023015761000",
+      "name": "Powiat m. Kalisz",
+      "parentId": "023015700000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": false
+    },
+    {
+      "id": "023015803000",
+      "name": "Powiat gnieźnieński",
+      "parentId": "023015800000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "023015809000",
+      "name": "Powiat kolski",
+      "parentId": "023015800000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "023015810000",
+      "name": "Powiat koniński",
+      "parentId": "023015800000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "023015823000",
+      "name": "Powiat słupecki",
+      "parentId": "023015800000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "023015827000",
+      "name": "Powiat turecki",
+      "parentId": "023015800000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "023015830000",
+      "name": "Powiat wrzesiński",
+      "parentId": "023015800000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "023015862000",
+      "name": "Powiat m. Konin",
+      "parentId": "023015800000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": false
+    },
+    {
+      "id": "023015904000",
+      "name": "Powiat gostyński",
+      "parentId": "023015900000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "023015905000",
+      "name": "Powiat grodziski",
+      "parentId": "023015900000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "023015911000",
+      "name": "Powiat kościański",
+      "parentId": "023015900000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "023015913000",
+      "name": "Powiat leszczyński",
+      "parentId": "023015900000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "023015914000",
+      "name": "Powiat międzychodzki",
+      "parentId": "023015900000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "023015915000",
+      "name": "Powiat nowotomyski",
+      "parentId": "023015900000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "023015922000",
+      "name": "Powiat rawicki",
+      "parentId": "023015900000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "023015929000",
+      "name": "Powiat wolsztyński",
+      "parentId": "023015900000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "023015963000",
+      "name": "Powiat m. Leszno",
+      "parentId": "023015900000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": false
+    },
+    {
+      "id": "023016001000",
+      "name": "Powiat chodzieski",
+      "parentId": "023016000000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "023016002000",
+      "name": "Powiat czarnkowsko-trzcianecki",
+      "parentId": "023016000000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "023016019000",
+      "name": "Powiat pilski",
+      "parentId": "023016000000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "023016028000",
+      "name": "Powiat wągrowiecki",
+      "parentId": "023016000000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    }
+  ]
+}

@@ -1,0 +1,814 @@
+{
+  "totalRecords": 382,
+  "page": 2,
+  "pageSize": 100,
+  "links": {
+    "first": "https://bdl.stat.gov.pl/api/v1/Units?format=json&page-size=100&LEVEL=5&page=0",
+    "prev": "https://bdl.stat.gov.pl/api/v1/Units?format=json&page-size=100&LEVEL=5&page=1",
+    "self": "https://bdl.stat.gov.pl/api/v1/Units?format=json&page-size=100&LEVEL=5&page=2",
+    "next": "https://bdl.stat.gov.pl/api/v1/Units?format=json&page-size=100&LEVEL=5&page=3",
+    "last": "https://bdl.stat.gov.pl/api/v1/Units?format=json&page-size=100&LEVEL=5&page=3"
+  },
+  "results": [
+    {
+      "id": "042214108000",
+      "name": "Powiat lęborski",
+      "parentId": "042214100000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "042214112000",
+      "name": "Powiat słupski",
+      "parentId": "042214100000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "042214163000",
+      "name": "Powiat m. Słupsk",
+      "parentId": "042214100000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": false
+    },
+    {
+      "id": "042214207000",
+      "name": "Powiat kwidzyński",
+      "parentId": "042214200000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "042214209000",
+      "name": "Powiat malborski",
+      "parentId": "042214200000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": true
+    },
+    {
+      "id": "042214213000",
+      "name": "Powiat starogardzki",
+      "parentId": "042214200000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "042214214000",
+      "name": "Powiat tczewski",
+      "parentId": "042214200000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "042214216000",
+      "name": "Powiat sztumski",
+      "parentId": "042214200000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": true
+    },
+    {
+      "id": "042214361000",
+      "name": "Powiat m. Gdańsk",
+      "parentId": "042214300000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": false
+    },
+    {
+      "id": "042214362000",
+      "name": "Powiat m. Gdynia",
+      "parentId": "042214300000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": false
+    },
+    {
+      "id": "042214364000",
+      "name": "Powiat m. Sopot",
+      "parentId": "042214300000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": false
+    },
+    {
+      "id": "042217202000",
+      "name": "Powiat chojnicki",
+      "parentId": "042217200000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "042217203000",
+      "name": "Powiat człuchowski",
+      "parentId": "042217200000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "042217206000",
+      "name": "Powiat kościerski",
+      "parentId": "042217200000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "042815402000",
+      "name": "Powiat braniewski",
+      "parentId": "042815400000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "042815403000",
+      "name": "Powiat działdowski",
+      "parentId": "042815400000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "042815404000",
+      "name": "Powiat elbląski",
+      "parentId": "042815400000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "042815407000",
+      "name": "Powiat iławski",
+      "parentId": "042815400000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "042815412000",
+      "name": "Powiat nowomiejski",
+      "parentId": "042815400000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "042815415000",
+      "name": "Powiat ostródzki",
+      "parentId": "042815400000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "042815461000",
+      "name": "Powiat m. Elbląg",
+      "parentId": "042815400000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": false
+    },
+    {
+      "id": "042815505000",
+      "name": "Powiat ełcki",
+      "parentId": "042815500000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "042815506000",
+      "name": "Powiat giżycki",
+      "parentId": "042815500000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": true
+    },
+    {
+      "id": "042815513000",
+      "name": "Powiat olecki",
+      "parentId": "042815500000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": true
+    },
+    {
+      "id": "042815516000",
+      "name": "Powiat piski",
+      "parentId": "042815500000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "042815518000",
+      "name": "Powiat gołdapski",
+      "parentId": "042815500000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": true
+    },
+    {
+      "id": "042815519000",
+      "name": "Powiat węgorzewski",
+      "parentId": "042815500000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": true
+    },
+    {
+      "id": "042815601000",
+      "name": "Powiat bartoszycki",
+      "parentId": "042815600000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "042815608000",
+      "name": "Powiat kętrzyński",
+      "parentId": "042815600000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "042815609000",
+      "name": "Powiat lidzbarski",
+      "parentId": "042815600000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "042815610000",
+      "name": "Powiat mrągowski",
+      "parentId": "042815600000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "042815611000",
+      "name": "Powiat nidzicki",
+      "parentId": "042815600000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "042815614000",
+      "name": "Powiat olsztyński",
+      "parentId": "042815600000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "042815617000",
+      "name": "Powiat szczycieński",
+      "parentId": "042815600000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "042815662000",
+      "name": "Powiat m. Olsztyn",
+      "parentId": "042815600000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": false
+    },
+    {
+      "id": "051011506000",
+      "name": "Powiat łódzki wschodni",
+      "parentId": "051011500000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": true
+    },
+    {
+      "id": "051011508000",
+      "name": "Powiat pabianicki",
+      "parentId": "051011500000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "051011520000",
+      "name": "Powiat zgierski",
+      "parentId": "051011500000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "051011521000",
+      "name": "Powiat brzeziński",
+      "parentId": "051011500000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": true
+    },
+    {
+      "id": "051011661000",
+      "name": "Powiat m. Łódź",
+      "parentId": "051011600000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": false
+    },
+    {
+      "id": "051011701000",
+      "name": "Powiat bełchatowski",
+      "parentId": "051011700000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "051011707000",
+      "name": "Powiat opoczyński",
+      "parentId": "051011700000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "051011710000",
+      "name": "Powiat piotrkowski",
+      "parentId": "051011700000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "051011712000",
+      "name": "Powiat radomszczański",
+      "parentId": "051011700000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "051011716000",
+      "name": "Powiat tomaszowski",
+      "parentId": "051011700000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "051011762000",
+      "name": "Powiat m. Piotrków Trybunalski",
+      "parentId": "051011700000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": false
+    },
+    {
+      "id": "051011803000",
+      "name": "Powiat łaski",
+      "parentId": "051011800000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "051011809000",
+      "name": "Powiat pajęczański",
+      "parentId": "051011800000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "051011811000",
+      "name": "Powiat poddębicki",
+      "parentId": "051011800000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "051011814000",
+      "name": "Powiat sieradzki",
+      "parentId": "051011800000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "051011817000",
+      "name": "Powiat wieluński",
+      "parentId": "051011800000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "051011818000",
+      "name": "Powiat wieruszowski",
+      "parentId": "051011800000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "051011819000",
+      "name": "Powiat zduńskowolski",
+      "parentId": "051011800000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "051011902000",
+      "name": "Powiat kutnowski",
+      "parentId": "051011900000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "051011904000",
+      "name": "Powiat łęczycki",
+      "parentId": "051011900000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "051011905000",
+      "name": "Powiat łowicki",
+      "parentId": "051011900000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "051011913000",
+      "name": "Powiat rawski",
+      "parentId": "051011900000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "051011915000",
+      "name": "Powiat skierniewicki",
+      "parentId": "051011900000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "051011963000",
+      "name": "Powiat m. Skierniewice",
+      "parentId": "051011900000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": false
+    },
+    {
+      "id": "052615204000",
+      "name": "Powiat kielecki",
+      "parentId": "052615200000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "052615205000",
+      "name": "Powiat konecki",
+      "parentId": "052615200000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "052615207000",
+      "name": "Powiat ostrowiecki",
+      "parentId": "052615200000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "052615210000",
+      "name": "Powiat skarżyski",
+      "parentId": "052615200000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "052615211000",
+      "name": "Powiat starachowicki",
+      "parentId": "052615200000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "052615261000",
+      "name": "Powiat m. Kielce",
+      "parentId": "052615200000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": false
+    },
+    {
+      "id": "052615301000",
+      "name": "Powiat buski",
+      "parentId": "052615300000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "052615302000",
+      "name": "Powiat jędrzejowski",
+      "parentId": "052615300000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "052615303000",
+      "name": "Powiat kazimierski",
+      "parentId": "052615300000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "052615306000",
+      "name": "Powiat opatowski",
+      "parentId": "052615300000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "052615308000",
+      "name": "Powiat pińczowski",
+      "parentId": "052615300000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "052615309000",
+      "name": "Powiat sandomierski",
+      "parentId": "052615300000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "052615312000",
+      "name": "Powiat staszowski",
+      "parentId": "052615300000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "052615313000",
+      "name": "Powiat włoszczowski",
+      "parentId": "052615300000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "060610901000",
+      "name": "Powiat bialski",
+      "parentId": "060610900000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "060610913000",
+      "name": "Powiat parczewski",
+      "parentId": "060610900000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "060610915000",
+      "name": "Powiat radzyński",
+      "parentId": "060610900000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "060610919000",
+      "name": "Powiat włodawski",
+      "parentId": "060610900000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "060610961000",
+      "name": "Powiat m. Biała Podlaska",
+      "parentId": "060610900000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": false
+    },
+    {
+      "id": "060611002000",
+      "name": "Powiat biłgorajski",
+      "parentId": "060611000000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "060611003000",
+      "name": "Powiat chełmski",
+      "parentId": "060611000000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": true
+    },
+    {
+      "id": "060611004000",
+      "name": "Powiat hrubieszowski",
+      "parentId": "060611000000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "060611006000",
+      "name": "Powiat krasnostawski",
+      "parentId": "060611000000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": true
+    },
+    {
+      "id": "060611018000",
+      "name": "Powiat tomaszowski",
+      "parentId": "060611000000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "060611020000",
+      "name": "Powiat zamojski",
+      "parentId": "060611000000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "060611062000",
+      "name": "Powiat m. Chełm",
+      "parentId": "060611000000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": false
+    },
+    {
+      "id": "060611064000",
+      "name": "Powiat m. Zamość",
+      "parentId": "060611000000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": false
+    },
+    {
+      "id": "060611108000",
+      "name": "Powiat lubartowski",
+      "parentId": "060611100000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "060611109000",
+      "name": "Powiat lubelski",
+      "parentId": "060611100000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "060611110000",
+      "name": "Powiat łęczyński",
+      "parentId": "060611100000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "060611117000",
+      "name": "Powiat świdnicki",
+      "parentId": "060611100000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "060611163000",
+      "name": "Powiat m. Lublin",
+      "parentId": "060611100000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": false
+    },
+    {
+      "id": "060611205000",
+      "name": "Powiat janowski",
+      "parentId": "060611200000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "060611207000",
+      "name": "Powiat kraśnicki",
+      "parentId": "060611200000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "060611211000",
+      "name": "Powiat łukowski",
+      "parentId": "060611200000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "060611212000",
+      "name": "Powiat opolski",
+      "parentId": "060611200000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "060611214000",
+      "name": "Powiat puławski",
+      "parentId": "060611200000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "060611216000",
+      "name": "Powiat rycki",
+      "parentId": "060611200000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "061813301000",
+      "name": "Powiat bieszczadzki",
+      "parentId": "061813300000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": true
+    },
+    {
+      "id": "061813302000",
+      "name": "Powiat brzozowski",
+      "parentId": "061813300000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "061813305000",
+      "name": "Powiat jasielski",
+      "parentId": "061813300000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": true
+    }
+  ]
+}

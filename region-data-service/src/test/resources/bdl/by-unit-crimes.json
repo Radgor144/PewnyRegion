@@ -1,0 +1,87 @@
+{
+  "totalRecords": 2,
+  "unitId": "011212006000",
+  "unitName": "Powiat krakowski",
+  "aggregateId": 1,
+  "results": [
+    {
+      "id": 58559,
+      "measureUnitId": 1,
+      "lastUpdate": "2026-02-04T20:57:41.703",
+      "values": [
+        {
+          "year": "2013",
+          "val": 4953,
+          "attrId": 1
+        },
+        {
+          "year": "2014",
+          "val": 3814,
+          "attrId": 1
+        },
+        {
+          "year": "2015",
+          "val": 3789,
+          "attrId": 1
+        },
+        {
+          "year": "2016",
+          "val": 3013,
+          "attrId": 1
+        },
+        {
+          "year": "2017",
+          "val": 3872,
+          "attrId": 1
+        },
+        {
+          "year": "2018",
+          "val": 3557,
+          "attrId": 1
+        },
+        {
+          "year": "2019",
+          "val": 9553,
+          "attrId": 1
+        },
+        {
+          "year": "2020",
+          "val": 4366,
+          "attrId": 1
+        },
+        {
+          "year": "2021",
+          "val": 3094,
+          "attrId": 1
+        },
+        {
+          "year": "2022",
+          "val": 2966,
+          "attrId": 1
+        },
+        {
+          "year": "2023",
+          "val": 2838,
+          "attrId": 1
+        },
+        {
+          "year": "2024",
+          "val": 2700,
+          "attrId": 1
+        }
+      ]
+    },
+    {
+      "id": 1749155,
+      "measureUnitId": 1,
+      "lastUpdate": "2026-04-14T14:28:13.473",
+      "values": [
+        {
+          "year": "2025",
+          "val": 2891,
+          "attrId": 1
+        }
+      ]
+    }
+  ]
+}

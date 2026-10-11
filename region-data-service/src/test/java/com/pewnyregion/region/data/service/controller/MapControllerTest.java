@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import static com.pewnyregion.region.data.service.utils.TestConstants.GET_MAP_COUNTY_SCORES_API_PATH;
-import static com.pewnyregion.region.data.service.utils.TestConstants.GET_POST_MAP_COUNTY_SCORES_RESPONSE_JSON;
+import static com.pewnyregion.region.data.service.utils.TestConstants.MAP_COUNTY_SCORES_RESPONSE_JSON;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -50,7 +50,7 @@ public class MapControllerTest {
     @Test
     public void getCountyScores_shouldReturnOk_whenRequestIsValid() throws IOException {
         List<MapResponse> expectedList = List.of(
-                JsonFileReader.readJson(objectMapper, GET_POST_MAP_COUNTY_SCORES_RESPONSE_JSON, MapResponse[].class)
+                JsonFileReader.readJson(objectMapper, MAP_COUNTY_SCORES_RESPONSE_JSON, MapResponse[].class)
         );
         MapRequest mapRequest = new MapRequest(List.of("crimes", "population_in_thousands"), 2020, 2023);
 
@@ -71,7 +71,7 @@ public class MapControllerTest {
     @MethodSource("provideValidBoundaryMapRequests")
     public void getCountyScores_shouldReturnOk_whenRequestIsAtBoundary(String testCaseName, MapRequest mapRequest) throws IOException {
         List<MapResponse> expectedList = List.of(
-                JsonFileReader.readJson(objectMapper, GET_POST_MAP_COUNTY_SCORES_RESPONSE_JSON, MapResponse[].class)
+                JsonFileReader.readJson(objectMapper, MAP_COUNTY_SCORES_RESPONSE_JSON, MapResponse[].class)
         );
 
         when(mapService.getMapData(mapRequest)).thenReturn(Flux.fromIterable(expectedList));

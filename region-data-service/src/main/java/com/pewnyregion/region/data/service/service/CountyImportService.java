@@ -22,7 +22,7 @@ public class CountyImportService {
     public Mono<Void> runImportLogic() {
         return fetchPage(0)
                 .expand(response -> {
-                    if (Objects.isNull(response.links()) || Objects.isNull(response.links().getNext())) {
+                    if (Objects.isNull(response.links()) || Objects.isNull(response.links().next())) {
                         return Mono.empty();
                     }
                     return fetchPage(response.page() + 1);
