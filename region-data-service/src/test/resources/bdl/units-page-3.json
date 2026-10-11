@@ -1,0 +1,669 @@
+{
+  "totalRecords": 382,
+  "page": 3,
+  "pageSize": 100,
+  "links": {
+    "first": "https://bdl.stat.gov.pl/api/v1/Units?format=json&page-size=100&LEVEL=5&page=0",
+    "prev": "https://bdl.stat.gov.pl/api/v1/Units?format=json&page-size=100&LEVEL=5&page=2",
+    "self": "https://bdl.stat.gov.pl/api/v1/Units?format=json&page-size=100&LEVEL=5&page=3",
+    "last": "https://bdl.stat.gov.pl/api/v1/Units?format=json&page-size=100&LEVEL=5&page=3"
+  },
+  "results": [
+    {
+      "id": "061813307000",
+      "name": "Powiat krośnieński",
+      "parentId": "061813300000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "061813317000",
+      "name": "Powiat sanocki",
+      "parentId": "061813300000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "061813321000",
+      "name": "Powiat leski",
+      "parentId": "061813300000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": true
+    },
+    {
+      "id": "061813361000",
+      "name": "Powiat m. Krosno",
+      "parentId": "061813300000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": false
+    },
+    {
+      "id": "061813404000",
+      "name": "Powiat jarosławski",
+      "parentId": "061813400000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "061813409000",
+      "name": "Powiat lubaczowski",
+      "parentId": "061813400000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "061813413000",
+      "name": "Powiat przemyski",
+      "parentId": "061813400000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "061813414000",
+      "name": "Powiat przeworski",
+      "parentId": "061813400000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "061813462000",
+      "name": "Powiat m. Przemyśl",
+      "parentId": "061813400000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": false
+    },
+    {
+      "id": "061813506000",
+      "name": "Powiat kolbuszowski",
+      "parentId": "061813500000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "061813510000",
+      "name": "Powiat łańcucki",
+      "parentId": "061813500000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "061813515000",
+      "name": "Powiat ropczycko-sędziszowski",
+      "parentId": "061813500000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "061813516000",
+      "name": "Powiat rzeszowski",
+      "parentId": "061813500000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "061813519000",
+      "name": "Powiat strzyżowski",
+      "parentId": "061813500000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "061813563000",
+      "name": "Powiat m. Rzeszów",
+      "parentId": "061813500000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": false
+    },
+    {
+      "id": "061813603000",
+      "name": "Powiat dębicki",
+      "parentId": "061813600000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "061813608000",
+      "name": "Powiat leżajski",
+      "parentId": "061813600000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "061813611000",
+      "name": "Powiat mielecki",
+      "parentId": "061813600000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "061813612000",
+      "name": "Powiat niżański",
+      "parentId": "061813600000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "061813618000",
+      "name": "Powiat stalowowolski",
+      "parentId": "061813600000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "061813620000",
+      "name": "Powiat tarnobrzeski",
+      "parentId": "061813600000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "061813664000",
+      "name": "Powiat m. Tarnobrzeg",
+      "parentId": "061813600000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": false
+    },
+    {
+      "id": "062013702000",
+      "name": "Powiat białostocki",
+      "parentId": "062013700000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "062013711000",
+      "name": "Powiat sokólski",
+      "parentId": "062013700000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "062013761000",
+      "name": "Powiat m. Białystok",
+      "parentId": "062013700000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": false
+    },
+    {
+      "id": "062013803000",
+      "name": "Powiat bielski",
+      "parentId": "062013800000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "062013805000",
+      "name": "Powiat hajnowski",
+      "parentId": "062013800000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "062013806000",
+      "name": "Powiat kolneński",
+      "parentId": "062013800000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "062013807000",
+      "name": "Powiat łomżyński",
+      "parentId": "062013800000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "062013810000",
+      "name": "Powiat siemiatycki",
+      "parentId": "062013800000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "062013813000",
+      "name": "Powiat wysokomazowiecki",
+      "parentId": "062013800000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "062013814000",
+      "name": "Powiat zambrowski",
+      "parentId": "062013800000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "062013862000",
+      "name": "Powiat m. Łomża",
+      "parentId": "062013800000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": false
+    },
+    {
+      "id": "062013901000",
+      "name": "Powiat augustowski",
+      "parentId": "062013900000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "062013904000",
+      "name": "Powiat grajewski",
+      "parentId": "062013900000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "062013908000",
+      "name": "Powiat moniecki",
+      "parentId": "062013900000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "062013909000",
+      "name": "Powiat sejneński",
+      "parentId": "062013900000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "062013912000",
+      "name": "Powiat suwalski",
+      "parentId": "062013900000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "062013963000",
+      "name": "Powiat m. Suwałki",
+      "parentId": "062013900000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": false
+    },
+    {
+      "id": "071412831000",
+      "name": "Powiat warszawski",
+      "parentId": "071412800000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": true
+    },
+    {
+      "id": "071412865000",
+      "name": "Powiat m. st. Warszawa",
+      "parentId": "071412800000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": true
+    },
+    {
+      "id": "071412908000",
+      "name": "Powiat legionowski",
+      "parentId": "071412900000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "071412912000",
+      "name": "Powiat miński",
+      "parentId": "071412900000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": true
+    },
+    {
+      "id": "071412917000",
+      "name": "Powiat otwocki",
+      "parentId": "071412900000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "071412934000",
+      "name": "Powiat wołomiński",
+      "parentId": "071412900000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "071413005000",
+      "name": "Powiat grodziski",
+      "parentId": "071413000000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "071413014000",
+      "name": "Powiat nowodworski",
+      "parentId": "071413000000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "071413018000",
+      "name": "Powiat piaseczyński",
+      "parentId": "071413000000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": true
+    },
+    {
+      "id": "071413021000",
+      "name": "Powiat pruszkowski",
+      "parentId": "071413000000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "071413032000",
+      "name": "Powiat warszawski zachodni",
+      "parentId": "071413000000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "071422502000",
+      "name": "Powiat ciechanowski",
+      "parentId": "071422500000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "071422513000",
+      "name": "Powiat mławski",
+      "parentId": "071422500000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "071422520000",
+      "name": "Powiat płoński",
+      "parentId": "071422500000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "071422524000",
+      "name": "Powiat pułtuski",
+      "parentId": "071422500000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "071422537000",
+      "name": "Powiat żuromiński",
+      "parentId": "071422500000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "071422611000",
+      "name": "Powiat makowski",
+      "parentId": "071422600000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "071422615000",
+      "name": "Powiat ostrołęcki",
+      "parentId": "071422600000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "071422616000",
+      "name": "Powiat ostrowski",
+      "parentId": "071422600000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "071422622000",
+      "name": "Powiat przasnyski",
+      "parentId": "071422600000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "071422635000",
+      "name": "Powiat wyszkowski",
+      "parentId": "071422600000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "071422661000",
+      "name": "Powiat m. Ostrołęka",
+      "parentId": "071422600000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": false
+    },
+    {
+      "id": "071422701000",
+      "name": "Powiat białobrzeski",
+      "parentId": "071422700000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "071422707000",
+      "name": "Powiat kozienicki",
+      "parentId": "071422700000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "071422709000",
+      "name": "Powiat lipski",
+      "parentId": "071422700000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "071422723000",
+      "name": "Powiat przysuski",
+      "parentId": "071422700000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "071422725000",
+      "name": "Powiat radomski",
+      "parentId": "071422700000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "071422730000",
+      "name": "Powiat szydłowiecki",
+      "parentId": "071422700000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "071422736000",
+      "name": "Powiat zwoleński",
+      "parentId": "071422700000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "071422763000",
+      "name": "Powiat m. Radom",
+      "parentId": "071422700000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": false
+    },
+    {
+      "id": "071427004000",
+      "name": "Powiat gostyniński",
+      "parentId": "071427000000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "071427019000",
+      "name": "Powiat płocki",
+      "parentId": "071427000000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "071427027000",
+      "name": "Powiat sierpecki",
+      "parentId": "071427000000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "071427062000",
+      "name": "Powiat m. Płock",
+      "parentId": "071427000000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": false
+    },
+    {
+      "id": "071427103000",
+      "name": "Powiat garwoliński",
+      "parentId": "071427100000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "071427110000",
+      "name": "Powiat łosicki",
+      "parentId": "071427100000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "071427126000",
+      "name": "Powiat siedlecki",
+      "parentId": "071427100000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "071427129000",
+      "name": "Powiat sokołowski",
+      "parentId": "071427100000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "071427133000",
+      "name": "Powiat węgrowski",
+      "parentId": "071427100000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "071427164000",
+      "name": "Powiat m. Siedlce",
+      "parentId": "071427100000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": false
+    },
+    {
+      "id": "071427306000",
+      "name": "Powiat grójecki",
+      "parentId": "071427300000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": true
+    },
+    {
+      "id": "071427328000",
+      "name": "Powiat sochaczewski",
+      "parentId": "071427300000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "071427338000",
+      "name": "Powiat żyrardowski",
+      "parentId": "071427300000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    }
+  ]
+}

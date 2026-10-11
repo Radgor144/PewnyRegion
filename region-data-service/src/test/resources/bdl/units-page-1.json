@@ -1,0 +1,814 @@
+{
+  "totalRecords": 382,
+  "page": 1,
+  "pageSize": 100,
+  "links": {
+    "first": "https://bdl.stat.gov.pl/api/v1/Units?format=json&page-size=100&LEVEL=5&page=0",
+    "prev": "https://bdl.stat.gov.pl/api/v1/Units?format=json&page-size=100&LEVEL=5&page=0",
+    "self": "https://bdl.stat.gov.pl/api/v1/Units?format=json&page-size=100&LEVEL=5&page=1",
+    "next": "https://bdl.stat.gov.pl/api/v1/Units?format=json&page-size=100&LEVEL=5&page=2",
+    "last": "https://bdl.stat.gov.pl/api/v1/Units?format=json&page-size=100&LEVEL=5&page=3"
+  },
+  "results": [
+    {
+      "id": "023016031000",
+      "name": "Powiat złotowski",
+      "parentId": "023016000000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "023016116000",
+      "name": "Powiat obornicki",
+      "parentId": "023016100000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "023016121000",
+      "name": "Powiat poznański",
+      "parentId": "023016100000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "023016124000",
+      "name": "Powiat szamotulski",
+      "parentId": "023016100000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "023016125000",
+      "name": "Powiat średzki",
+      "parentId": "023016100000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "023016126000",
+      "name": "Powiat śremski",
+      "parentId": "023016100000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "023016264000",
+      "name": "Powiat m. Poznań",
+      "parentId": "023016200000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": false
+    },
+    {
+      "id": "023216301000",
+      "name": "Powiat białogardzki",
+      "parentId": "023216300000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "023216308000",
+      "name": "Powiat kołobrzeski",
+      "parentId": "023216300000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "023216309000",
+      "name": "Powiat koszaliński",
+      "parentId": "023216300000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "023216313000",
+      "name": "Powiat sławieński",
+      "parentId": "023216300000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "023216361000",
+      "name": "Powiat m. Koszalin",
+      "parentId": "023216300000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": false
+    },
+    {
+      "id": "023216402000",
+      "name": "Powiat choszczeński",
+      "parentId": "023216400000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "023216403000",
+      "name": "Powiat drawski",
+      "parentId": "023216400000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "023216410000",
+      "name": "Powiat myśliborski",
+      "parentId": "023216400000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "023216412000",
+      "name": "Powiat pyrzycki",
+      "parentId": "023216400000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "023216415000",
+      "name": "Powiat szczecinecki",
+      "parentId": "023216400000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "023216416000",
+      "name": "Powiat świdwiński",
+      "parentId": "023216400000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "023216417000",
+      "name": "Powiat wałecki",
+      "parentId": "023216400000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "023216418000",
+      "name": "Powiat łobeski",
+      "parentId": "023216400000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": true
+    },
+    {
+      "id": "023216562000",
+      "name": "Powiat m. Szczecin",
+      "parentId": "023216500000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": false
+    },
+    {
+      "id": "023216604000",
+      "name": "Powiat goleniowski",
+      "parentId": "023216600000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": true
+    },
+    {
+      "id": "023216605000",
+      "name": "Powiat gryficki",
+      "parentId": "023216600000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": true
+    },
+    {
+      "id": "023216606000",
+      "name": "Powiat gryfiński",
+      "parentId": "023216600000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "023216607000",
+      "name": "Powiat kamieński",
+      "parentId": "023216600000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "023216611000",
+      "name": "Powiat policki",
+      "parentId": "023216600000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "023216614000",
+      "name": "Powiat stargardzki",
+      "parentId": "023216600000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": true
+    },
+    {
+      "id": "023216663000",
+      "name": "Powiat m. Świnoujście",
+      "parentId": "023216600000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": false
+    },
+    {
+      "id": "030210101000",
+      "name": "Powiat bolesławiecki",
+      "parentId": "030210100000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "030210105000",
+      "name": "Powiat jaworski",
+      "parentId": "030210100000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "030210106000",
+      "name": "Powiat karkonoski",
+      "parentId": "030210100000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": true
+    },
+    {
+      "id": "030210107000",
+      "name": "Powiat kamiennogórski",
+      "parentId": "030210100000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "030210110000",
+      "name": "Powiat lubański",
+      "parentId": "030210100000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "030210112000",
+      "name": "Powiat lwówecki",
+      "parentId": "030210100000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "030210125000",
+      "name": "Powiat zgorzelecki",
+      "parentId": "030210100000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "030210126000",
+      "name": "Powiat złotoryjski",
+      "parentId": "030210100000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "030210161000",
+      "name": "Powiat m. Jelenia Góra",
+      "parentId": "030210100000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": false
+    },
+    {
+      "id": "030210203000",
+      "name": "Powiat głogowski",
+      "parentId": "030210200000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "030210204000",
+      "name": "Powiat górowski",
+      "parentId": "030210200000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "030210209000",
+      "name": "Powiat legnicki",
+      "parentId": "030210200000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "030210211000",
+      "name": "Powiat lubiński",
+      "parentId": "030210200000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "030210216000",
+      "name": "Powiat polkowicki",
+      "parentId": "030210200000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "030210262000",
+      "name": "Powiat m. Legnica",
+      "parentId": "030210200000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": false
+    },
+    {
+      "id": "030210302000",
+      "name": "Powiat dzierżoniowski",
+      "parentId": "030210300000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "030210308000",
+      "name": "Powiat kłodzki",
+      "parentId": "030210300000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "030210319000",
+      "name": "Powiat świdnicki",
+      "parentId": "030210300000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "030210321000",
+      "name": "Powiat wałbrzyski",
+      "parentId": "030210300000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": true
+    },
+    {
+      "id": "030210324000",
+      "name": "Powiat ząbkowicki",
+      "parentId": "030210300000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "030210363000",
+      "name": "Powiat m. Wałbrzych do 2002",
+      "parentId": "030210300000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": true
+    },
+    {
+      "id": "030210365000",
+      "name": "Powiat m. Wałbrzych od 2013",
+      "parentId": "030210300000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": true
+    },
+    {
+      "id": "030210413000",
+      "name": "Powiat milicki",
+      "parentId": "030210400000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "030210414000",
+      "name": "Powiat oleśnicki",
+      "parentId": "030210400000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "030210415000",
+      "name": "Powiat oławski",
+      "parentId": "030210400000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "030210417000",
+      "name": "Powiat strzeliński",
+      "parentId": "030210400000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "030210418000",
+      "name": "Powiat średzki",
+      "parentId": "030210400000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "030210420000",
+      "name": "Powiat trzebnicki",
+      "parentId": "030210400000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "030210422000",
+      "name": "Powiat wołowski",
+      "parentId": "030210400000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "030210423000",
+      "name": "Powiat wrocławski",
+      "parentId": "030210400000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "030210564000",
+      "name": "Powiat m. Wrocław",
+      "parentId": "030210500000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": false
+    },
+    {
+      "id": "031613101000",
+      "name": "Powiat brzeski",
+      "parentId": "031613100000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "031613102000",
+      "name": "Powiat głubczycki",
+      "parentId": "031613100000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "031613106000",
+      "name": "Powiat namysłowski",
+      "parentId": "031613100000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "031613107000",
+      "name": "Powiat nyski",
+      "parentId": "031613100000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "031613110000",
+      "name": "Powiat prudnicki",
+      "parentId": "031613100000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "031613203000",
+      "name": "Powiat kędzierzyńsko-kozielski",
+      "parentId": "031613200000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "031613204000",
+      "name": "Powiat kluczborski",
+      "parentId": "031613200000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "031613205000",
+      "name": "Powiat krapkowicki",
+      "parentId": "031613200000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "031613208000",
+      "name": "Powiat oleski",
+      "parentId": "031613200000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "031613209000",
+      "name": "Powiat opolski",
+      "parentId": "031613200000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "031613211000",
+      "name": "Powiat strzelecki",
+      "parentId": "031613200000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "031613261000",
+      "name": "Powiat m. Opole",
+      "parentId": "031613200000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": true
+    },
+    {
+      "id": "040410603000",
+      "name": "Powiat bydgoski",
+      "parentId": "040410600000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "040410615000",
+      "name": "Powiat toruński",
+      "parentId": "040410600000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "040410661000",
+      "name": "Powiat m. Bydgoszcz",
+      "parentId": "040410600000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": false
+    },
+    {
+      "id": "040410663000",
+      "name": "Powiat m. Toruń",
+      "parentId": "040410600000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": false
+    },
+    {
+      "id": "040410702000",
+      "name": "Powiat brodnicki",
+      "parentId": "040410700000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "040410704000",
+      "name": "Powiat chełmiński",
+      "parentId": "040410700000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "040410705000",
+      "name": "Powiat golubsko-dobrzyński",
+      "parentId": "040410700000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "040410706000",
+      "name": "Powiat grudziądzki",
+      "parentId": "040410700000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "040410712000",
+      "name": "Powiat rypiński",
+      "parentId": "040410700000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "040410717000",
+      "name": "Powiat wąbrzeski",
+      "parentId": "040410700000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "040410762000",
+      "name": "Powiat m. Grudziądz",
+      "parentId": "040410700000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": false
+    },
+    {
+      "id": "040410801000",
+      "name": "Powiat aleksandrowski",
+      "parentId": "040410800000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "040410808000",
+      "name": "Powiat lipnowski",
+      "parentId": "040410800000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "040410811000",
+      "name": "Powiat radziejowski",
+      "parentId": "040410800000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "040410818000",
+      "name": "Powiat włocławski",
+      "parentId": "040410800000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "040410864000",
+      "name": "Powiat m. Włocławek",
+      "parentId": "040410800000",
+      "level": 5,
+      "kind": "2",
+      "hasDescription": false
+    },
+    {
+      "id": "040416707000",
+      "name": "Powiat inowrocławski",
+      "parentId": "040416700000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "040416709000",
+      "name": "Powiat mogileński",
+      "parentId": "040416700000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "040416710000",
+      "name": "Powiat nakielski",
+      "parentId": "040416700000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "040416719000",
+      "name": "Powiat żniński",
+      "parentId": "040416700000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "040416813000",
+      "name": "Powiat sępoleński",
+      "parentId": "040416800000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "040416814000",
+      "name": "Powiat świecki",
+      "parentId": "040416800000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "040416816000",
+      "name": "Powiat tucholski",
+      "parentId": "040416800000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "042214004000",
+      "name": "Powiat gdański",
+      "parentId": "042214000000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "042214005000",
+      "name": "Powiat kartuski",
+      "parentId": "042214000000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "042214010000",
+      "name": "Powiat nowodworski",
+      "parentId": "042214000000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "042214011000",
+      "name": "Powiat pucki",
+      "parentId": "042214000000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "042214015000",
+      "name": "Powiat wejherowski",
+      "parentId": "042214000000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    },
+    {
+      "id": "042214101000",
+      "name": "Powiat bytowski",
+      "parentId": "042214100000",
+      "level": 5,
+      "kind": "1",
+      "hasDescription": false
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "totalRecords": 1,
+  "unitId": "011212006000",
+  "unitName": "Powiat krakowski",
+  "aggregateId": 1,
+  "results": [
+    {
+      "id": 58559,
+      "measureUnitId": 1,
+      "lastUpdate": "2026-02-04T20:57:41.703",
+      "values": [
+        {
+          "year": "2024",
+          "val": 2700,
+          "attrId": 1
+        }
+      ]
+    }
+  ]
+}
