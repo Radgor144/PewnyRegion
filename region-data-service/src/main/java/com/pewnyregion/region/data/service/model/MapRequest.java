@@ -11,7 +11,7 @@ import java.util.List;
 
 public record MapRequest(
         @NotEmpty(message = "apiNames cannot be empty")
-        @Size(max = 5, message = "Maximum 5 variables allowed")
+        @Size(max = 10, message = "Maximum 10 variables allowed")
         List<String> apiNames,
 
         @NotNull(message = "yearFrom is required")
