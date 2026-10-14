@@ -172,9 +172,9 @@ public class MapControllerTest {
     private static Stream<Arguments> provideInvalidMapRequests() {
         return Stream.of(
                 Arguments.of(
-                        "Too many API names (more than 5)",
-                        new MapRequest(List.of("one", "two", "three", "four", "five", "six"), 2020, 2023),
-                        "apiNames: Maximum 5 variables allowed"
+                        "Too many API names (more than 10)",
+                        new MapRequest(List.of("one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven"), 2020, 2023),
+                        "apiNames: Maximum 10 variables allowed"
                 ),
                 Arguments.of(
                         "yearFrom is one below the minimum allowed (2011)",
