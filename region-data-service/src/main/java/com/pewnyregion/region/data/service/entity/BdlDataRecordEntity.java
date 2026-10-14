@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table("bdl_raw_import_values")
+@Table("bdl_data_records")
 public class BdlDataRecordEntity {
 
     @Id
