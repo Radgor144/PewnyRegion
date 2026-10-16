@@ -21,14 +21,14 @@ public class BdlDataPersistenceService {
     public Mono<BdlRawDataResponse> saveImportedData(String countyId, BdlRawDataResponse response) {
         return Mono.justOrEmpty(response)
                    .filter(this::hasResults)
-                   .flatMap(res -> upsertAll(mapToEntities(countyId, res))
+                   .flatMap(res -> insertAll(mapToEntities(countyId, res))
                            .thenReturn(res))
                    .defaultIfEmpty(response);
     }
 
-    private Mono<Void> upsertAll(List<BdlDataRecordEntity> entities) {
+    private Mono<Void> insertAll(List<BdlDataRecordEntity> entities) {
         return Flux.fromIterable(entities)
-                   .flatMap(entity -> recordRepository.upsertRecord(
+                   .flatMap(entity -> recordRepository.insertRecord(
                            entity.getCountyId(),
                            entity.getVariableId(),
                            entity.getYear(),

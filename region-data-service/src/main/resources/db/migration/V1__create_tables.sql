@@ -34,8 +34,7 @@ CREATE TABLE IF NOT EXISTS bdl_data_records
     imported_at TIMESTAMP        NOT NULL,
 
     CONSTRAINT fk_bdl_data_county FOREIGN KEY (county_id) REFERENCES counties (id),
-    CONSTRAINT fk_bdl_data_variable FOREIGN KEY (variable_id) REFERENCES bdl_variable_ids (bdl_id),
-    CONSTRAINT unique_county_variable_year UNIQUE (county_id, variable_id, year)
+    CONSTRAINT fk_bdl_data_variable FOREIGN KEY (variable_id) REFERENCES bdl_variable_ids (bdl_id)
 );
 
 CREATE TABLE IF NOT EXISTS county_variable_scores
