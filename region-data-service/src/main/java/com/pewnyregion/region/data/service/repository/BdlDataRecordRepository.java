@@ -21,54 +21,50 @@ public interface BdlDataRecordRepository extends ReactiveCrudRepository<BdlDataR
     Flux<Integer> findDistinctYears();
 
     @Query("""
-    WITH latest_records AS (
-        SELECT DISTINCT ON (county_id, variable_id, year)
-            county_id, variable_id, year, value, imported_at
-        FROM bdl_data_records
-        ORDER BY county_id, variable_id, year, imported_at DESC
+    WITH population AS (
+        SELECT
+            r.county_id,
+            r.year,
+            r.value AS population
+        FROM bdl_data_records r
+        JOIN bdl_variable_ids bvi ON bvi.bdl_id = r.variable_id
+        JOIN bdl_variables v ON v.id = bvi.bdl_variable_id
+        WHERE v.api_name = 'population_in_thousands'
+          AND r.year = :year
     ),
-    resolved AS (
+    adjusted AS (
         SELECT
             r.county_id,
             bvi.bdl_variable_id,
             r.year,
             r.value AS raw_value,
-            v.per_capita,
+            CASE
+                WHEN v.per_capita THEN r.value / NULLIF(p.population, 0)
+                ELSE r.value
+            END AS adjusted_value,
             v.direction
-        FROM latest_records r
-        JOIN bdl_variable_ids bvi ON r.variable_id = bvi.bdl_id
-        JOIN bdl_variables v ON bvi.bdl_variable_id = v.id
+        FROM bdl_data_records r
+        JOIN bdl_variable_ids bvi ON bvi.bdl_id = r.variable_id
+        JOIN bdl_variables v ON v.id = bvi.bdl_variable_id
+        LEFT JOIN population p
+            ON p.county_id = r.county_id
+           AND p.year = r.year
         WHERE r.year = :year
-    ),
-    population AS (
-        SELECT r.county_id, r.year, r.value AS population
-        FROM latest_records r
-        JOIN bdl_variable_ids bvi ON r.variable_id = bvi.bdl_id
-        JOIN bdl_variables v ON bvi.bdl_variable_id = v.id
-        WHERE v.api_name = 'population_in_thousands' AND r.year = :year
-    ),
-    adjusted AS (
-        SELECT
-            res.county_id,
-            res.bdl_variable_id,
-            res.year,
-            res.raw_value,
-            CASE WHEN res.per_capita THEN res.raw_value / p.population ELSE res.raw_value END AS adjusted_value,
-            res.direction
-        FROM resolved res
-        LEFT JOIN population p ON p.county_id = res.county_id AND p.year = res.year
     )
-    SELECT 
-        a.county_id, 
-        a.bdl_variable_id, 
-        a.year, 
-        a.raw_value, 
+    SELECT
+        a.county_id,
+        a.bdl_variable_id,
+        a.year,
+        a.raw_value,
         a.adjusted_value,
         a.direction,
-        PERCENT_RANK() OVER (PARTITION BY a.bdl_variable_id ORDER BY a.adjusted_value) AS percentile
+        PERCENT_RANK() OVER (
+            PARTITION BY a.bdl_variable_id
+            ORDER BY a.adjusted_value
+        ) AS percentile
     FROM adjusted a
     WHERE a.adjusted_value IS NOT NULL
-""")
+    """)
     Flux<NormalizationStatsDto> getNormalizationStatsForYear(Integer year);
 
     @Modifying
