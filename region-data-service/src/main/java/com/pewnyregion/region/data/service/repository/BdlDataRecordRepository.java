@@ -21,7 +21,13 @@ public interface BdlDataRecordRepository extends ReactiveCrudRepository<BdlDataR
     Flux<Integer> findDistinctYears();
 
     @Query("""
-    WITH resolved AS (
+    WITH latest_records AS (
+        SELECT DISTINCT ON (county_id, variable_id, year)
+            county_id, variable_id, year, value, imported_at
+        FROM bdl_data_records
+        ORDER BY county_id, variable_id, year, imported_at DESC
+    ),
+    resolved AS (
         SELECT
             r.county_id,
             bvi.bdl_variable_id,
@@ -29,14 +35,14 @@ public interface BdlDataRecordRepository extends ReactiveCrudRepository<BdlDataR
             r.value AS raw_value,
             v.per_capita,
             v.direction
-        FROM bdl_data_records r
+        FROM latest_records r
         JOIN bdl_variable_ids bvi ON r.variable_id = bvi.bdl_id
         JOIN bdl_variables v ON bvi.bdl_variable_id = v.id
         WHERE r.year = :year
     ),
     population AS (
         SELECT r.county_id, r.year, r.value AS population
-        FROM bdl_data_records r
+        FROM latest_records r
         JOIN bdl_variable_ids bvi ON r.variable_id = bvi.bdl_id
         JOIN bdl_variables v ON bvi.bdl_variable_id = v.id
         WHERE v.api_name = 'population_in_thousands' AND r.year = :year
@@ -69,10 +75,6 @@ public interface BdlDataRecordRepository extends ReactiveCrudRepository<BdlDataR
     @Query("""
         INSERT INTO bdl_data_records (county_id, variable_id, year, value, imported_at)
         VALUES (:countyId, :variableId, :year, :value, :importedAt)
-        ON CONFLICT (county_id, variable_id, year) 
-        DO UPDATE SET 
-            value = EXCLUDED.value,
-            imported_at = EXCLUDED.imported_at
     """)
-    Mono<Void> upsertRecord(String countyId, Integer variableId, Integer year, Double value, LocalDateTime importedAt);
+    Mono<Void> insertRecord(String countyId, Integer variableId, Integer year, Double value, LocalDateTime importedAt);
 }
