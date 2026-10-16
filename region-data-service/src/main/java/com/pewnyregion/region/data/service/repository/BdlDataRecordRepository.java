@@ -21,12 +21,18 @@ public interface BdlDataRecordRepository extends ReactiveCrudRepository<BdlDataR
     Flux<Integer> findDistinctYears();
 
     @Query("""
-    WITH population AS (
+    WITH latest_records AS (
+        SELECT DISTINCT ON (county_id, variable_id, year)
+            county_id, variable_id, year, value, imported_at
+        FROM bdl_data_records
+        ORDER BY county_id, variable_id, year, imported_at DESC
+    ),
+    population AS (
         SELECT
             r.county_id,
             r.year,
             r.value AS population
-        FROM bdl_data_records r
+        FROM latest_records r
         JOIN bdl_variable_ids bvi ON bvi.bdl_id = r.variable_id
         JOIN bdl_variables v ON v.id = bvi.bdl_variable_id
         WHERE v.api_name = 'population_in_thousands'
@@ -43,7 +49,7 @@ public interface BdlDataRecordRepository extends ReactiveCrudRepository<BdlDataR
                 ELSE r.value
             END AS adjusted_value,
             v.direction
-        FROM bdl_data_records r
+        FROM latest_records r
         JOIN bdl_variable_ids bvi ON bvi.bdl_id = r.variable_id
         JOIN bdl_variables v ON v.id = bvi.bdl_variable_id
         LEFT JOIN population p
