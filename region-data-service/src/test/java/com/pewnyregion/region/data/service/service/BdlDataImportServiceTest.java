@@ -13,6 +13,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -35,6 +36,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -62,7 +64,7 @@ class BdlDataImportServiceTest {
 
     @ParameterizedTest(name = "{0}")
     @MethodSource("provideChunkTestCases")
-    void runFullImport_shouldHandleChunksCorrectly(String testCaseName, List<Integer> variableIds, int expectedChunks) {
+    void runFullImport_shouldHandleChunksCorrectlyAndVerifyContent(String testCaseName, List<Integer> variableIds, List<List<Integer>> expectedChunks) {
         CountyEntity county = createCounty("011212006000", "Powiat krakowski");
 
         when(countyRepository.findAll()).thenReturn(Flux.just(county));
@@ -70,7 +72,11 @@ class BdlDataImportServiceTest {
         when(bdlApiClient.fetchRawData(anyString(), anyList())).thenReturn(Mono.just(mockApiResponse));
         when(persistenceService.saveImportedData(anyString(), any())).thenReturn(Mono.just(mockApiResponse));
 
-        assertImportSummary(bdlDataImportService.runFullImport(), expectedChunks);
+        assertImportSummary(bdlDataImportService.runFullImport(), expectedChunks.size());
+
+        ArgumentCaptor<List<Integer>> chunkCaptor = ArgumentCaptor.forClass(List.class);
+        verify(bdlApiClient, times(expectedChunks.size())).fetchRawData(eq("011212006000"), chunkCaptor.capture());
+        assertThat(chunkCaptor.getAllValues()).isEqualTo(expectedChunks);
     }
 
     @Test
@@ -82,10 +88,13 @@ class BdlDataImportServiceTest {
 
         when(countyRepository.findAll()).thenReturn(Flux.just(county));
         when(variableService.getVariableIdsByApiNames(apiNames)).thenReturn(Mono.just(variableIds));
-        when(bdlApiClient.fetchTargetedData(anyString(), anyList(), any())).thenReturn(Mono.just(mockApiResponse));
-        when(persistenceService.saveImportedData(anyString(), any())).thenReturn(Mono.just(mockApiResponse));
+        when(bdlApiClient.fetchTargetedData(eq("011212006000"), eq(variableIds), eq(years)))
+                .thenReturn(Mono.just(mockApiResponse));
+        when(persistenceService.saveImportedData(eq("011212006000"), any()))
+                .thenReturn(Mono.just(mockApiResponse));
 
         assertImportSummary(bdlDataImportService.runTargetedImport(apiNames, years), 1);
+        verify(bdlApiClient, Mockito.never()).fetchRawData(anyString(), anyList());
     }
 
     @Test
@@ -112,6 +121,7 @@ class BdlDataImportServiceTest {
                     .verifyComplete();
 
         assertThat(attemptCounter.get()).isEqualTo(4);
+        verifyNoInteractions(persistenceService);
     }
 
     @Test
@@ -130,7 +140,7 @@ class BdlDataImportServiceTest {
                     }
                     return Mono.just(mockApiResponse);
                 }));
-        when(persistenceService.saveImportedData(anyString(), any())).thenReturn(Mono.just(mockApiResponse));
+        when(persistenceService.saveImportedData(eq("011212006000"), eq(mockApiResponse))).thenReturn(Mono.just(mockApiResponse));
 
         StepVerifier.withVirtualTime(() -> bdlDataImportService.runFullImport())
                     .expectSubscription()
@@ -142,7 +152,37 @@ class BdlDataImportServiceTest {
                     .verifyComplete();
 
         assertThat(attemptCounter.get()).isEqualTo(3);
-        verify(persistenceService, times(1)).saveImportedData(anyString(), any());
+        verify(persistenceService, times(1)).saveImportedData(eq("011212006000"), eq(mockApiResponse));
+    }
+
+    @Test
+    void runFullImport_shouldContinueProcessingOtherCountiesWhenOneFailsAfterRetries() {
+        List<Integer> variableIds = List.of(1, 2);
+
+        CountyEntity failingCounty = createCounty("010000000000", "Powiat awaryjny");
+        CountyEntity successCounty = createCounty("020000000000", "Powiat stabilny");
+
+        when(countyRepository.findAll()).thenReturn(Flux.just(failingCounty, successCounty));
+        when(variableService.getAllVariableIds()).thenReturn(Mono.just(variableIds));
+
+        when(bdlApiClient.fetchRawData(eq("010000000000"), anyList()))
+                .thenReturn(Mono.error(new RuntimeException("Persistent API failure")));
+        when(bdlApiClient.fetchRawData(eq("020000000000"), anyList()))
+                .thenReturn(Mono.just(mockApiResponse));
+        when(persistenceService.saveImportedData(eq("020000000000"), any()))
+                .thenReturn(Mono.just(mockApiResponse));
+
+        StepVerifier.withVirtualTime(() -> bdlDataImportService.runFullImport())
+                    .expectSubscription()
+                    .thenAwait(Duration.ofSeconds(15))
+                    .assertNext(summary -> {
+                        assertThat(summary).isNotNull();
+                        assertThat(summary.processedChunks()).isEqualTo(1);
+                    })
+                    .verifyComplete();
+
+        verify(persistenceService, times(1)).saveImportedData(eq("020000000000"), any());
+        verify(persistenceService, times(0)).saveImportedData(eq("010000000000"), any());
     }
 
     @Test
@@ -176,48 +216,53 @@ class BdlDataImportServiceTest {
         inOrder.verify(persistenceService).saveImportedData(eq("030000000000"), eq(mockApiResponse));
     }
 
-    @Test
-    void runFullImport_shouldContinueProcessingOtherCountiesWhenOneFailsAfterRetries() {
-        List<Integer> variableIds = List.of(1, 2);
-
-        CountyEntity failingCounty = createCounty("010000000000", "Powiat awaryjny");
-        CountyEntity successCounty = createCounty("020000000000", "Powiat stabilny");
-
-        when(countyRepository.findAll()).thenReturn(Flux.just(failingCounty, successCounty));
-        when(variableService.getAllVariableIds()).thenReturn(Mono.just(variableIds));
-
-        when(bdlApiClient.fetchRawData(eq("010000000000"), anyList()))
-                .thenReturn(Mono.error(new RuntimeException("Persistent API failure")));
-
-        when(bdlApiClient.fetchRawData(eq("020000000000"), anyList()))
-                .thenReturn(Mono.just(mockApiResponse));
-        when(persistenceService.saveImportedData(eq("020000000000"), any()))
-                .thenReturn(Mono.just(mockApiResponse));
-
-        StepVerifier.withVirtualTime(() -> bdlDataImportService.runFullImport())
-                    .expectSubscription()
-                    .thenAwait(Duration.ofSeconds(15))
-                    .assertNext(summary -> {
-                        assertThat(summary).isNotNull();
-                        assertThat(summary.processedChunks()).isEqualTo(1);
-                    })
-                    .verifyComplete();
-
-        verify(persistenceService, times(1)).saveImportedData(eq("020000000000"), any());
-        verify(persistenceService, times(0)).saveImportedData(eq("010000000000"), any());
-    }
-
     private static Stream<Arguments> provideChunkTestCases() {
         return Stream.of(
                 Arguments.of(
-                        "Small variable list fitting in 1 chunk (<= 10 elements)",
+                        "Small variable list fitting in 1 chunk (2 elements)",
                         List.of(1, 2),
-                        1
+                        List.of(List.of(1, 2))
                 ),
                 Arguments.of(
-                        "Large variable list exceeding chunk size (> 10 elements)",
+                        "Boundary case: exactly 10 elements (1 full chunk)",
+                        List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
+                        List.of(List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10))
+                ),
+                Arguments.of(
+                        "Boundary case: 11 elements (2 chunks: 10 + 1)",
+                        List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11),
+                        List.of(
+                                List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
+                                List.of(11)
+                        )
+                ),
+                Arguments.of(
+                        "Standard case: 12 elements (2 chunks: 10 + 2)",
                         List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12),
-                        2
+                        List.of(
+                                List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
+                                List.of(11, 12)
+                        )
+                ),
+                Arguments.of(
+                        "Boundary case: exactly 20 elements (2 full chunks)",
+                        List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+                                11, 12, 13, 14, 15, 16, 17, 18, 19, 20),
+                        List.of(
+                                List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
+                                List.of(11, 12, 13, 14, 15, 16, 17, 18, 19, 20)
+                        )
+                ),
+                Arguments.of(
+                        "Boundary case: 21 elements (3 chunks: 10 + 10 + 1)",
+                        List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+                                11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+                                21),
+                        List.of(
+                                List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
+                                List.of(11, 12, 13, 14, 15, 16, 17, 18, 19, 20),
+                                List.of(21)
+                        )
                 )
         );
     }
@@ -232,6 +277,9 @@ class BdlDataImportServiceTest {
     }
 
     private CountyEntity createCounty(String id, String name) {
-        return CountyEntity.builder().id(id).name(name).build();
+        return CountyEntity.builder()
+                           .id(id)
+                           .name(name)
+                           .build();
     }
 }
