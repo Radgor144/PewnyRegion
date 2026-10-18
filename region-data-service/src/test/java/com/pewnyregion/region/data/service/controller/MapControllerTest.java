@@ -52,7 +52,7 @@ public class MapControllerTest {
         List<MapResponse> expectedList = List.of(
                 JsonFileReader.readJson(objectMapper, MAP_COUNTY_SCORES_RESPONSE_JSON, MapResponse[].class)
         );
-        MapRequest mapRequest = new MapRequest(List.of("crimes", "population_in_thousands"), 2020, 2023);
+        MapRequest mapRequest = new MapRequest(List.of("crimes_total", "population_in_thousands"), 2020, 2023);
 
         when(mapService.getMapData(mapRequest)).thenReturn(Flux.fromIterable(expectedList));
 

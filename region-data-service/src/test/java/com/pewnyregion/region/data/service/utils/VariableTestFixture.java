@@ -12,11 +12,11 @@ public class VariableTestFixture {
 
     public static List<BdlVariableEntity> createBdlVariables() {
         return List.of(
-                new BdlVariableEntity(1, "crimes", VariableDirection.DESTIMULANT.name(), true),
-                new BdlVariableEntity(2, "population_in_thousands", VariableDirection.STIMULANT.name(), false),
-                new BdlVariableEntity(3, "population_density", VariableDirection.STIMULANT.name(), false),
-                new BdlVariableEntity(4, "unemployment", VariableDirection.DESTIMULANT.name(), false),
-                new BdlVariableEntity(5, "gross_salary", VariableDirection.STIMULANT.name(), false)
+                new BdlVariableEntity(1, "crimes_total", "SAFETY", VariableDirection.DESTIMULANT.name(), true, "pcs"),
+                new BdlVariableEntity(2, "population_in_thousands", "POPULATION", VariableDirection.STIMULANT.name(), false, "thousands"),
+                new BdlVariableEntity(3, "population_density", "POPULATION", VariableDirection.STIMULANT.name(), false, "persons/km2"),
+                new BdlVariableEntity(4, "unemployment", "LABOR", VariableDirection.DESTIMULANT.name(), false, "%"),
+                new BdlVariableEntity(5, "gross_salary", "FINANCE", VariableDirection.STIMULANT.name(), false, "PLN")
         );
     }
 

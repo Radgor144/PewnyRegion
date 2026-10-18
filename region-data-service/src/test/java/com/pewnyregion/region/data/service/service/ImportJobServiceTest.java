@@ -113,7 +113,7 @@ public class ImportJobServiceTest {
     @Test
     void submitTargetedImport_shouldCreateAndEnqueueJob() {
         AtomicReference<ImportJobEntity> savedJob = new AtomicReference<>();
-        TargetedImportRequest request = new TargetedImportRequest(List.of("crimes"), List.of(2023));
+        TargetedImportRequest request = new TargetedImportRequest(List.of("crimes_total"), List.of(2023));
 
         lenient().when(bdlDataImportService.runTargetedImport(any(), any())).thenReturn(Mono.just(new ImportSummary(1)));
         lenient().when(normalizationService.calculateAndSaveScoresForYears(any()))
@@ -131,7 +131,7 @@ public class ImportJobServiceTest {
 
     @Test
     void submitTargetedImport_shouldReturnConflictException_whenImportAlreadyRunning() {
-        TargetedImportRequest request = new TargetedImportRequest(List.of("crimes"), List.of(2023));
+        TargetedImportRequest request = new TargetedImportRequest(List.of("crimes_total"), List.of(2023));
 
         lenient().when(bdlDataImportService.runTargetedImport(any(), any())).thenReturn(Mono.just(new ImportSummary(1)));
         lenient().when(normalizationService.calculateAndSaveScoresForYears(any()))

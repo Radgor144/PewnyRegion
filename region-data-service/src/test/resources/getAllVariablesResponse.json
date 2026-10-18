@@ -1,43 +1,53 @@
 [
   {
-    "apiName": "crimes",
+    "apiName": "crimes_total",
+    "category": "SAFETY",
     "bdlIds": [
       58559,
       1749155
     ],
     "direction": "DESTIMULANT",
-    "per_capita": true
+    "per_capita": true,
+    "unit": "pcs"
   },
   {
     "apiName": "population_in_thousands",
+    "category": "POPULATION",
     "bdlIds": [
       1645341
     ],
     "direction": "STIMULANT",
-    "per_capita": false
+    "per_capita": false,
+    "unit": "thousands"
   },
   {
     "apiName": "population_density",
+    "category": "POPULATION",
     "bdlIds": [
       60559
     ],
     "direction": "STIMULANT",
-    "per_capita": false
+    "per_capita": false,
+    "unit": "persons/km2"
   },
   {
     "apiName": "unemployment",
+    "category": "LABOR",
     "bdlIds": [
       60270
     ],
     "direction": "DESTIMULANT",
-    "per_capita": false
+    "per_capita": false,
+    "unit": "%"
   },
   {
     "apiName": "gross_salary",
+    "category": "FINANCE",
     "bdlIds": [
       64428
     ],
     "direction": "STIMULANT",
-    "per_capita": false
+    "per_capita": false,
+    "unit": "PLN"
   }
 ]
