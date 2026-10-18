@@ -6,7 +6,9 @@ import java.util.List;
 
 public record VariableResponse(
         String apiName,
+        String category,
         List<Integer> bdlIds,
         VariableDirection direction,
-        boolean per_capita
+        boolean per_capita,
+        String unit
 ) {}

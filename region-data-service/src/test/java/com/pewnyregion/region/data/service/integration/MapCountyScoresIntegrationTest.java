@@ -28,7 +28,7 @@ class MapCountyScoresIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     void shouldReturnAggregatedScores_whenMultipleVariablesRequestedAcrossFullYearRange() {
-        MapRequest request = new MapRequest(List.of("crimes", "gross_salary"), 2015, 2018);
+        MapRequest request = new MapRequest(List.of("crimes_total", "gross_salary"), 2015, 2018);
 
         List<MapResponse> responses = postAndExpectStatus(request, HttpStatus.OK);
 
@@ -43,7 +43,7 @@ class MapCountyScoresIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     void shouldReturnAggregatedScores_whenSingleVariableRequestedForPartialYearRange() {
-        MapRequest request = new MapRequest(List.of("crimes"), 2017, 2018);
+        MapRequest request = new MapRequest(List.of("crimes_total"), 2017, 2018);
 
         List<MapResponse> responses = postAndExpectStatus(request, HttpStatus.OK);
 
@@ -58,7 +58,7 @@ class MapCountyScoresIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     void shouldReturnEmptyList_whenNoRecordsMatchRequestedYearRange() {
-        MapRequest request = new MapRequest(List.of("crimes"), 2012, 2013);
+        MapRequest request = new MapRequest(List.of("crimes_total"), 2012, 2013);
 
         List<MapResponse> responses = postAndExpectStatus(request, HttpStatus.OK);
 
@@ -67,7 +67,7 @@ class MapCountyScoresIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     void shouldReturnBadRequest_whenApiNameDoesNotExistInDatabase() {
-        MapRequest request = new MapRequest(List.of("crimes", "unknown_variable"), 2015, 2018);
+        MapRequest request = new MapRequest(List.of("crimes_total", "unknown_variable"), 2015, 2018);
 
         ProblemDetail problem = postAndExpectProblem(request);
 

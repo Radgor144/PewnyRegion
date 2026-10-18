@@ -82,7 +82,7 @@ class BdlDataImportServiceTest {
     @Test
     void runTargetedImport_shouldSuccessfullyImportTargetedDataAndReturnSummary() {
         CountyEntity county = createCounty("011212006000", "Powiat krakowski");
-        List<String> apiNames = List.of("crimes", "unemployment");
+        List<String> apiNames = List.of("crimes_total", "unemployment");
         List<Integer> years = List.of(2023, 2024, 2025);
         List<Integer> variableIds = List.of(58559, 1749155);
 

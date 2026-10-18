@@ -59,9 +59,11 @@ public class VariableService {
 
     private VariableResponse mapToVariableResponse(Map<Integer, Collection<Integer>> idsByVariable, BdlVariableEntity entity) {
         return new VariableResponse(entity.getApiName(),
+                                    entity.getCategory(),
                                     new ArrayList<>(idsByVariable.getOrDefault(entity.getId(), List.of())),
                                     VariableDirection.valueOf(entity.getDirection()),
-                                    entity.isPer_capita()
+                                    entity.isPer_capita(),
+                                    entity.getUnit()
         );
     }
 }
