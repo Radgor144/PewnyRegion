@@ -21,14 +21,41 @@ public interface BdlDataRecordRepository extends ReactiveCrudRepository<BdlDataR
     Flux<Integer> findDistinctYears();
 
     @Query("""
-    WITH population AS (
+    WITH ranked_records AS (
+        SELECT
+            r.id,
+            r.county_id,
+            r.variable_id,
+            r.year,
+            r.value,
+            r.imported_at,
+            ROW_NUMBER() OVER (
+                PARTITION BY r.county_id, r.variable_id, r.year
+                ORDER BY r.imported_at DESC, r.id DESC
+            ) AS import_rank
+        FROM bdl_data_records r
+    ),
+    latest_records AS (
+        SELECT
+            id,
+            county_id,
+            variable_id,
+            year,
+            value,
+            imported_at
+        FROM ranked_records
+        WHERE import_rank = 1
+    ),
+    population AS (
         SELECT
             r.county_id,
             r.year,
             r.value AS population
-        FROM bdl_data_records r
-        JOIN bdl_variable_ids bvi ON bvi.bdl_id = r.variable_id
-        JOIN bdl_variables v ON v.id = bvi.bdl_variable_id
+        FROM latest_records r
+        JOIN bdl_variable_ids bvi
+            ON bvi.bdl_id = r.variable_id
+        JOIN bdl_variables v
+            ON v.id = bvi.bdl_variable_id
         WHERE v.api_name = 'population_in_thousands'
           AND r.year = :year
     ),
@@ -43,9 +70,11 @@ public interface BdlDataRecordRepository extends ReactiveCrudRepository<BdlDataR
                 ELSE r.value
             END AS adjusted_value,
             v.direction
-        FROM bdl_data_records r
-        JOIN bdl_variable_ids bvi ON bvi.bdl_id = r.variable_id
-        JOIN bdl_variables v ON v.id = bvi.bdl_variable_id
+        FROM latest_records r
+        JOIN bdl_variable_ids bvi
+            ON bvi.bdl_id = r.variable_id
+        JOIN bdl_variables v
+            ON v.id = bvi.bdl_variable_id
         LEFT JOIN population p
             ON p.county_id = r.county_id
            AND p.year = r.year
