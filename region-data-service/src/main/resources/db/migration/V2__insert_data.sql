@@ -11,11 +11,10 @@ VALUES
     (9, 'population_density', 'POPULATION', 'STIMULANT', false, 'os/km2'),
     (10, 'crimes_total', 'SAFETY', 'DESTIMULANT', true, 'per_1000'),
     (11, 'crimes_per_1000', 'SAFETY', 'DESTIMULANT', false, 'per_1000'),
-    (12, 'criminal_crimes_per_1000', 'SAFETY', 'DESTIMULANT', false, 'per_1000'),
-    (13, 'crime_detection_rate', 'SAFETY', 'STIMULANT', false, '%'),
-    (14, 'road_accidents_per_100k', 'SAFETY', 'DESTIMULANT', false, 'per_100k'),
-    (15, 'road_fatalities_per_100k', 'SAFETY', 'DESTIMULANT', false, 'per_100k'),
-    (16, 'passenger_cars', 'TRANSPORT', 'STIMULANT', true, 'per_1000');
+    (12, 'crime_detection_rate', 'SAFETY', 'STIMULANT', false, '%'),
+    (13, 'road_accidents_per_100k', 'SAFETY', 'DESTIMULANT', false, 'per_100k'),
+    (14, 'road_fatalities_per_100k', 'SAFETY', 'DESTIMULANT', false, 'per_100k'),
+    (15, 'passenger_cars', 'TRANSPORT', 'STIMULANT', true, 'per_1000');
 
 INSERT INTO bdl_variable_ids (bdl_variable_id, bdl_id)
 VALUES
@@ -32,10 +31,8 @@ VALUES
     (10, 1749155),
     (11, 398594),
     (11, 1752907),
-    (12, 498627),
-    (12, 1749156),
-    (13, 58565),
-    (13, 1749170),
-    (14, 471916),
-    (15, 60551),
-    (16, 32561);
+    (12, 58565),
+    (12, 1749170),
+    (13, 471916),
+    (14, 60551),
+    (15, 32561);
