@@ -79,7 +79,7 @@ public class VariableServiceTest {
 
     @Test
     public void getVariableIdsByApiNames_ShouldReturnMatchingIds_WhenApiNamesAreValid() {
-        List<String> apiNames = List.of("crimes", "population_in_thousands", "population_density", "unemployment", "gross_salary");
+        List<String> apiNames = List.of("crimes_total", "population_in_thousands", "population_density", "unemployment", "gross_salary");
         List<Integer> expectedIds = bdlVariablesId.stream()
                                                   .map(BdlVariableIdEntity::getBdlId)
                                                   .toList();

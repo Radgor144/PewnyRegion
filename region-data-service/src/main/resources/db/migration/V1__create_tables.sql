@@ -2,8 +2,10 @@ CREATE TABLE IF NOT EXISTS bdl_variables
 (
     id         SERIAL PRIMARY KEY,
     api_name   VARCHAR(255) NOT NULL UNIQUE,
+    category   VARCHAR(50)  NOT NULL,
     direction  VARCHAR(20)  NOT NULL,
-    per_capita BOOLEAN      NOT NULL DEFAULT false
+    per_capita BOOLEAN      NOT NULL DEFAULT false,
+    unit       VARCHAR(50)  NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS bdl_variable_ids

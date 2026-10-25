@@ -16,6 +16,8 @@ public class BdlVariableEntity {
     @Id
     private Integer id;
     private String apiName;
+    private String category;
     private String direction;
     private boolean per_capita;
+    private String unit;
 }
