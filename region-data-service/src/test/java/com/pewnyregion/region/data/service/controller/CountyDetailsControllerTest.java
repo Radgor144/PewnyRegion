@@ -30,7 +30,7 @@ import static org.mockito.Mockito.when;
 class CountyDetailsControllerTest {
 
     private static final String TERYT_CODE = "1234";
-    private static final String VARIABLE_IDS_CANNOT_BE_EMPTY = "bdlVariableIds: bdlVariableIds cannot be empty";
+    private static final String API_NAMES_CANNOT_BE_EMPTY = "apiNames: apiNames cannot be empty";
     private static final String TERYT_CODE_IS_REQUIRED = "terytCode: terytCode is required";
 
     private WebTestClient webTestClient;
@@ -48,53 +48,59 @@ class CountyDetailsControllerTest {
 
     @Test
     void getCountyDetails_shouldReturnOk_whenRequestIsValid() {
-        List<Integer> variableIds = List.of(1645341, 60559, 60270);
+        List<String> apiNames = List.of("flat_price_primary", "crimes_total", "gross_salary");
         CountyDetailsResponse expectedResponse = new CountyDetailsResponse(
                 TERYT_CODE,
-                List.of(new VariableDetail(1645341, List.of(new YearlyData(2023, 12.5, 10.0))))
+                List.of(new VariableDetail("flat_price_primary", List.of(new YearlyData(2023, 6320.0, 6331.96))),
+                        new VariableDetail("crimes_total", List.of(new YearlyData(2023, 1773.0, 2084.25))),
+                        new VariableDetail("gross_salary", List.of(new YearlyData(2023, 5678.11, 6560.32))))
         );
 
-        when(countyDetailsService.getCountyDetails(TERYT_CODE, variableIds)).thenReturn(Mono.just(expectedResponse));
+        when(countyDetailsService.getCountyDetails(TERYT_CODE, apiNames)).thenReturn(Mono.just(expectedResponse));
 
-        getCountyDetails(TERYT_CODE, variableIds)
+        getCountyDetails(TERYT_CODE, apiNames)
                 .expectStatus().isOk()
                 .expectBody(CountyDetailsResponse.class)
                 .isEqualTo(expectedResponse);
 
-        verify(countyDetailsService).getCountyDetails(TERYT_CODE, variableIds);
+        verify(countyDetailsService).getCountyDetails(TERYT_CODE, apiNames);
     }
 
     @Test
     void getCountyDetails_shouldReturnOk_whenServiceReturnsEmptyVariableDetails() {
-        List<Integer> variableIds = List.of(1645341, 60559);
+        List<String> apiNames = List.of("population_in_thousands", "population_density");
         CountyDetailsResponse expectedResponse = new CountyDetailsResponse(TERYT_CODE, Collections.emptyList());
 
-        when(countyDetailsService.getCountyDetails(TERYT_CODE, variableIds)).thenReturn(Mono.just(expectedResponse));
+        when(countyDetailsService.getCountyDetails(TERYT_CODE, apiNames)).thenReturn(Mono.just(expectedResponse));
 
-        getCountyDetails(TERYT_CODE, variableIds)
+        getCountyDetails(TERYT_CODE, apiNames)
                 .expectStatus().isOk()
                 .expectBody(CountyDetailsResponse.class)
                 .isEqualTo(expectedResponse);
 
-        verify(countyDetailsService).getCountyDetails(TERYT_CODE, variableIds);
+        verify(countyDetailsService).getCountyDetails(TERYT_CODE, apiNames);
     }
 
     @ParameterizedTest(name = "{0}")
     @MethodSource("provideValidCountyDetailsRequests")
-    void getCountyDetails_shouldReturnOk_whenRequestIsValid(String testCaseName, String terytCode, List<Integer> variableIds) {
-        CountyDetailsResponse expectedResponse = new CountyDetailsResponse(
-                terytCode,
-                List.of(new VariableDetail(variableIds.get(0), List.of(new YearlyData(2023, 100.0, 50.0))))
-        );
+    void getCountyDetails_shouldReturnOk_whenRequestIsValid_param(String testCaseName, String terytCode, List<String> apiNames) {
+        List<VariableDetail> variableDetails = apiNames.stream()
+                                                       .map(apiName -> new VariableDetail(
+                                                               apiName,
+                                                               List.of(new YearlyData(2023, 100.0, 50.0))
+                                                       ))
+                                                       .toList();
 
-        when(countyDetailsService.getCountyDetails(terytCode, variableIds)).thenReturn(Mono.just(expectedResponse));
+        CountyDetailsResponse expectedResponse = new CountyDetailsResponse(terytCode, variableDetails);
 
-        getCountyDetails(terytCode, variableIds)
+        when(countyDetailsService.getCountyDetails(terytCode, apiNames)).thenReturn(Mono.just(expectedResponse));
+
+        getCountyDetails(terytCode, apiNames)
                 .expectStatus().isOk()
                 .expectBody(CountyDetailsResponse.class)
                 .isEqualTo(expectedResponse);
 
-        verify(countyDetailsService).getCountyDetails(terytCode, variableIds);
+        verify(countyDetailsService).getCountyDetails(terytCode, apiNames);
     }
 
     @Test
@@ -107,7 +113,7 @@ class CountyDetailsControllerTest {
                      .consumeWith(result -> {
                          ProblemDetail response = assertProblemDetailBasics(result.getResponseBody(), 400);
                          assertThat(response.getDetail()).contains(TERYT_CODE_IS_REQUIRED);
-                         assertThat(response.getDetail()).contains(VARIABLE_IDS_CANNOT_BE_EMPTY);
+                         assertThat(response.getDetail()).contains(API_NAMES_CANNOT_BE_EMPTY);
                      });
     }
 
@@ -115,7 +121,7 @@ class CountyDetailsControllerTest {
     void getCountyDetails_shouldReturnBadRequest_whenTerytCodeIsMissing() {
         webTestClient.get()
                      .uri(uriBuilder -> uriBuilder.path(GET_COUNTY_DETAILS_API_PATH)
-                                                  .queryParam("bdlVariableIds", 1645341, 60559)
+                                                  .queryParam("apiNames", "population_in_thousands", "population_density")
                                                   .build())
                      .exchange()
                      .expectStatus().isBadRequest()
@@ -124,7 +130,7 @@ class CountyDetailsControllerTest {
     }
 
     @Test
-    void getCountyDetails_shouldReturnBadRequest_whenBdlVariableIdsAreMissing() {
+    void getCountyDetails_shouldReturnBadRequest_whenApiNamesAreMissing() {
         webTestClient.get()
                      .uri(uriBuilder -> uriBuilder.path(GET_COUNTY_DETAILS_API_PATH)
                                                   .queryParam("terytCode", TERYT_CODE)
@@ -132,13 +138,13 @@ class CountyDetailsControllerTest {
                      .exchange()
                      .expectStatus().isBadRequest()
                      .expectBody(ProblemDetail.class)
-                     .consumeWith(result -> assertBadRequestWithError(result.getResponseBody(), VARIABLE_IDS_CANNOT_BE_EMPTY));
+                     .consumeWith(result -> assertBadRequestWithError(result.getResponseBody(), API_NAMES_CANNOT_BE_EMPTY));
     }
 
     @ParameterizedTest(name = "{0}")
     @MethodSource("provideInvalidCountyDetailsRequests")
-    void getCountyDetails_shouldReturnBadRequest_whenRequestIsInvalid(String testCaseName, String terytCode, List<Integer> variableIds, String expectedErrorFragment) {
-        getCountyDetails(terytCode, variableIds)
+    void getCountyDetails_shouldReturnBadRequest_whenRequestIsInvalid(String testCaseName, String terytCode, List<String> apiNames, String expectedErrorFragment) {
+        getCountyDetails(terytCode, apiNames)
                 .expectStatus().isBadRequest()
                 .expectBody(ProblemDetail.class)
                 .consumeWith(result -> assertBadRequestWithError(result.getResponseBody(), expectedErrorFragment));
@@ -158,11 +164,11 @@ class CountyDetailsControllerTest {
         return response;
     }
 
-    private WebTestClient.ResponseSpec getCountyDetails(String terytCode, List<Integer> variableIds) {
+    private WebTestClient.ResponseSpec getCountyDetails(String terytCode, List<String> apiNames) {
         return webTestClient.get()
                             .uri(uriBuilder -> uriBuilder.path(GET_COUNTY_DETAILS_API_PATH)
                                                          .queryParam("terytCode", terytCode)
-                                                         .queryParam("bdlVariableIds", variableIds.toArray())
+                                                         .queryParam("apiNames", apiNames.toArray())
                                                          .build())
                             .exchange();
     }
@@ -170,19 +176,33 @@ class CountyDetailsControllerTest {
     private static Stream<Arguments> provideValidCountyDetailsRequests() {
         return Stream.of(
                 Arguments.of(
-                        "Single variable ID",
+                        "Single variable API name",
                         "1465",
-                        List.of(1645341)
+                        List.of("population_in_thousands")
                 ),
                 Arguments.of(
-                        "Multiple variable IDs (crimes, population, unemployment)",
+                        "Multiple variable API names",
                         "2261",
-                        List.of(1645341, 60559, 60270)
+                        List.of("population_in_thousands", "population_density", "unemployment")
                 ),
                 Arguments.of(
-                        "Different terytCode with two variables",
+                        "Variables with multiple BDL ID mappings (legacy & new)",
                         "2462",
-                        List.of(58559, 1749155)
+                        List.of("crimes_total", "crime_detection_rate")
+                ),
+                Arguments.of(
+                        "Mixed categories and units (Salary, Health, Labor)",
+                        "1216",
+                        List.of("gross_salary", "doctors", "unemployment")
+                ),
+                Arguments.of(
+                        "Maximum allowed variables (Boundary limit of 10)",
+                        "1465",
+                        List.of(
+                                "gross_salary", "doctors", "nurses",
+                                "flat_price_avg", "flat_price_primary", "flat_price_secondary",
+                                "unemployment", "population_in_thousands", "population_density", "crimes_total"
+                        )
                 )
         );
     }
@@ -192,56 +212,50 @@ class CountyDetailsControllerTest {
                 Arguments.of(
                         "Blank terytCode",
                         " ",
-                        List.of(1645341, 60559),
+                        List.of("population_in_thousands"),
                         "terytCode must contain exactly 4 digits"
                 ),
                 Arguments.of(
                         "Empty terytCode",
                         "",
-                        List.of(1645341, 60559),
+                        List.of("population_in_thousands"),
                         "terytCode is required"
                 ),
                 Arguments.of(
                         "terytCode with 3 digits",
                         "123",
-                        List.of(1645341, 60559),
+                        List.of("population_in_thousands"),
                         "terytCode must contain exactly 4 digits"
                 ),
                 Arguments.of(
                         "terytCode with 5 digits",
                         "12345",
-                        List.of(1645341, 60559),
+                        List.of("population_in_thousands"),
                         "terytCode must contain exactly 4 digits"
                 ),
                 Arguments.of(
                         "terytCode with letters",
                         "12AB",
-                        List.of(1645341, 60559),
+                        List.of("population_in_thousands"),
                         "terytCode must contain exactly 4 digits"
                 ),
                 Arguments.of(
-                        "Empty bdlVariableIds list",
+                        "Empty apiNames list",
                         TERYT_CODE,
                         Collections.emptyList(),
-                        "bdlVariableIds cannot be empty"
+                        "apiNames cannot be empty"
                 ),
                 Arguments.of(
-                        "bdlVariableIds with more than 10 values",
+                        "apiNames with more than 10 values",
                         TERYT_CODE,
-                        List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11),
-                        "bdlVariableIds cannot contain more than 10 values"
+                        List.of("v1", "v2", "v3", "v4", "v5", "v6", "v7", "v8", "v9", "v10", "v11"),
+                        "apiNames cannot contain more than 10 values"
                 ),
                 Arguments.of(
-                        "bdlVariableIds contains zero",
+                        "apiNames contains blank value",
                         TERYT_CODE,
-                        List.of(0, 1645341),
-                        "bdlVariableIds must contain positive numbers"
-                ),
-                Arguments.of(
-                        "bdlVariableIds contains negative value",
-                        TERYT_CODE,
-                        List.of(-1, 1645341),
-                        "bdlVariableIds must contain positive numbers"
+                        List.of(" ", "population_in_thousands"),
+                        "apiNames cannot contain blank values"
                 )
         );
     }

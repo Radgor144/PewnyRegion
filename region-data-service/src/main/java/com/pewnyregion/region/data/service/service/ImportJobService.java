@@ -26,20 +26,23 @@ public class ImportJobService {
     private final BdlDataImportService dataImportService;
     private final CountyImportService countyImportService;
     private final NormalizationService normalizationService;
+    private final CountyDetailsCacheService countyDetailsCacheService;
     private final BackgroundJobQueue jobQueue;
 
     public Mono<JobResponse> submitFullImport() {
         return createAndEnqueue(ImportJobType.FULL,
                 dataImportService.runFullImport()
                                  .flatMap(importSummary -> normalizationService.calculateAndSaveScoresForAllYears()
-                                                                      .map(normSummary -> importSummary.toMessage() + " | " + normSummary.toMessage())));
+                                                                               .doOnSuccess(ignored -> countyDetailsCacheService.invalidateAll())
+                                                                               .map(normSummary -> importSummary.toMessage() + " | " + normSummary.toMessage())));
     }
 
     public Mono<JobResponse> submitTargetedImport(TargetedImportRequest request) {
         return createAndEnqueue(ImportJobType.TARGETED,
                 dataImportService.runTargetedImport(request.apiNames(), request.years())
                                  .flatMap(importSummary -> normalizationService.calculateAndSaveScoresForYears(request.years())
-                                                                      .map(normSummary -> importSummary.toMessage() + " | " + normSummary.toMessage())));
+                                                                               .doOnSuccess(ignored -> countyDetailsCacheService.invalidateAll())
+                                                                               .map(normSummary -> importSummary.toMessage() + " | " + normSummary.toMessage())));
     }
 
     public Mono<JobResponse> submitCountiesImport() {

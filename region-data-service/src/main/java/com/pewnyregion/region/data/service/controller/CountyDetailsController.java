@@ -20,6 +20,6 @@ public class CountyDetailsController {
 
     @GetMapping
     public Mono<CountyDetailsResponse> getCountyDetails(@Valid @ModelAttribute CountyDetailsRequest request) {
-        return countyDetailsService.getCountyDetails(request.terytCode(), request.bdlVariableIds());
+        return countyDetailsService.getCountyDetails(request.terytCode(), request.apiNames());
     }
 }
