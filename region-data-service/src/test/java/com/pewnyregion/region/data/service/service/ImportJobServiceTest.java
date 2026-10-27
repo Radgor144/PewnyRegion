@@ -49,11 +49,13 @@ public class ImportJobServiceTest {
     private NormalizationService normalizationService;
     @Mock
     private BackgroundJobQueue backgroundJobQueue;
+    @Mock
+    private CountyDetailsCacheService countyDetailsCacheService;
 
     @BeforeEach
     void setUp() {
         importJobService = new ImportJobService(
-                importJobRepository, bdlDataImportService, countyImportService, normalizationService, backgroundJobQueue
+                importJobRepository, bdlDataImportService, countyImportService, normalizationService, countyDetailsCacheService, backgroundJobQueue
         );
     }
 
