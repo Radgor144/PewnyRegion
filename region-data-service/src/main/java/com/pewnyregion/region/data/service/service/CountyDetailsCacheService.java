@@ -39,7 +39,7 @@ public class CountyDetailsCacheService {
                 }
             }
 
-            log.info("County details cache: countyId={}, hits={}, misses={}",
+            log.debug("County details cache: countyId={}, hits={}, misses={}",
                     countyId, result.keySet(), missing);
 
             if (missing.isEmpty()) {
