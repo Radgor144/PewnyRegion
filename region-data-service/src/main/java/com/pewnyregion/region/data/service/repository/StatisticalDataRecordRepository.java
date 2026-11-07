@@ -1,3 +1,4 @@
+
 package com.pewnyregion.region.data.service.repository;
 
 import com.pewnyregion.region.data.service.entity.StatisticalDataRecordEntity;
@@ -19,6 +20,7 @@ public interface StatisticalDataRecordRepository
                 variable_external_id_id,
                 year,
                 value,
+                import_job_id,
                 imported_at
             )
             VALUES (
@@ -26,6 +28,7 @@ public interface StatisticalDataRecordRepository
                 :variableExternalIdId,
                 :year,
                 :value,
+                :importJobId,
                 :importedAt
             )
             """)
@@ -34,6 +37,7 @@ public interface StatisticalDataRecordRepository
             @Param("variableExternalIdId") Long variableExternalIdId,
             @Param("year") Integer year,
             @Param("value") Double value,
+            @Param("importJobId") String importJobId,
             @Param("importedAt") LocalDateTime importedAt
     );
 }

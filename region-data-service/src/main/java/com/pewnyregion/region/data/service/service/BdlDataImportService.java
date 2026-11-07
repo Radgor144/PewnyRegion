@@ -31,12 +31,12 @@ public class BdlDataImportService {
 
     public Mono<ImportSummary> runFullImport() {
         log.info("Starting process: FULL");
-        return executeImport(variableService.getAllVariableIds(), List.of());
+        return executeImport(variableService.getAllBdlVariableIds(), List.of());
     }
 
     public Mono<ImportSummary> runTargetedImport(List<String> apiNames, List<Integer> years) {
         log.info("Starting process: TARGETED");
-        return executeImport(variableService.getVariableIdsByApiNames(apiNames), years);
+        return executeImport(variableService.getBdlVariableIdsByApiNames(apiNames), years);
     }
 
     private Mono<ImportSummary> executeImport(Mono<List<Integer>> variableIds, List<Integer> years) {

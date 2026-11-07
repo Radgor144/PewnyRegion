@@ -16,6 +16,7 @@ import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
+import java.util.function.Function;
 
 @Slf4j
 @Service
@@ -28,6 +29,7 @@ public class ImportJobService {
     private final NormalizationService normalizationService;
     private final CountyDetailsCacheService countyDetailsCacheService;
     private final BackgroundJobQueue jobQueue;
+    private final BdlStatisticalDataImportService bdlStatisticalDataImportService;
 
     public Mono<JobResponse> submitFullImport() {
         return createAndEnqueue(ImportJobType.FULL,
@@ -51,6 +53,30 @@ public class ImportJobService {
         );
     }
 
+    public Mono<JobResponse> submitBdlCountyImport() {
+        return createAndEnqueue(
+                ImportJobType.BDL_COUNTIES,
+                "BDL",
+                importJobId -> bdlStatisticalDataImportService.importAllCounties(importJobId)
+                                                              .map(importedRecords ->
+                                                                      "BDL county import completed. Imported records: " + importedRecords
+                                                              )
+        );
+    }
+
+    public Mono<JobResponse> submitBdlUnitImport(String terytCode) {
+        return createAndEnqueue(
+                ImportJobType.TERRITORIAL_UNIT_DATA,
+                "BDL",
+                importJobId -> bdlStatisticalDataImportService.importUnit(terytCode, importJobId)
+                                                              .map(importedRecords ->
+                                                                      "Imported " + importedRecords
+                                                                              + " statistical records for TERYT "
+                                                                              + terytCode
+                                                              )
+        );
+    }
+
     public Mono<JobResponse> getJobResponse(String id) {
         return repository.findById(id)
                          .map(this::toResponse)
@@ -58,18 +84,40 @@ public class ImportJobService {
     }
 
     private Mono<JobResponse> createAndEnqueue(ImportJobType type, Mono<String> task) {
-        return repository.save(buildPendingJob(type))
-                         .onErrorMap(DataIntegrityViolationException.class,
-                                 e -> new ConflictException("Another import is already running or pending"))
-                         .flatMap(job -> jobQueue.enqueueJob(job.getId(), task).thenReturn(job))
+        return createAndEnqueue(type, null, ignored -> task);
+    }
+
+    private Mono<JobResponse> createAndEnqueue(
+            ImportJobType type,
+            String provider,
+            Function<String, Mono<String>> taskFactory
+    ) {
+        return repository.save(buildPendingJob(type, provider))
+                         .onErrorMap(
+                                 DataIntegrityViolationException.class,
+                                 e -> new ConflictException(
+                                         "Another import is already running or pending"
+                                 )
+                         )
+                         .flatMap(job ->
+                                 jobQueue.enqueueJob(
+                                         job.getId(),
+                                         taskFactory.apply(job.getId())
+                                 ).thenReturn(job)
+                         )
                          .map(this::toResponse);
     }
 
     private ImportJobEntity buildPendingJob(ImportJobType type) {
+        return buildPendingJob(type, null);
+    }
+
+    private ImportJobEntity buildPendingJob(ImportJobType type, String provider) {
         return ImportJobEntity.builder()
                               .id(UUID.randomUUID().toString())
                               .jobType(type)
                               .status(ImportJobStatus.PENDING)
+                              .provider(provider)
                               .startedAt(LocalDateTime.now())
                               .message("Import enqueued")
                               .isNew(true)

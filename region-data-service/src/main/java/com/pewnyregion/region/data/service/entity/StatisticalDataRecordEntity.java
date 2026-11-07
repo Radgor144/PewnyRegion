@@ -30,6 +30,9 @@ public class StatisticalDataRecordEntity {
 
     private Double value;
 
+    @Column("import_job_id")
+    private String importJobId;
+
     @Column("imported_at")
     private LocalDateTime importedAt;
 }

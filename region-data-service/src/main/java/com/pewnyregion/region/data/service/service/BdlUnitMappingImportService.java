@@ -27,8 +27,6 @@ public class BdlUnitMappingImportService {
 
     private static final int PAGE_SIZE = 100;
     private static final List<Integer> LEVELS = List.of(2, 5, 6);
-    private static final Set<String> TERYT_SUBUNIT_TYPES = Set.of("4", "5", "8", "9");
-
 
     private final BdlApiClient bdlApiClient;
     private final BdlUnitTerytMapper bdlUnitTerytMapper;
@@ -77,12 +75,6 @@ public class BdlUnitMappingImportService {
                                        affectedRows
                                ));
                 })
-                .then();
-    }
-
-    public Mono<Void> previewMappings() {
-        return fetchMappings()
-                .doOnNext(this::logPreview)
                 .then();
     }
 
@@ -140,81 +132,6 @@ public class BdlUnitMappingImportService {
                 terytCode,
                 territorialUnitIds.get(terytCode)
         );
-    }
-
-    private void logPreview(List<MappingResult> results) {
-        long matchedCount = results.stream()
-                                   .filter(result -> result.territorialUnitId() != null)
-                                   .count();
-
-        long unmatchedCount = results.size() - matchedCount;
-
-        long distinctMatchedCodes = results.stream()
-                                           .filter(result -> result.territorialUnitId() != null)
-                                           .map(MappingResult::terytCode)
-                                           .distinct()
-                                           .count();
-
-        Map<Integer, Long> unitsByLevel = countByLevel(results);
-
-        Map<Integer, Long> matchedByLevel = countByLevel(
-                results.stream()
-                       .filter(result -> result.territorialUnitId() != null)
-                       .toList()
-        );
-
-        Map<Integer, Long> unmatchedByLevel = countByLevel(
-                results.stream()
-                       .filter(result -> result.territorialUnitId() == null)
-                       .toList()
-        );
-
-        Map<String, Long> unmatchedByTerytType = results.stream()
-                                                        .filter(result -> result.territorialUnitId() == null)
-                                                        .collect(Collectors.groupingBy(
-                                                                result -> result.unit().level() == 6
-                                                                        ? "RODZ_" + result.terytCode().substring(6)
-                                                                        : "LEVEL_" + result.unit().level(),
-                                                                TreeMap::new,
-                                                                Collectors.counting()
-                                                        ));
-
-        log.info(
-                "BDL mapping preview: totalUnits={}, matched={}, unmatched={}, distinctMatchedCodes={}, duplicateMappings={}, unitsByLevel={}, matchedByLevel={}, unmatchedByLevel={}, unmatchedByTerytType={}",
-                results.size(),
-                matchedCount,
-                unmatchedCount,
-                distinctMatchedCodes,
-                matchedCount - distinctMatchedCodes,
-                unitsByLevel,
-                matchedByLevel,
-                unmatchedByLevel,
-                unmatchedByTerytType
-        );
-
-        results.stream()
-               .filter(result -> result.territorialUnitId() == null)
-               .filter(result -> result.unit().level() != 6
-                       || !TERYT_SUBUNIT_TYPES.contains(
-                       result.terytCode().substring(6)
-               ))
-               .limit(50)
-               .forEach(result -> log.warn(
-                       "Unmatched BDL unit: id={}, level={}, name={}, derivedTerytCode={}",
-                       result.unit().id(),
-                       result.unit().level(),
-                       result.unit().name(),
-                       result.terytCode()
-               ));
-    }
-
-    private Map<Integer, Long> countByLevel(List<MappingResult> results) {
-        return results.stream()
-                      .collect(Collectors.groupingBy(
-                              result -> result.unit().level(),
-                              TreeMap::new,
-                              Collectors.counting()
-                      ));
     }
 
     private record MappingResult(

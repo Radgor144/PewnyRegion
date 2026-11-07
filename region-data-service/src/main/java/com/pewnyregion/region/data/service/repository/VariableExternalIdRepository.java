@@ -1,11 +1,14 @@
+
 package com.pewnyregion.region.data.service.repository;
 
 import com.pewnyregion.region.data.service.entity.VariableExternalIdEntity;
-import org.springframework.data.r2dbc.repository.R2dbcRepository;
+import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-public interface VariableExternalIdRepository extends R2dbcRepository<VariableExternalIdEntity, Long> {
+import java.util.Collection;
+
+public interface VariableExternalIdRepository extends ReactiveCrudRepository<VariableExternalIdEntity, Long> {
 
     Mono<VariableExternalIdEntity> findByProviderAndExternalId(
             String provider,
@@ -16,6 +19,11 @@ public interface VariableExternalIdRepository extends R2dbcRepository<VariableEx
 
     Flux<VariableExternalIdEntity> findAllByVariableIdAndProvider(
             Integer variableId,
+            String provider
+    );
+
+    Flux<VariableExternalIdEntity> findAllByVariableIdInAndProvider(
+            Collection<Integer> variableIds,
             String provider
     );
 

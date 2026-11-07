@@ -47,4 +47,18 @@ public interface TerritorialUnitExternalIdRepository
     );
 
     Flux<TerritorialUnitExternalIdEntity> findAllByProvider(String provider);
+
+    @Query("""
+        SELECT external_mapping.*
+        FROM territorial_unit_external_ids external_mapping
+        JOIN territorial_units unit
+            ON unit.id = external_mapping.territorial_unit_id
+        WHERE external_mapping.provider = :provider
+          AND unit.unit_level = :unitLevel
+        ORDER BY unit.teryt_code
+        """)
+    Flux<TerritorialUnitExternalIdEntity> findAllByProviderAndUnitLevel(
+            @Param("provider") String provider,
+            @Param("unitLevel") String unitLevel
+    );
 }

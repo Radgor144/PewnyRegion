@@ -18,7 +18,7 @@ public interface MapRepository extends ReactiveCrudRepository<CountyVariableScor
             c.name AS county_name,
             ROUND(AVG(s.normalized_score)::numeric, 2) AS score
         FROM county_variable_scores s
-        JOIN bdl_variables v ON v.id = s.bdl_variable_id
+        JOIN variables v ON v.id = s.bdl_variable_id
         JOIN counties c ON c.id = s.county_id
         WHERE v.api_name IN (:apiNames)
           AND s.year >= :yearFrom
@@ -28,6 +28,6 @@ public interface MapRepository extends ReactiveCrudRepository<CountyVariableScor
     """)
     Flux<MapCountyScoreDto> getMapData(List<String> apiNames, Integer yearFrom, Integer yearTo);
 
-    @Query("SELECT api_name FROM bdl_variables WHERE api_name IN (:apiNames)")
+    @Query("SELECT api_name FROM variables WHERE api_name IN (:apiNames)")
     Flux<String> findExistingApiNames(List<String> apiNames);
 }
