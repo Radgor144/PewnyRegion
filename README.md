@@ -20,3 +20,6 @@ The crime rate metric requires two separate BDL identifiers to construct a seaml
 * **`1749155`** – Covers the recent and ongoing data from **2025 onwards**.
 
 By tracking these as a collection, our import service automatically merges both data series, ensuring that county rankings remain accurate and unbroken across decade-long spans.
+
+stad mozna pobrac teryt
+https://eteryt.stat.gov.pl/eTeryt/rejestr_teryt/udostepnianie_danych/baza_teryt/uzytkownicy_indywidualni/pobieranie/pliki_pelne.aspx?contrast=default
