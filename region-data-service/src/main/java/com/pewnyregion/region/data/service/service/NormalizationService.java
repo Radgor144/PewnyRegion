@@ -14,48 +14,25 @@ public class NormalizationService {
 
     private final TerritorialUnitVariableScoreRepository scoreRepository;
 
-    public Mono<NormalizationSummary> calculateAndSaveScores(
-            String calculationJobId,
-            String provider,
-            boolean includeCurrentJob
-    ) {
+    public Mono<NormalizationSummary> calculateAndSaveScores(String calculationJobId,
+                                                             String provider,
+                                                             boolean includeCurrentJob) {
         if (calculationJobId == null || calculationJobId.isBlank()) {
-            return Mono.error(new IllegalArgumentException(
-                    "Calculation job ID is required"
-            ));
+            return Mono.error(new IllegalArgumentException("Calculation job ID is required"));
         }
 
         if (provider == null || provider.isBlank()) {
-            return Mono.error(new IllegalArgumentException(
-                    "Provider is required"
-            ));
+            return Mono.error(new IllegalArgumentException("Provider is required"));
         }
 
-        log.info(
-                "Starting normalization: jobId={}, provider={}, includeCurrentJob={}",
-                calculationJobId,
-                provider,
-                includeCurrentJob
-        );
+        log.info("Starting normalization: jobId={}, provider={}, includeCurrentJob={}", calculationJobId, provider, includeCurrentJob);
 
-        return scoreRepository.calculateAndSaveScores(
-                                      calculationJobId,
-                                      provider,
-                                      includeCurrentJob
-                              )
+        return scoreRepository.calculateAndSaveScores(calculationJobId, provider, includeCurrentJob)
                               .flatMap(savedScores -> {
                                   if (savedScores == null || savedScores == 0) {
-                                      return Mono.error(new IllegalStateException(
-                                              "Normalization produced no scores"
-                                      ));
+                                      return Mono.error(new IllegalStateException("Normalization produced no scores"));
                                   }
-
-                                  log.info(
-                                          "Normalization completed: jobId={}, savedScores={}",
-                                          calculationJobId,
-                                          savedScores
-                                  );
-
+                                  log.info("Normalization completed: jobId={}, savedScores={}", calculationJobId, savedScores);
                                   return Mono.just(new NormalizationSummary(savedScores));
                               });
     }

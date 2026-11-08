@@ -15,29 +15,21 @@ public class StatisticalDataPersistenceService {
 
     private final StatisticalDataRecordRepository recordRepository;
 
-    public Mono<Integer> saveAll(
-            String importJobId,
-            Flux<StatisticalDataImportRecord> records
-    ) {
+    public Mono<Integer> saveAll(String importJobId, Flux<StatisticalDataImportRecord> records) {
         return Mono.defer(() -> {
             if (importJobId == null || importJobId.isBlank()) {
-                return Mono.error(
-                        new IllegalArgumentException("Import job ID is required")
-                );
+                return Mono.error(new IllegalArgumentException("Import job ID is required"));
             }
 
             LocalDateTime importedAt = LocalDateTime.now();
 
-            return records
-                    .concatMap(record -> recordRepository.insertRecord(
-                            record.territorialUnitExternalIdId(),
-                            record.variableExternalIdId(),
-                            record.year(),
-                            record.value(),
-                            importJobId,
-                            importedAt
-                    ))
-                    .reduce(0, Integer::sum);
+            return records.concatMap(record -> recordRepository.insertRecord(record.territorialUnitExternalIdId(),
+                                                                             record.variableExternalIdId(),
+                                                                             record.year(),
+                                                                             record.value(),
+                                                                             importJobId,
+                                                                             importedAt))
+                          .reduce(0, Integer::sum);
         });
     }
 }

@@ -17,10 +17,7 @@ public class BdlApiClient {
 
     private final WebClient bdlWebClient;
 
-    public Mono<BdlRawDataResponse> fetchRawData(
-            String unitExternalId,
-            List<Integer> variableExternalIds
-    ) {
+    public Mono<BdlRawDataResponse> fetchRawData(String unitExternalId, List<Integer> variableExternalIds) {
         return bdlWebClient.get()
                            .uri(uriBuilder -> uriBuilder
                                    .path("/data/by-unit/{id}")
@@ -31,11 +28,7 @@ public class BdlApiClient {
                            .bodyToMono(BdlRawDataResponse.class);
     }
 
-    public Mono<BdlRawDataResponse> fetchTargetedData(
-            String unitExternalId,
-            List<Integer> variableExternalIds,
-            List<Integer> years
-    ) {
+    public Mono<BdlRawDataResponse> fetchTargetedData(String unitExternalId, List<Integer> variableExternalIds, List<Integer> years) {
         return bdlWebClient.get()
                            .uri(uriBuilder -> uriBuilder
                                    .path("/data/by-unit/{id}")

@@ -29,13 +29,12 @@ public class BdlUnitMappingImportService {
     private static final int PAGE_SIZE = 100;
     private static final List<Integer> LEVELS = List.of(5); // List.of(2, 5, 6);
     private static final String COUNTY_LEVEL = "COUNTY";
+    private static final String BDL_PROVIDER = "BDL";
 
     private final BdlApiClient bdlApiClient;
     private final BdlUnitTerytMapper bdlUnitTerytMapper;
     private final TerritorialUnitRepository territorialUnitRepository;
     private final TerritorialUnitExternalIdRepository territorialUnitExternalIdRepository;
-
-    private static final String BDL_PROVIDER = "BDL";
 
     public Mono<Void> importMappings() {
         return fetchMappings()

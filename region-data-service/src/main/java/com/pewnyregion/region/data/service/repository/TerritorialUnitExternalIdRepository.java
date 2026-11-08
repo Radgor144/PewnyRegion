@@ -10,9 +10,7 @@ import reactor.core.publisher.Mono;
 
 public interface TerritorialUnitExternalIdRepository extends ReactiveCrudRepository<TerritorialUnitExternalIdEntity, Long> {
 
-    Flux<TerritorialUnitExternalIdEntity> findAllByTerritorialUnitId(
-            Long territorialUnitId
-    );
+    Flux<TerritorialUnitExternalIdEntity> findAllByTerritorialUnitId(Long territorialUnitId);
 
     @Modifying
     @Query("""

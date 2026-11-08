@@ -19,12 +19,8 @@ public class BdlUnitTerytMapper {
 
         return switch (unit.level()) {
             case 2 -> Optional.of(id.substring(2, 4));
-            case 5 -> Optional.of(
-                    id.substring(2, 4) + id.substring(7, 9)
-            );
-            case 6 -> Optional.of(
-                    id.substring(2, 4) + id.substring(7, 12)
-            );
+            case 5 -> Optional.of(id.substring(2, 4) + id.substring(7, 9));
+            case 6 -> Optional.of(id.substring(2, 4) + id.substring(7, 12));
             default -> Optional.empty();
         };
     }

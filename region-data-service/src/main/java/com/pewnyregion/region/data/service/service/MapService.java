@@ -18,19 +18,16 @@ public class MapService {
 
     public Flux<MapResponse> getMapData(MapRequest request) {
         return mapValidator.validate(request.apiNames())
-                           .thenMany(mapRepository.getMapData(
-                                   request.apiNames(),
-                                   request.yearFrom(),
-                                   request.yearTo()
-                           ))
+                           .thenMany(mapRepository.getMapData(request.apiNames(),
+                                                              request.yearFrom(),
+                                                              request.yearTo()))
                            .map(this::mapToResponse);
     }
 
     private MapResponse mapToResponse(MapCountyScoreDto dto) {
-        return new MapResponse(
-                dto.terytCode(),
-                dto.countyName(),
-                dto.score()
+        return new MapResponse(dto.terytCode(),
+                               dto.countyName(),
+                               dto.score()
         );
     }
 }

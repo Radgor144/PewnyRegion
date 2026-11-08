@@ -11,8 +11,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 
-public interface TerritorialUnitVariableScoreRepository
-        extends ReactiveCrudRepository<TerritorialUnitVariableScoreEntity, Long> {
+public interface TerritorialUnitVariableScoreRepository extends ReactiveCrudRepository<TerritorialUnitVariableScoreEntity, Long> {
 
     @Modifying
     @Query("""
@@ -151,11 +150,9 @@ public interface TerritorialUnitVariableScoreRepository
                 normalized_score = EXCLUDED.normalized_score,
                 calculated_at = EXCLUDED.calculated_at
             """)
-    Mono<Integer> calculateAndSaveScores(
-            @Param("calculationJobId") String calculationJobId,
-            @Param("provider") String provider,
-            @Param("includeCurrentJob") boolean includeCurrentJob
-    );
+    Mono<Integer> calculateAndSaveScores(@Param("calculationJobId") String calculationJobId,
+                                         @Param("provider") String provider,
+                                         @Param("includeCurrentJob") boolean includeCurrentJob);
 
     @Query("""
             WITH latest_snapshot AS (
@@ -190,8 +187,6 @@ public interface TerritorialUnitVariableScoreRepository
               AND score.variable_id IN (:variableIds)
             ORDER BY score.variable_id, score.year
             """)
-    Flux<TerritorialUnitScoreWithAverage> findUnitDetails(
-            @Param("territorialUnitId") Long territorialUnitId,
-            @Param("variableIds") List<Integer> variableIds
-    );
+    Flux<TerritorialUnitScoreWithAverage> findUnitDetails(@Param("territorialUnitId") Long territorialUnitId,
+                                                          @Param("variableIds") List<Integer> variableIds);
 }

@@ -21,12 +21,11 @@ public class VariableService {
     }
 
     private VariableResponse mapToResponse(VariableEntity variable) {
-        return new VariableResponse(
-                variable.getApiName(),
-                variable.getCategory(),
-                VariableDirection.valueOf(variable.getDirection()),
-                variable.isPerCapita(),
-                variable.getUnit()
+        return new VariableResponse(variable.getApiName(),
+                                    variable.getCategory(),
+                                    VariableDirection.valueOf(variable.getDirection()),
+                                    variable.isPerCapita(),
+                                    variable.getUnit()
         );
     }
 }

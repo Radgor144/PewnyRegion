@@ -80,9 +80,7 @@ public class BdlStatisticalDataImportService {
                         findAllCountyMappings()
                                 .flatMapMany(unitMappings ->
                                         Flux.fromIterable(unitMappings)
-                                            .concatMap(unitMapping ->
-                                                    importUnitData(unitMapping, variableMappings, years, importJobId)
-                                            )
+                                            .concatMap(unitMapping -> importUnitData(unitMapping, variableMappings, years, importJobId))
                                 )
                                 .reduce(0, Integer::sum)
                 )
@@ -91,7 +89,7 @@ public class BdlStatisticalDataImportService {
 
     private Mono<List<TerritorialUnitExternalIdEntity>> findAllCountyMappings() {
         return Mono.zip(territorialUnitRepository.countByUnitLevelAndActive(COUNTY_LEVEL, true),
-                           territorialUnitExternalIdRepository.findAllByProviderAndUnitLevel(PROVIDER, COUNTY_LEVEL).collectList())
+                        territorialUnitExternalIdRepository.findAllByProviderAndUnitLevel(PROVIDER, COUNTY_LEVEL).collectList())
                    .flatMap(result -> {
                        long expectedCount = result.getT1();
                        List<TerritorialUnitExternalIdEntity> mappings = result.getT2();
@@ -195,7 +193,7 @@ public class BdlStatisticalDataImportService {
                                                             .toList();
 
         Mono<BdlRawDataResponse> request = years.isEmpty() ? bdlApiClient.fetchRawData(unitMapping.getExternalId(), externalVariableIds)
-                : bdlApiClient.fetchTargetedData(unitMapping.getExternalId(), externalVariableIds, years);
+                                                           : bdlApiClient.fetchTargetedData(unitMapping.getExternalId(), externalVariableIds, years);
 
         return request
                 .retryWhen(Retry.backoff(MAX_RETRIES, Duration.ofSeconds(1))
@@ -225,19 +223,12 @@ public class BdlStatisticalDataImportService {
         try {
             return Integer.valueOf(externalId);
         } catch (NumberFormatException exception) {
-            throw new IllegalStateException(
-                    "Invalid BDL variable ID: " + externalId,
-                    exception
-            );
+            throw new IllegalStateException("Invalid BDL variable ID: " + externalId, exception);
         }
     }
 
     private boolean isRetryable(Throwable throwable) {
-        return throwable instanceof WebClientRequestException
-                || throwable instanceof WebClientResponseException exception
-                && (
-                exception.getStatusCode().value() == 429
-                        || exception.getStatusCode().is5xxServerError()
-        );
+        return throwable instanceof WebClientRequestException || throwable instanceof WebClientResponseException exception
+                && (exception.getStatusCode().value() == 429 || exception.getStatusCode().is5xxServerError());
     }
 }

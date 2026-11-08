@@ -9,8 +9,7 @@ import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
 
-public interface StatisticalDataRecordRepository
-        extends ReactiveCrudRepository<StatisticalDataRecordEntity, Long> {
+public interface StatisticalDataRecordRepository extends ReactiveCrudRepository<StatisticalDataRecordEntity, Long> {
 
     @Modifying
     @Query("""
@@ -31,12 +30,11 @@ public interface StatisticalDataRecordRepository
                 :importedAt
             )
             """)
-    Mono<Integer> insertRecord(
-            @Param("territorialUnitExternalIdId") Long territorialUnitExternalIdId,
-            @Param("variableExternalIdId") Long variableExternalIdId,
-            @Param("year") Integer year,
-            @Param("value") Double value,
-            @Param("importJobId") String importJobId,
-            @Param("importedAt") LocalDateTime importedAt
+    Mono<Integer> insertRecord(@Param("territorialUnitExternalIdId") Long territorialUnitExternalIdId,
+                               @Param("variableExternalIdId") Long variableExternalIdId,
+                               @Param("year") Integer year,
+                               @Param("value") Double value,
+                               @Param("importJobId") String importJobId,
+                               @Param("importedAt") LocalDateTime importedAt
     );
 }

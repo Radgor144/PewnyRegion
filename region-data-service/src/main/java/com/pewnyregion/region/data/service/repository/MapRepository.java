@@ -11,8 +11,7 @@ import reactor.core.publisher.Flux;
 import java.util.List;
 
 @Repository
-public interface MapRepository
-        extends ReactiveCrudRepository<TerritorialUnitVariableScoreEntity, Long> {
+public interface MapRepository extends ReactiveCrudRepository<TerritorialUnitVariableScoreEntity, Long> {
 
     @Query("""
             WITH latest_snapshot AS (
@@ -49,10 +48,9 @@ public interface MapRepository
             GROUP BY unit.teryt_code, unit.name
             ORDER BY unit.teryt_code
             """)
-    Flux<MapCountyScoreDto> getMapData(
-            @Param("apiNames") List<String> apiNames,
-            @Param("yearFrom") Integer yearFrom,
-            @Param("yearTo") Integer yearTo
+    Flux<MapCountyScoreDto> getMapData(@Param("apiNames") List<String> apiNames,
+                                       @Param("yearFrom") Integer yearFrom,
+                                       @Param("yearTo") Integer yearTo
     );
 
     @Query("""
@@ -60,7 +58,5 @@ public interface MapRepository
             FROM variables
             WHERE api_name IN (:apiNames)
             """)
-    Flux<String> findExistingApiNames(
-            @Param("apiNames") List<String> apiNames
-    );
+    Flux<String> findExistingApiNames(@Param("apiNames") List<String> apiNames);
 }

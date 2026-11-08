@@ -26,35 +26,25 @@ import static com.pewnyregion.region.data.service.model.consts.ImportJobStatus.R
 public class BackgroundJobQueue implements DisposableBean {
 
     private final ImportJobRepository importJobRepository;
-
-    private final Sinks.Many<PendingJob> sink =
-            Sinks.many().unicast().onBackpressureBuffer();
+    private final Sinks.Many<PendingJob> sink = Sinks.many().unicast().onBackpressureBuffer();
 
     private Disposable subscriptionDisposable;
 
     public Mono<Void> enqueueJob(String jobId, Mono<String> task) {
-        Sinks.EmitResult emitResult = sink.tryEmitNext(
-                new PendingJob(jobId, task)
-        );
+        Sinks.EmitResult emitResult = sink.tryEmitNext(new PendingJob(jobId, task));
 
         if (emitResult.isSuccess()) {
             log.info("Job {} enqueued successfully", jobId);
             return Mono.empty();
         }
 
-        log.error(
-                "Failed to enqueue job {}: {}",
-                jobId,
-                emitResult
-        );
+        log.error("Failed to enqueue job {}: {}", jobId, emitResult);
 
         return updateJobStatus(jobId, entity -> {
             entity.setStatus(FAILED);
             entity.setFinishedAt(LocalDateTime.now());
             entity.setMessage("Failed to enqueue job: " + emitResult);
-        }).then(Mono.error(new IllegalStateException(
-                "Failed to enqueue import job: " + emitResult
-        )));
+        }).then(Mono.error(new IllegalStateException("Failed to enqueue import job: " + emitResult)));
     }
 
     @EventListener(ApplicationReadyEvent.class)
@@ -63,21 +53,14 @@ public class BackgroundJobQueue implements DisposableBean {
 
         subscriptionDisposable = sink.asFlux()
                                      .concatMap(this::processJob)
-                                     .subscribe(
-                                             ignored -> {
-                                             },
-                                             error -> log.error(
-                                                     "Fatal error in job processor: {}",
-                                                     error.getMessage(),
-                                                     error
-                                             )
+                                     .subscribe(ignored -> {},
+                                                error -> log.error("Fatal error in job processor: {}", error.getMessage(), error)
                                      );
     }
 
     @Override
     public void destroy() {
-        if (subscriptionDisposable != null
-                && !subscriptionDisposable.isDisposed()) {
+        if (subscriptionDisposable != null && !subscriptionDisposable.isDisposed()) {
             log.info("Disposing job processor");
             subscriptionDisposable.dispose();
             sink.tryEmitComplete();
@@ -99,38 +82,22 @@ public class BackgroundJobQueue implements DisposableBean {
                         })
                 )
                 .onErrorResume(error -> {
-                    log.error(
-                            "Job {} failed: {}",
-                            job.jobId(),
-                            error.getMessage(),
-                            error
-                    );
+                    log.error("Job {} failed: {}", job.jobId(), error.getMessage(), error);
 
                     return updateJobStatus(job.jobId(), entity -> {
                         entity.setStatus(FAILED);
                         entity.setFinishedAt(LocalDateTime.now());
                         entity.setMessage(error.getMessage());
                     }).onErrorResume(statusError -> {
-                        log.error(
-                                "Could not mark job {} as FAILED",
-                                job.jobId(),
-                                statusError
-                        );
+                        log.error("Could not mark job {} as FAILED", job.jobId(), statusError);
                         return Mono.empty();
                     });
                 });
     }
 
-    private Mono<Void> updateJobStatus(
-            String jobId,
-            Consumer<ImportJobEntity> modifier
-    ) {
+    private Mono<Void> updateJobStatus(String jobId, Consumer<ImportJobEntity> modifier) {
         return importJobRepository.findById(jobId)
-                                  .switchIfEmpty(Mono.error(
-                                          new IllegalStateException(
-                                                  "Import job not found: " + jobId
-                                          )
-                                  ))
+                                  .switchIfEmpty(Mono.error(new IllegalStateException("Import job not found: " + jobId)))
                                   .doOnNext(modifier)
                                   .flatMap(importJobRepository::save)
                                   .then();

@@ -9,10 +9,7 @@ import java.util.Collection;
 
 public interface VariableExternalIdRepository extends ReactiveCrudRepository<VariableExternalIdEntity, Long> {
 
-    Flux<VariableExternalIdEntity> findAllByVariableIdInAndProvider(
-            Collection<Integer> variableIds,
-            String provider
-    );
+    Flux<VariableExternalIdEntity> findAllByVariableIdInAndProvider(Collection<Integer> variableIds, String provider);
 
     Flux<VariableExternalIdEntity> findAllByProvider(String provider);
 }

@@ -14,11 +14,9 @@ import java.util.stream.Stream;
 @Component
 public class BdlRawDataMapper {
 
-    public List<StatisticalDataImportRecord> map(
-            TerritorialUnitExternalIdEntity territorialUnitMapping,
-            List<VariableExternalIdEntity> variableMappings,
-            BdlRawDataResponse response
-    ) {
+    public List<StatisticalDataImportRecord> map(TerritorialUnitExternalIdEntity territorialUnitMapping,
+                                                 List<VariableExternalIdEntity> variableMappings,
+                                                 BdlRawDataResponse response) {
         if (response.results() == null) {
             return List.of();
         }

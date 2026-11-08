@@ -23,13 +23,9 @@ import java.util.stream.Collectors;
 public class CountyDetailsCacheService {
 
     private final Cache<TerritorialUnitVariableCacheKey, List<YearlyData>> countyDetailsCache;
-
     private final TerritorialUnitVariableScoreRepository scoreRepository;
 
-    public Mono<Map<Integer, List<YearlyData>>> getYearlyData(
-            Long territorialUnitId,
-            List<Integer> variableIds
-    ) {
+    public Mono<Map<Integer, List<YearlyData>>> getYearlyData(Long territorialUnitId, List<Integer> variableIds) {
         return Mono.defer(() -> {
             if (variableIds.isEmpty()) {
                 return Mono.just(Map.of());
@@ -39,12 +35,7 @@ public class CountyDetailsCacheService {
             List<Integer> missingVariableIds = new ArrayList<>();
 
             for (Integer variableId : new LinkedHashSet<>(variableIds)) {
-                TerritorialUnitVariableCacheKey key =
-                        new TerritorialUnitVariableCacheKey(
-                                territorialUnitId,
-                                variableId
-                        );
-
+                TerritorialUnitVariableCacheKey key = new TerritorialUnitVariableCacheKey(territorialUnitId, variableId);
                 List<YearlyData> cached = countyDetailsCache.getIfPresent(key);
 
                 if (cached == null) {
@@ -54,20 +45,13 @@ public class CountyDetailsCacheService {
                 }
             }
 
-            log.debug(
-                    "Territorial unit details cache: unitId={}, hits={}, misses={}",
-                    territorialUnitId,
-                    result.size(),
-                    missingVariableIds.size()
-            );
+            log.debug("Territorial unit details cache: unitId={}, hits={}, misses={}", territorialUnitId, result.size(), missingVariableIds.size());
 
             if (missingVariableIds.isEmpty()) {
                 return Mono.just(result);
             }
 
-            return loadMissingDetails(
-                    territorialUnitId,
-                    missingVariableIds
+            return loadMissingDetails(territorialUnitId, missingVariableIds
             ).map(loaded -> {
                 result.putAll(loaded);
                 return result;
@@ -75,62 +59,32 @@ public class CountyDetailsCacheService {
         });
     }
 
-    private Mono<Map<Integer, List<YearlyData>>> loadMissingDetails(
-            Long territorialUnitId,
-            List<Integer> missingVariableIds
-    ) {
-        return scoreRepository.findUnitDetails(
-                                      territorialUnitId,
-                                      missingVariableIds
-                              )
+    private Mono<Map<Integer, List<YearlyData>>> loadMissingDetails(Long territorialUnitId, List<Integer> missingVariableIds) {
+        return scoreRepository.findUnitDetails(territorialUnitId, missingVariableIds)
                               .collectList()
-                              .map(scores -> mapScoresToYearlyData(
-                                      scores,
-                                      missingVariableIds
-                              ))
-                              .doOnNext(details -> cacheDetails(
-                                      territorialUnitId,
-                                      details
-                              ));
+                              .map(scores -> mapScoresToYearlyData(scores, missingVariableIds))
+                              .doOnNext(details -> cacheDetails(territorialUnitId, details));
     }
 
-    private Map<Integer, List<YearlyData>> mapScoresToYearlyData(
-            List<TerritorialUnitScoreWithAverage> scores,
-            List<Integer> variableIds
-    ) {
+    private Map<Integer, List<YearlyData>> mapScoresToYearlyData(List<TerritorialUnitScoreWithAverage> scores, List<Integer> variableIds) {
         Map<Integer, List<YearlyData>> detailsByVariableId = scores.stream()
                                                                    .collect(Collectors.groupingBy(
                                                                            TerritorialUnitScoreWithAverage::variableId,
                                                                            HashMap::new,
                                                                            Collectors.mapping(
-                                                                                   score -> new YearlyData(
-                                                                                           score.year(),
-                                                                                           score.rawValue(),
-                                                                                           score.averageScore()
-                                                                                   ),
+                                                                                   score -> new YearlyData(score.year(), score.rawValue(), score.averageScore()),
                                                                                    Collectors.toList()
                                                                            )
                                                                    ));
 
-        variableIds.forEach(variableId ->
-                detailsByVariableId.putIfAbsent(variableId, List.of())
-        );
-
+        variableIds.forEach(variableId -> detailsByVariableId.putIfAbsent(variableId, List.of()));
         return detailsByVariableId;
     }
 
-    private void cacheDetails(
-            Long territorialUnitId,
-            Map<Integer, List<YearlyData>> detailsByVariableId
-    ) {
+    private void cacheDetails(Long territorialUnitId, Map<Integer, List<YearlyData>> detailsByVariableId) {
         detailsByVariableId.forEach((variableId, details) ->
-                countyDetailsCache.put(
-                        new TerritorialUnitVariableCacheKey(
-                                territorialUnitId,
-                                variableId
-                        ),
-                        details
-                )
+                countyDetailsCache.put(new TerritorialUnitVariableCacheKey(territorialUnitId, variableId),
+                                       details)
         );
     }
 

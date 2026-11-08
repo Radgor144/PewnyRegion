@@ -25,90 +25,47 @@ public class CountyDetailsService {
     private final VariableRepository variableRepository;
     private final CountyDetailsCacheService countyDetailsCacheService;
 
-    public Mono<CountyDetailsResponse> getCountyDetails(
-            String terytCode,
-            List<String> apiNames
-    ) {
+    public Mono<CountyDetailsResponse> getCountyDetails(String terytCode, List<String> apiNames) {
         List<String> distinctApiNames = apiNames.stream()
                                                 .distinct()
                                                 .toList();
 
-        return Mono.zip(
-                           findCountyOrThrow(terytCode),
-                           findVariablesOrThrow(distinctApiNames)
-                   )
-                   .flatMap(result ->
-                           loadCountyDetails(
-                                   terytCode,
-                                   result.getT1(),
-                                   result.getT2()
-                           )
-                   );
+        return Mono.zip(findCountyOrThrow(terytCode), findVariablesOrThrow(distinctApiNames))
+                   .flatMap(result -> loadCountyDetails(terytCode, result.getT1(), result.getT2()));
     }
 
     private Mono<TerritorialUnitEntity> findCountyOrThrow(String terytCode) {
         return territorialUnitRepository
-                .findByTerytCodeAndUnitLevelAndActive(
-                        terytCode,
-                        COUNTY_LEVEL,
-                        true
-                )
-                .switchIfEmpty(Mono.error(new NotFoundException(
-                        "County with TERYT code " + terytCode + " does not exist"
-                )));
+                .findByTerytCodeAndUnitLevelAndActive(terytCode, COUNTY_LEVEL, true)
+                .switchIfEmpty(Mono.error(new NotFoundException("County with TERYT code " + terytCode + " does not exist")));
     }
 
-    private Mono<List<VariableEntity>> findVariablesOrThrow(
-            List<String> apiNames
-    ) {
+    private Mono<List<VariableEntity>> findVariablesOrThrow(List<String> apiNames) {
         return variableRepository.findByApiNameIn(apiNames)
                                  .collectMap(VariableEntity::getApiName)
                                  .filter(byName -> byName.keySet().containsAll(apiNames))
-                                 .switchIfEmpty(Mono.error(new NotFoundException(
-                                         "One or more variable apiNames do not exist"
-                                 )))
+                                 .switchIfEmpty(Mono.error(new NotFoundException("One or more variable apiNames do not exist")))
                                  .map(byName -> apiNames.stream()
                                                         .map(byName::get)
                                                         .toList()
                                  );
     }
 
-    private Mono<CountyDetailsResponse> loadCountyDetails(
-            String terytCode,
-            TerritorialUnitEntity county,
-            List<VariableEntity> variables
-    ) {
+    private Mono<CountyDetailsResponse> loadCountyDetails(String terytCode, TerritorialUnitEntity county, List<VariableEntity> variables) {
         List<Integer> variableIds = variables.stream()
                                              .map(VariableEntity::getId)
                                              .toList();
 
-        return countyDetailsCacheService
-                .getYearlyData(county.getId(), variableIds)
-                .map(details -> buildResponse(
-                        terytCode,
-                        variables,
-                        details
-                ));
+        return countyDetailsCacheService.getYearlyData(county.getId(), variableIds)
+                                        .map(details -> buildResponse(terytCode, variables, details));
     }
 
-    private CountyDetailsResponse buildResponse(
-            String terytCode,
-            List<VariableEntity> variables,
-            Map<Integer, List<YearlyData>> detailsByVariableId
-    ) {
+    private CountyDetailsResponse buildResponse(String terytCode, List<VariableEntity> variables, Map<Integer, List<YearlyData>> detailsByVariableId) {
         List<VariableDetail> variableDetails = variables.stream()
-                                                        .map(variable -> new VariableDetail(
-                                                                variable.getApiName(),
-                                                                detailsByVariableId.getOrDefault(
-                                                                        variable.getId(),
-                                                                        List.of()
-                                                                )
-                                                        ))
+                                                        .map(variable -> new VariableDetail(variable.getApiName(),
+                                                                                            detailsByVariableId.getOrDefault(variable.getId(), List.of())))
                                                         .toList();
 
-        return new CountyDetailsResponse(
-                terytCode,
-                variableDetails
-        );
+        return new CountyDetailsResponse(terytCode, variableDetails);
     }
 }

@@ -52,8 +52,7 @@ public class TercCatalogImportService {
                                                         Collectors.counting()
                                                 ));
 
-        log.info(
-                "Starting TERC import: sourceRecords={}, mappedRecords={}, skippedRecords={}, unitsByLevel={}",
+        log.info("Starting TERC import: sourceRecords={}, mappedRecords={}, skippedRecords={}, unitsByLevel={}",
                 document.catalog().rows().size(),
                 records.size(),
                 document.catalog().rows().size() - records.size(),
@@ -76,13 +75,12 @@ public class TercCatalogImportService {
     }
 
     private Mono<Integer> upsert(TerritorialUnitImportRecord record) {
-        return territorialUnitRepository.upsert(
-                record.terytCode(),
-                record.name(),
-                record.additionalName(),
-                record.unitLevel(),
-                record.rodz(),
-                record.sourceStateAt()
+        return territorialUnitRepository.upsert(record.terytCode(),
+                                                record.name(),
+                                                record.additionalName(),
+                                                record.unitLevel(),
+                                                record.rodz(),
+                                                record.sourceStateAt()
         );
     }
 

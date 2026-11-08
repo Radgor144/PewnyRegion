@@ -13,10 +13,8 @@ public record TargetedImportRequest (
         List<String> apiNames,
 
         @NotEmpty(message = "years cannot be empty")
-        List<
-                @NotNull(message = "year cannot be null")
-                @Min(value = 2012, message = "year cannot be earlier than 2012")
-                        Integer
-                > years
+        List<@NotNull(message = "year cannot be null")
+             @Min(value = 2012, message = "year cannot be earlier than 2012")
+             Integer> years
 ) {
 }
