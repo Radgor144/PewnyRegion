@@ -1,9 +1,10 @@
 package com.pewnyregion.region.data.service.model.consts;
 
 public enum ImportJobType {
+    TERYT_CATALOG,
+    UNIT_MAPPINGS,
     FULL,
     TARGETED,
-    COUNTIES,
-    TERRITORIAL_UNIT_DATA,
-    BDL_COUNTIES
+    SINGLE_UNIT,
+    NORMALIZATION
 }

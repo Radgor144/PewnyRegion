@@ -1,4 +1,3 @@
-
 package com.pewnyregion.region.data.service.service;
 
 import com.pewnyregion.region.data.service.model.StatisticalDataImportRecord;
@@ -16,10 +15,15 @@ public class StatisticalDataPersistenceService {
 
     private final StatisticalDataRecordRepository recordRepository;
 
-    public Mono<Integer> saveAll(String importJobId, Flux<StatisticalDataImportRecord> records) {
+    public Mono<Integer> saveAll(
+            String importJobId,
+            Flux<StatisticalDataImportRecord> records
+    ) {
         return Mono.defer(() -> {
             if (importJobId == null || importJobId.isBlank()) {
-                return Mono.error(new IllegalArgumentException("Import job ID is required"));
+                return Mono.error(
+                        new IllegalArgumentException("Import job ID is required")
+                );
             }
 
             LocalDateTime importedAt = LocalDateTime.now();

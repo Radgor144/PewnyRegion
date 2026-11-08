@@ -1,4 +1,3 @@
-
 package com.pewnyregion.region.data.service.repository;
 
 import com.pewnyregion.region.data.service.entity.StatisticalDataRecordEntity;

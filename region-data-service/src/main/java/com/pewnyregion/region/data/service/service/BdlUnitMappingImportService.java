@@ -5,6 +5,7 @@ import com.pewnyregion.region.data.service.component.BdlUnitTerytMapper;
 import com.pewnyregion.region.data.service.entity.TerritorialUnitEntity;
 import com.pewnyregion.region.data.service.model.BdlResponse;
 import com.pewnyregion.region.data.service.model.BdlUnit;
+import com.pewnyregion.region.data.service.model.MappingResult;
 import com.pewnyregion.region.data.service.repository.TerritorialUnitExternalIdRepository;
 import com.pewnyregion.region.data.service.repository.TerritorialUnitRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +27,8 @@ import java.util.stream.Collectors;
 public class BdlUnitMappingImportService {
 
     private static final int PAGE_SIZE = 100;
-    private static final List<Integer> LEVELS = List.of(2, 5, 6);
+    private static final List<Integer> LEVELS = List.of(5); // List.of(2, 5, 6);
+    private static final String COUNTY_LEVEL = "COUNTY";
 
     private final BdlApiClient bdlApiClient;
     private final BdlUnitTerytMapper bdlUnitTerytMapper;
@@ -78,6 +80,39 @@ public class BdlUnitMappingImportService {
                 .then();
     }
 
+    public Mono<Void> ensureMappings() {
+        return Mono.zip(territorialUnitRepository.countByUnitLevelAndActive(COUNTY_LEVEL, true),
+                           territorialUnitExternalIdRepository.countByProviderAndUnitLevel(BDL_PROVIDER, COUNTY_LEVEL))
+                   .flatMap(counts -> {
+                       long expectedMappings = counts.getT1();
+                       long existingMappings = counts.getT2();
+
+                       if (expectedMappings == 0) {
+                           return Mono.error(new IllegalStateException(
+                                   "No active counties found in TERYT catalog"
+                           ));
+                       }
+
+                       if (expectedMappings == existingMappings) {
+                           log.info(
+                                   "BDL mappings are complete: {}/{}",
+                                   existingMappings,
+                                   expectedMappings
+                           );
+
+                           return Mono.empty();
+                       }
+
+                       log.info(
+                               "BDL mappings are incomplete: {}/{}. Starting mapping import",
+                               existingMappings,
+                               expectedMappings
+                       );
+
+                       return importMappings();
+                   });
+    }
+
     private Mono<Integer> upsertMapping(MappingResult result) {
         return territorialUnitExternalIdRepository.upsert(
                 result.territorialUnitId(),
@@ -114,30 +149,16 @@ public class BdlUnitMappingImportService {
     }
 
     private Mono<BdlResponse> fetchPage(int page, int level) {
-        return Mono.delay(Duration.ofMillis(150))
+        return Mono.delay(Duration.ofMillis(500))
                    .then(bdlApiClient.fetchUnits(page, level, PAGE_SIZE));
     }
 
-    private MappingResult mapUnit(
-            BdlUnit unit,
-            Map<String, Long> territorialUnitIds
-    ) {
+    private MappingResult mapUnit(BdlUnit unit, Map<String, Long> territorialUnitIds) {
         String terytCode = bdlUnitTerytMapper.map(unit)
                                              .orElseThrow(() -> new IllegalStateException(
                                                      "Cannot map BDL unit: " + unit.id()
                                              ));
 
-        return new MappingResult(
-                unit,
-                terytCode,
-                territorialUnitIds.get(terytCode)
-        );
-    }
-
-    private record MappingResult(
-            BdlUnit unit,
-            String terytCode,
-            Long territorialUnitId
-    ) {
+        return new MappingResult(unit, terytCode, territorialUnitIds.get(terytCode));
     }
 }

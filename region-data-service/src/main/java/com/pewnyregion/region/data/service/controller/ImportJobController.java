@@ -2,9 +2,7 @@ package com.pewnyregion.region.data.service.controller;
 
 import com.pewnyregion.region.data.service.model.JobResponse;
 import com.pewnyregion.region.data.service.model.TargetedImportRequest;
-import com.pewnyregion.region.data.service.service.BdlUnitMappingImportService;
 import com.pewnyregion.region.data.service.service.ImportJobService;
-import com.pewnyregion.region.data.service.service.TercCatalogImportService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -22,48 +20,56 @@ import reactor.core.publisher.Mono;
 public class ImportJobController {
 
     private final ImportJobService importJobService;
-    private final TercCatalogImportService tercCatalogImportService;
-    private final BdlUnitMappingImportService bdlUnitMappingImportService;
 
-    @PostMapping("/teryt")
-    public Mono<ResponseEntity<JobResponse>> importCounties() {
-        return importJobService.submitCountiesImport()
+    @PostMapping("/teryt/catalog")
+    public Mono<ResponseEntity<JobResponse>> importTerytCatalog() {
+        return importJobService.submitTerytCatalogImport()
                                .map(ResponseEntity.accepted()::body);
     }
 
-    @PostMapping("/full")
-    public Mono<ResponseEntity<JobResponse>> createFullImport() {
-        return importJobService.submitFullImport()
+    @PostMapping("/bdl/unit-mappings")
+    public Mono<ResponseEntity<JobResponse>> importBdlUnitMappings() {
+        return importJobService.submitBdlUnitMappingsImport()
                                .map(ResponseEntity.accepted()::body);
     }
 
     @PostMapping("/bdl/counties")
-    public Mono<ResponseEntity<JobResponse>> createBdlCountyImport() {
-        return importJobService.submitBdlCountyImport()
+    public Mono<ResponseEntity<JobResponse>> importAllCounties() {
+        return importJobService.submitFullImport()
                                .map(ResponseEntity.accepted()::body);
     }
 
     @PostMapping("/bdl/counties/{terytCode}")
-    public Mono<ResponseEntity<JobResponse>> importBdlCounty(@PathVariable String terytCode) {
+    public Mono<ResponseEntity<JobResponse>> importCounty(
+            @PathVariable String terytCode
+    ) {
         return importJobService.submitBdlUnitImport(terytCode)
                                .map(ResponseEntity.accepted()::body);
     }
 
-    @PostMapping("/targeted")
-    public Mono<ResponseEntity<JobResponse>> createTargetedImport(@Valid @RequestBody TargetedImportRequest request) {
+    @PostMapping("/bdl/targeted")
+    public Mono<ResponseEntity<JobResponse>> importTargeted(
+            @Valid @RequestBody TargetedImportRequest request
+    ) {
         return importJobService.submitTargetedImport(request)
                                .map(ResponseEntity.accepted()::body);
     }
 
-    @GetMapping("/{jobId}")
-    public Mono<ResponseEntity<JobResponse>> getStatus(@PathVariable String jobId) {
-        return importJobService.getJobResponse(jobId)
-                               .map(ResponseEntity::ok)
-                               .onErrorReturn(IllegalArgumentException.class, ResponseEntity.notFound().build());
+    @PostMapping("/normalization")
+    public Mono<ResponseEntity<JobResponse>> normalize() {
+        return importJobService.submitNormalization()
+                               .map(ResponseEntity.accepted()::body);
     }
 
-    @GetMapping("/xml")
-    public Mono<Void> getXml() {
-        return tercCatalogImportService.importCatalog();
+    @GetMapping("/{jobId}")
+    public Mono<ResponseEntity<JobResponse>> getStatus(
+            @PathVariable String jobId
+    ) {
+        return importJobService.getJobResponse(jobId)
+                               .map(ResponseEntity::ok)
+                               .onErrorReturn(
+                                       IllegalArgumentException.class,
+                                       ResponseEntity.notFound().build()
+                               );
     }
 }

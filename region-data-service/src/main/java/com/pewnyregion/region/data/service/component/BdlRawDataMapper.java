@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Component
 public class BdlRawDataMapper {
@@ -24,29 +25,44 @@ public class BdlRawDataMapper {
 
         Map<Integer, Long> variableMappingIds = variableMappings.stream()
                                                                 .collect(Collectors.toMap(
-                                                                        mapping -> Integer.valueOf(mapping.getExternalId()),
+                                                                        mapping -> parseExternalId(mapping.getExternalId()),
                                                                         VariableExternalIdEntity::getId
                                                                 ));
 
         return response.results().stream()
                        .flatMap(result -> {
-                           Long variableExternalId = variableMappingIds.get(result.id());
+                           Long variableExternalIdId = variableMappingIds.get(result.id());
 
-                           if (variableExternalId == null) {
+                           if (variableExternalIdId == null) {
                                throw new IllegalStateException(
                                        "Missing BDL variable mapping for external ID: " + result.id()
                                );
+                           }
+
+                           if (result.values() == null) {
+                               return Stream.empty();
                            }
 
                            return result.values().stream()
                                         .filter(value -> value.val() != null)
                                         .map(value -> new StatisticalDataImportRecord(
                                                 territorialUnitMapping.getId(),
-                                                variableExternalId,
+                                                variableExternalIdId,
                                                 value.year(),
                                                 value.val()
                                         ));
                        })
                        .toList();
+    }
+
+    private Integer parseExternalId(String externalId) {
+        try {
+            return Integer.valueOf(externalId);
+        } catch (NumberFormatException exception) {
+            throw new IllegalStateException(
+                    "Invalid BDL variable external ID: " + externalId,
+                    exception
+            );
+        }
     }
 }

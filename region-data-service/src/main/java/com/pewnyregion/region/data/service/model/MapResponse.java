@@ -1,7 +1,7 @@
 package com.pewnyregion.region.data.service.model;
 
 public record MapResponse(
-        String countyId,
+        String terytCode,
         String countyName,
         Double score
 ) {}

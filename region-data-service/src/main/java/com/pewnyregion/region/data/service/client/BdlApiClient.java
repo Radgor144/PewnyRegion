@@ -14,41 +14,49 @@ import java.util.List;
 public class BdlApiClient {
 
     private static final String RESPONSE_FORMAT = "json";
+
     private final WebClient bdlWebClient;
 
-    public Mono<BdlRawDataResponse> fetchRawData(String countyId, List<Integer> varIds) {
+    public Mono<BdlRawDataResponse> fetchRawData(
+            String unitExternalId,
+            List<Integer> variableExternalIds
+    ) {
         return bdlWebClient.get()
-                .uri(uriBuilder -> uriBuilder
-                        .path("/data/by-unit/{id}")
-                        .queryParam("var-id", varIds.toArray())
-                        .queryParam("format", RESPONSE_FORMAT)
-                        .build(countyId))
-                .retrieve()
-                .bodyToMono(BdlRawDataResponse.class);
+                           .uri(uriBuilder -> uriBuilder
+                                   .path("/data/by-unit/{id}")
+                                   .queryParam("var-id", variableExternalIds.toArray())
+                                   .queryParam("format", RESPONSE_FORMAT)
+                                   .build(unitExternalId))
+                           .retrieve()
+                           .bodyToMono(BdlRawDataResponse.class);
     }
 
-    public Mono<BdlRawDataResponse> fetchTargetedData(String countyId, List<Integer> varIds, List<Integer> years) {
+    public Mono<BdlRawDataResponse> fetchTargetedData(
+            String unitExternalId,
+            List<Integer> variableExternalIds,
+            List<Integer> years
+    ) {
         return bdlWebClient.get()
-                .uri(uriBuilder -> uriBuilder
-                        .path("/data/by-unit/{id}")
-                        .queryParam("var-id", varIds.toArray())
-                        .queryParam("year", years.toArray())
-                        .queryParam("format", RESPONSE_FORMAT)
-                        .build(countyId))
-                .retrieve()
-                .bodyToMono(BdlRawDataResponse.class);
+                           .uri(uriBuilder -> uriBuilder
+                                   .path("/data/by-unit/{id}")
+                                   .queryParam("var-id", variableExternalIds.toArray())
+                                   .queryParam("year", years.toArray())
+                                   .queryParam("format", RESPONSE_FORMAT)
+                                   .build(unitExternalId))
+                           .retrieve()
+                           .bodyToMono(BdlRawDataResponse.class);
     }
 
     public Mono<BdlResponse> fetchUnits(int page, int level, int pageSize) {
         return bdlWebClient.get()
-                .uri(uriBuilder -> uriBuilder
-                        .path("/Units")
-                        .queryParam("level", level)
-                        .queryParam("format", RESPONSE_FORMAT)
-                        .queryParam("page", page)
-                        .queryParam("page-size", pageSize)
-                        .build())
-                .retrieve()
-                .bodyToMono(BdlResponse.class);
+                           .uri(uriBuilder -> uriBuilder
+                                   .path("/Units")
+                                   .queryParam("level", level)
+                                   .queryParam("format", RESPONSE_FORMAT)
+                                   .queryParam("page", page)
+                                   .queryParam("page-size", pageSize)
+                                   .build())
+                           .retrieve()
+                           .bodyToMono(BdlResponse.class);
     }
 }

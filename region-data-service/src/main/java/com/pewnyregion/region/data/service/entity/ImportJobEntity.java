@@ -41,6 +41,6 @@ public class ImportJobEntity implements Persistable<String> {
 
     @Override
     public boolean isNew() {
-        return this.isNew || id == null;
+        return isNew || id == null;
     }
 }
