@@ -67,9 +67,6 @@ public class ImportJobController {
     ) {
         return importJobService.getJobResponse(jobId)
                                .map(ResponseEntity::ok)
-                               .onErrorReturn(
-                                       IllegalArgumentException.class,
-                                       ResponseEntity.notFound().build()
-                               );
+                               .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 }

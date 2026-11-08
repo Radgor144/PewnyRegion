@@ -58,17 +58,11 @@ public class ImportJobService {
         return createAndEnqueue(
                 ImportJobType.FULL,
                 BDL_PROVIDER,
-                jobId -> bdlUnitMappingImportService.ensureMappings()
-                                                    .then(bdlStatisticalDataImportService.importAllCounties(jobId))
-                                                    .flatMap(importedRecords ->
-                                                            normalizeAfterImport(jobId)
-                                                                    .map(summary ->
-                                                                            "BDL county import completed. Imported records: "
-                                                                                    + importedRecords
-                                                                                    + ". "
-                                                                                    + summary.toMessage()
-                                                                    )
-                                                    )
+                jobId -> importAndNormalize(
+                        jobId,
+                        bdlStatisticalDataImportService::importAllCounties,
+                        importedRecords -> "BDL county import completed. Imported records: " + importedRecords
+                )
         );
     }
 
@@ -76,20 +70,11 @@ public class ImportJobService {
         return createAndEnqueue(
                 ImportJobType.TARGETED,
                 BDL_PROVIDER,
-                jobId -> bdlUnitMappingImportService.ensureMappings()
-                                                    .then(bdlStatisticalDataImportService.importTargetedCounties(
-                                                            request,
-                                                            jobId
-                                                    ))
-                                                    .flatMap(importedRecords ->
-                                                            normalizeAfterImport(jobId)
-                                                                    .map(summary ->
-                                                                            "BDL targeted import completed. Imported records: "
-                                                                                    + importedRecords
-                                                                                    + ". "
-                                                                                    + summary.toMessage()
-                                                                    )
-                                                    )
+                jobId -> importAndNormalize(
+                        jobId,
+                        currentJobId -> bdlStatisticalDataImportService.importTargetedCounties(request, currentJobId),
+                        importedRecords -> "BDL targeted import completed. Imported records: " + importedRecords
+                )
         );
     }
 
@@ -97,22 +82,11 @@ public class ImportJobService {
         return createAndEnqueue(
                 ImportJobType.SINGLE_UNIT,
                 BDL_PROVIDER,
-                jobId -> bdlUnitMappingImportService.ensureMappings()
-                                                    .then(bdlStatisticalDataImportService.importUnit(
-                                                            terytCode,
-                                                            jobId
-                                                    ))
-                                                    .flatMap(importedRecords ->
-                                                            normalizeAfterImport(jobId)
-                                                                    .map(summary ->
-                                                                            "Imported "
-                                                                                    + importedRecords
-                                                                                    + " statistical records for TERYT "
-                                                                                    + terytCode
-                                                                                    + ". "
-                                                                                    + summary.toMessage()
-                                                                    )
-                                                    )
+                jobId -> importAndNormalize(
+                        jobId,
+                        currentJobId -> bdlStatisticalDataImportService.importUnit(terytCode, currentJobId),
+                        importedRecords -> "Imported " + importedRecords + " statistical records for TERYT " + terytCode
+                )
         );
     }
 
@@ -120,43 +94,22 @@ public class ImportJobService {
         return createAndEnqueue(
                 ImportJobType.NORMALIZATION,
                 null,
-                jobId -> normalizationService.calculateAndSaveScores(
-                                                     jobId,
-                                                     BDL_PROVIDER,
-                                                     false
-                                             )
-                                             .doOnNext(ignored -> countyDetailsCacheService.invalidateAll())
-                                             .map(NormalizationSummary::toMessage)
+                jobId -> invalidateCacheAfterNormalization(normalizationService.calculateAndSaveScores(jobId, BDL_PROVIDER, false))
+                        .map(NormalizationSummary::toMessage)
         );
     }
 
     public Mono<JobResponse> getJobResponse(String jobId) {
         return importJobRepository.findById(jobId)
-                                  .map(this::toResponse)
-                                  .switchIfEmpty(Mono.error(
-                                          new IllegalArgumentException("Job not found: " + jobId)
-                                  ));
-    }
-
-    private Mono<NormalizationSummary> normalizeAfterImport(String importJobId) {
-        return normalizationService.calculateAndSaveScores(
-                                           importJobId,
-                                           BDL_PROVIDER,
-                                           true
-                                   )
-                                   .doOnNext(ignored -> countyDetailsCacheService.invalidateAll());
+                                  .map(ImportJobService::toResponse);
     }
 
     private Mono<JobResponse> createAndEnqueue(ImportJobType jobType,
                                                String provider,
                                                Function<String, Mono<String>> taskFactory) {
         return importJobRepository.save(buildPendingJob(jobType, provider))
-                                  .onErrorMap(
-                                          DataIntegrityViolationException.class,
-                                          exception -> new ConflictException(
-                                                  "Another import is already running or pending"
-                                          )
-                                  )
+                                  .onErrorMap(DataIntegrityViolationException.class,
+                                              exception -> new ConflictException("Another import is already running or pending"))
                                   .flatMap(job ->
                                           jobQueue.enqueueJob(
                                                           job.getId(),
@@ -164,10 +117,33 @@ public class ImportJobService {
                                                   )
                                                   .thenReturn(job)
                                   )
-                                  .map(this::toResponse);
+                                  .map(ImportJobService::toResponse);
     }
 
-    private ImportJobEntity buildPendingJob(ImportJobType jobType, String provider) {
+    private <T> Mono<String> importAndNormalize(String jobId,
+                                                Function<String, Mono<T>> importOperation,
+                                                Function<T, String> successMessage) {
+        return bdlUnitMappingImportService.ensureMappings()
+                                          .then(Mono.defer(() -> importOperation.apply(jobId)))
+                                          .flatMap(importedRecords ->
+                                                  normalizeAfterImport(jobId)
+                                                          .map(summary ->
+                                                                  successMessage.apply(importedRecords)
+                                                                          + ". "
+                                                                          + summary.toMessage()
+                                                          )
+                                          );
+    }
+
+    private Mono<NormalizationSummary> normalizeAfterImport(String importJobId) {
+        return invalidateCacheAfterNormalization(normalizationService.calculateAndSaveScores(importJobId, BDL_PROVIDER, true));
+    }
+
+    private Mono<NormalizationSummary> invalidateCacheAfterNormalization(Mono<NormalizationSummary> normalization) {
+        return normalization.doOnNext(ignored -> countyDetailsCacheService.invalidateAll());
+    }
+
+    private static ImportJobEntity buildPendingJob(ImportJobType jobType, String provider) {
         return ImportJobEntity.builder()
                               .id(UUID.randomUUID().toString())
                               .jobType(jobType)
@@ -180,11 +156,10 @@ public class ImportJobService {
                               .build();
     }
 
-    private JobResponse toResponse(ImportJobEntity job) {
-        return new JobResponse(
-                job.getId(),
-                job.getStatus().name(),
-                job.getJobType().name()
+    private static JobResponse toResponse(ImportJobEntity job) {
+        return new JobResponse(job.getId(),
+                               job.getStatus().name(),
+                               job.getJobType().name()
         );
     }
 }

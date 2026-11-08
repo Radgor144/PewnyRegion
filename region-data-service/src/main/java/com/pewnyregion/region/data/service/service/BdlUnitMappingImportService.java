@@ -81,7 +81,7 @@ public class BdlUnitMappingImportService {
 
     public Mono<Void> ensureMappings() {
         return Mono.zip(territorialUnitRepository.countByUnitLevelAndActive(COUNTY_LEVEL, true),
-                           territorialUnitExternalIdRepository.countByProviderAndUnitLevel(BDL_PROVIDER, COUNTY_LEVEL))
+                        territorialUnitExternalIdRepository.countByProviderAndUnitLevel(BDL_PROVIDER, COUNTY_LEVEL))
                    .flatMap(counts -> {
                        long expectedMappings = counts.getT1();
                        long existingMappings = counts.getT2();
@@ -123,10 +123,7 @@ public class BdlUnitMappingImportService {
 
     private Mono<List<MappingResult>> fetchMappings() {
         return territorialUnitRepository.findAll()
-                                        .collectMap(
-                                                TerritorialUnitEntity::getTerytCode,
-                                                TerritorialUnitEntity::getId
-                                        )
+                                        .collectMap(TerritorialUnitEntity::getTerytCode, TerritorialUnitEntity::getId)
                                         .flatMap(territorialUnitIds ->
                                                 Flux.fromIterable(LEVELS)
                                                     .concatMap(this::fetchUnits)
@@ -148,7 +145,7 @@ public class BdlUnitMappingImportService {
     }
 
     private Mono<BdlResponse> fetchPage(int page, int level) {
-        return Mono.delay(Duration.ofMillis(500))
+        return Mono.delay(Duration.ofSeconds(1))
                    .then(bdlApiClient.fetchUnits(page, level, PAGE_SIZE));
     }
 

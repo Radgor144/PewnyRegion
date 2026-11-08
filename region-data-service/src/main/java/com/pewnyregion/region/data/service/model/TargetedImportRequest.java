@@ -14,7 +14,7 @@ public record TargetedImportRequest (
 
         @NotEmpty(message = "years cannot be empty")
         List<@NotNull(message = "year cannot be null")
-             @Min(value = 2012, message = "year cannot be earlier than 2012")
+             @Min(value = 1, message = "year must be positive")
              Integer> years
 ) {
 }

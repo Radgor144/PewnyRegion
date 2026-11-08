@@ -5,6 +5,7 @@ import com.pewnyregion.region.data.service.component.BdlRawDataMapper;
 import com.pewnyregion.region.data.service.entity.TerritorialUnitExternalIdEntity;
 import com.pewnyregion.region.data.service.entity.VariableEntity;
 import com.pewnyregion.region.data.service.entity.VariableExternalIdEntity;
+import com.pewnyregion.region.data.service.model.BdlImportChunk;
 import com.pewnyregion.region.data.service.model.BdlRawDataResponse;
 import com.pewnyregion.region.data.service.model.StatisticalDataImportRecord;
 import com.pewnyregion.region.data.service.model.TargetedImportRequest;
@@ -36,7 +37,7 @@ public class BdlStatisticalDataImportService {
 
     private static final int CHUNK_SIZE = 10;
     private static final int MAX_RETRIES = 3;
-    private static final Duration REQUEST_DELAY = Duration.ofMillis(500);
+    private static final Duration REQUEST_DELAY = Duration.ofSeconds(1);
 
     private final BdlApiClient bdlApiClient;
     private final BdlRawDataMapper bdlRawDataMapper;
@@ -51,16 +52,14 @@ public class BdlStatisticalDataImportService {
     public Mono<Integer> importAllCounties(String importJobId) {
         return validateImportJobId(importJobId)
                 .then(Mono.zip(findAllCountyMappings(), findAllBdlVariableMappings()))
-                .flatMapMany(result -> Flux.fromIterable(result.getT1())
-                                           .concatMap(unitMapping -> importUnitData(unitMapping, result.getT2(), List.of(), importJobId)))
-                .reduce(0, Integer::sum)
+                .flatMap(result -> importUnitsData(result.getT1(), result.getT2(), List.of(), importJobId))
                 .doOnNext(importedRecords -> log.info("BDL county import completed: importedRecords={}", importedRecords));
     }
 
     public Mono<Integer> importUnit(String terytCode, String importJobId) {
         return validateImportJobId(importJobId)
                 .then(Mono.zip(findBdlUnitMapping(terytCode), findAllBdlVariableMappings()))
-                .flatMap(result -> importUnitData(result.getT1(), result.getT2(), List.of(), importJobId))
+                .flatMap(result -> importUnitsData(List.of(result.getT1()), result.getT2(), List.of(), importJobId))
                 .doOnNext(importedRecords -> log.info("BDL import completed for TERYT {}: importedRecords={}", terytCode, importedRecords));
     }
 
@@ -78,13 +77,27 @@ public class BdlStatisticalDataImportService {
                 .then(findBdlVariableMappings(apiNames))
                 .flatMap(variableMappings ->
                         findAllCountyMappings()
-                                .flatMapMany(unitMappings ->
-                                        Flux.fromIterable(unitMappings)
-                                            .concatMap(unitMapping -> importUnitData(unitMapping, variableMappings, years, importJobId))
+                                .flatMap(unitMappings ->
+                                        importUnitsData(unitMappings, variableMappings, years, importJobId)
                                 )
-                                .reduce(0, Integer::sum)
                 )
                 .doOnNext(importedRecords -> log.info("BDL targeted import completed: variables={}, years={}, importedRecords={}", apiNames, years, importedRecords));
+    }
+
+    private Mono<Integer> importUnitsData(List<TerritorialUnitExternalIdEntity> unitMappings,
+                                          List<VariableExternalIdEntity> variableMappings,
+                                          List<Integer> years,
+                                          String importJobId) {
+
+        return Flux.fromIterable(unitMappings)
+                   .concatMap(unitMapping ->
+                           Flux.fromIterable(variableMappings)
+                               .buffer(CHUNK_SIZE)
+                               .map(chunk -> new BdlImportChunk(unitMapping, chunk))
+                   )
+                   .delayElements(REQUEST_DELAY)
+                   .concatMap(chunk -> importChunk(chunk.unitMapping(), chunk.variableMappings(), years, importJobId))
+                   .reduce(0, Integer::sum);
     }
 
     private Mono<List<TerritorialUnitExternalIdEntity>> findAllCountyMappings() {
@@ -172,18 +185,6 @@ public class BdlStatisticalDataImportService {
         return Mono.just(mappings);
     }
 
-    private Mono<Integer> importUnitData(TerritorialUnitExternalIdEntity unitMapping,
-                                         List<VariableExternalIdEntity> variableMappings,
-                                         List<Integer> years,
-                                         String importJobId) {
-        return Flux.fromIterable(variableMappings)
-                   .buffer(CHUNK_SIZE)
-                   .concatMap(chunk ->
-                           Mono.delay(REQUEST_DELAY)
-                               .then(importChunk(unitMapping, chunk, years, importJobId)))
-                   .reduce(0, Integer::sum);
-    }
-
     private Mono<Integer> importChunk(TerritorialUnitExternalIdEntity unitMapping,
                                       List<VariableExternalIdEntity> variableMappings,
                                       List<Integer> years,
@@ -196,10 +197,15 @@ public class BdlStatisticalDataImportService {
                                                            : bdlApiClient.fetchTargetedData(unitMapping.getExternalId(), externalVariableIds, years);
 
         return request
-                .retryWhen(Retry.backoff(MAX_RETRIES, Duration.ofSeconds(1))
+                .retryWhen(Retry.backoff(MAX_RETRIES, Duration.ofSeconds(3))
                                 .filter(this::isRetryable)
                                 .doBeforeRetry(retry ->
-                                        log.warn("BDL API retry {}/{} for unit {}", retry.totalRetries() + 1, MAX_RETRIES, unitMapping.getExternalId())))
+                                        log.warn("BDL API retry {}/{} for unit {}: {}", retry.totalRetries() + 1,
+                                                                                        MAX_RETRIES,
+                                                                                        unitMapping.getExternalId(),
+                                                                                        retry.failure().toString()
+                                        )
+                                ))
                 .flatMap(response -> persistResponse(unitMapping, variableMappings, response, importJobId));
     }
 
