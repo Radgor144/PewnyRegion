@@ -110,7 +110,7 @@ class BdlStatisticalDataImportServiceTest {
     @Test
     void importTargetedCounties_shouldSuccessfullyImportTargetedDataAndReturnCount() {
         List<String> apiNames = List.of("crimes_total", "unemployment");
-        List<Integer> years = List.of(2023, 2024, 2025);
+        List<Integer> years = List.of(2025, 2023, 2023, 2024);
         mockCountyMappings(List.of(createCountyMapping(TERYT_CODE)));
         when(variableRepository.findByApiNameIn(apiNames)).thenReturn(Flux.just(
                 createVariable(1, "crimes_total"),
@@ -118,11 +118,45 @@ class BdlStatisticalDataImportServiceTest {
         ));
         when(variableExternalIdRepository.findAllByVariableIdInAndProvider(List.of(1, 2), PROVIDER))
                 .thenReturn(Flux.just(createVariableMapping(1, 58559), createVariableMapping(2, 1749155)));
-        when(bdlApiClient.fetchTargetedData(eq(TERYT_CODE), eq(List.of(58559, 1749155)), eq(years)))
+        when(bdlApiClient.fetchTargetedData(eq(TERYT_CODE), eq(List.of(58559, 1749155)), eq(List.of(2023, 2024, 2025))))
                 .thenReturn(Mono.just(mockApiResponse));
 
         assertImportedRecords(importService.importTargetedCounties(new TargetedImportRequest(apiNames, years), IMPORT_JOB_ID), 1);
         verify(bdlApiClient, Mockito.never()).fetchRawData(any(), anyList());
+    }
+
+    @Test
+    void importTargetedCounties_shouldFailWhenApiNamesAreUnknown() {
+        List<String> apiNames = List.of("unknown_variable");
+        when(variableRepository.findByApiNameIn(apiNames)).thenReturn(Flux.empty());
+
+        StepVerifier.create(importService.importTargetedCounties(new TargetedImportRequest(apiNames, List.of(2023)), IMPORT_JOB_ID))
+                    .expectErrorMatches(error -> error instanceof IllegalArgumentException && error.getMessage().contains("unknown_variable"))
+                    .verify();
+
+        verifyNoInteractions(variableExternalIdRepository,
+                             territorialUnitRepository,
+                             territorialUnitExternalIdRepository,
+                             bdlApiClient,
+                             persistenceService);
+    }
+
+    @Test
+    void importTargetedCounties_shouldFailWhenVariableHasNoBdlMapping() {
+        List<String> apiNames = List.of("crimes_total");
+        when(variableRepository.findByApiNameIn(apiNames))
+                .thenReturn(Flux.just(createVariable(1, "crimes_total")));
+        when(variableExternalIdRepository.findAllByVariableIdInAndProvider(List.of(1), PROVIDER))
+                .thenReturn(Flux.empty());
+
+        StepVerifier.create(importService.importTargetedCounties(new TargetedImportRequest(apiNames, List.of(2023)), IMPORT_JOB_ID))
+                    .expectErrorMatches(error -> error instanceof IllegalStateException && error.getMessage().contains("crimes_total"))
+                    .verify();
+
+        verifyNoInteractions(territorialUnitRepository,
+                             territorialUnitExternalIdRepository,
+                             bdlApiClient,
+                             persistenceService);
     }
 
     @Test
