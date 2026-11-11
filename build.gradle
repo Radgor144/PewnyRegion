@@ -50,7 +50,7 @@ subprojects {
         implementation 'org.springframework.boot:spring-boot-starter-opentelemetry'
 
         implementation 'io.opentelemetry.instrumentation:opentelemetry-logback-appender-1.0:2.32.0-alpha'
-        runtimeOnly 'io.opentelemetry:opentelemetry-api-incubator:1.66.0-alpha'
+        runtimeOnly 'io.opentelemetry:opentelemetry-api-incubator:1.67.0-alpha'
 
         implementation 'io.opentelemetry:opentelemetry-exporter-otlp'
         implementation 'io.micrometer:micrometer-registry-prometheus'
