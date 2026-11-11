@@ -20,9 +20,9 @@ public class TestConstants {
     public static final String GET_COUNTY_DETAILS_API_PATH = "/api/countyDetails";
 
     public static final String BASE_IMPORT_PATH = "/api/imports";
-    public static final String POST_TERYT_IMPORT_API_PATH = BASE_IMPORT_PATH + "/teryt";
-    public static final String POST_FULL_IMPORT_API_PATH = BASE_IMPORT_PATH + "/full";
-    public static final String POST_TARGETED_IMPORT_API_PATH = BASE_IMPORT_PATH + "/targeted";
+    public static final String POST_TERYT_CATALOG_IMPORT_API_PATH = BASE_IMPORT_PATH + "/teryt/catalog";
+    public static final String POST_FULL_IMPORT_API_PATH = BASE_IMPORT_PATH + "/bdl/counties";
+    public static final String POST_TARGETED_IMPORT_API_PATH = BASE_IMPORT_PATH + "/bdl/targeted";
 
     // ===== Paths: BdlApiClient =====
     public static final String BDL_UNITS_PATH = "/Units";
