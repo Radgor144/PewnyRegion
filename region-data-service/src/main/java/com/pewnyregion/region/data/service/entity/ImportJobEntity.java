@@ -26,6 +26,7 @@ public class ImportJobEntity implements Persistable<String> {
     private String id;
     private ImportJobType jobType;
     private ImportJobStatus status;
+    private String provider;
     private LocalDateTime startedAt;
     private LocalDateTime finishedAt;
     private String message;
@@ -40,6 +41,6 @@ public class ImportJobEntity implements Persistable<String> {
 
     @Override
     public boolean isNew() {
-        return this.isNew || id == null;
+        return isNew || id == null;
     }
 }

@@ -21,21 +21,39 @@ public class ImportJobController {
 
     private final ImportJobService importJobService;
 
-    @PostMapping("/teryt")
-    public Mono<ResponseEntity<JobResponse>> importCounties() {
-        return importJobService.submitCountiesImport()
+    @PostMapping("/teryt/catalog")
+    public Mono<ResponseEntity<JobResponse>> importTerytCatalog() {
+        return importJobService.submitTerytCatalogImport()
                                .map(ResponseEntity.accepted()::body);
     }
 
-    @PostMapping("/full")
-    public Mono<ResponseEntity<JobResponse>> createFullImport() {
+    @PostMapping("/bdl/unit-mappings")
+    public Mono<ResponseEntity<JobResponse>> importBdlUnitMappings() {
+        return importJobService.submitBdlUnitMappingsImport()
+                               .map(ResponseEntity.accepted()::body);
+    }
+
+    @PostMapping("/bdl/counties")
+    public Mono<ResponseEntity<JobResponse>> importAllCounties() {
         return importJobService.submitFullImport()
                                .map(ResponseEntity.accepted()::body);
     }
 
-    @PostMapping("/targeted")
-    public Mono<ResponseEntity<JobResponse>> createTargetedImport(@Valid @RequestBody TargetedImportRequest request) {
+    @PostMapping("/bdl/counties/{terytCode}")
+    public Mono<ResponseEntity<JobResponse>> importCounty(@PathVariable String terytCode) {
+        return importJobService.submitBdlUnitImport(terytCode)
+                               .map(ResponseEntity.accepted()::body);
+    }
+
+    @PostMapping("/bdl/targeted")
+    public Mono<ResponseEntity<JobResponse>> importTargeted(@Valid @RequestBody TargetedImportRequest request) {
         return importJobService.submitTargetedImport(request)
+                               .map(ResponseEntity.accepted()::body);
+    }
+
+    @PostMapping("/normalization")
+    public Mono<ResponseEntity<JobResponse>> normalize() {
+        return importJobService.submitNormalization()
                                .map(ResponseEntity.accepted()::body);
     }
 
@@ -43,6 +61,6 @@ public class ImportJobController {
     public Mono<ResponseEntity<JobResponse>> getStatus(@PathVariable String jobId) {
         return importJobService.getJobResponse(jobId)
                                .map(ResponseEntity::ok)
-                               .onErrorReturn(IllegalArgumentException.class, ResponseEntity.notFound().build());
+                               .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 }

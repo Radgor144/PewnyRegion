@@ -33,11 +33,11 @@ class MapCountyScoresIntegrationTest extends AbstractIntegrationTest {
         List<MapResponse> responses = postAndExpectStatus(request, HttpStatus.OK);
 
         assertThat(responses)
-                .extracting(MapResponse::countyId, MapResponse::countyName, MapResponse::score)
+                .extracting(MapResponse::terytCode, MapResponse::countyName, MapResponse::score)
                 .containsExactlyInAnyOrder(
-                        tuple("011212006000", "Powiat krakowski", 53.64),
-                        tuple("011212008000", "Powiat miechowski", 46.38),
-                        tuple("011212019000", "Powiat wielicki", 49.40)
+                        tuple("1206", "Powiat krakowski", 0.54),
+                        tuple("1208", "Powiat miechowski", 0.46),
+                        tuple("1219", "Powiat wielicki", 0.49)
                 );
     }
 
@@ -48,11 +48,11 @@ class MapCountyScoresIntegrationTest extends AbstractIntegrationTest {
         List<MapResponse> responses = postAndExpectStatus(request, HttpStatus.OK);
 
         assertThat(responses)
-                .extracting(MapResponse::countyId, MapResponse::countyName, MapResponse::score)
+                .extracting(MapResponse::terytCode, MapResponse::countyName, MapResponse::score)
                 .containsExactlyInAnyOrder(
-                        tuple("011212006000", "Powiat krakowski", 56.52),
-                        tuple("011212008000", "Powiat miechowski", 53.63),
-                        tuple("011212019000", "Powiat wielicki", 30.20)
+                        tuple("1206", "Powiat krakowski", 0.57),
+                        tuple("1208", "Powiat miechowski", 0.54),
+                        tuple("1219", "Powiat wielicki", 0.30)
                 );
     }
 

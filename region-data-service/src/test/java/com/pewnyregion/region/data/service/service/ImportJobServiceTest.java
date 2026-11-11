@@ -3,9 +3,7 @@ package com.pewnyregion.region.data.service.service;
 import com.pewnyregion.region.data.service.component.BackgroundJobQueue;
 import com.pewnyregion.region.data.service.entity.ImportJobEntity;
 import com.pewnyregion.region.data.service.exception.ConflictException;
-import com.pewnyregion.region.data.service.model.ImportSummary;
 import com.pewnyregion.region.data.service.model.JobResponse;
-import com.pewnyregion.region.data.service.model.NormalizationSummary;
 import com.pewnyregion.region.data.service.model.TargetedImportRequest;
 import com.pewnyregion.region.data.service.repository.ImportJobRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,7 +22,6 @@ import java.util.concurrent.atomic.AtomicReference;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -32,7 +29,7 @@ import static org.mockito.Mockito.when;
 public class ImportJobServiceTest {
 
     private static final String PENDING = "PENDING";
-    private static final String COUNTIES = "COUNTIES";
+    private static final String TERYT_CATALOG = "TERYT_CATALOG";
     private static final String FULL = "FULL";
     private static final String CONFLICT_ERROR_MESSAGE = "Another import is already running or pending";
     public static final String DUPLICATE_KEY_ERROR = "Duplicate key error";
@@ -42,9 +39,11 @@ public class ImportJobServiceTest {
     @Mock
     private ImportJobRepository importJobRepository;
     @Mock
-    private BdlDataImportService bdlDataImportService;
+    private TercCatalogImportService tercCatalogImportService;
     @Mock
-    private CountyImportService countyImportService;
+    private BdlUnitMappingImportService bdlUnitMappingImportService;
+    @Mock
+    private BdlStatisticalDataImportService bdlStatisticalDataImportService;
     @Mock
     private NormalizationService normalizationService;
     @Mock
@@ -54,33 +53,35 @@ public class ImportJobServiceTest {
 
     @BeforeEach
     void setUp() {
-        importJobService = new ImportJobService(
-                importJobRepository, bdlDataImportService, countyImportService, normalizationService, countyDetailsCacheService, backgroundJobQueue
-        );
+        importJobService = new ImportJobService(importJobRepository,
+                                                backgroundJobQueue,
+                                                tercCatalogImportService,
+                                                bdlUnitMappingImportService,
+                                                bdlStatisticalDataImportService,
+                                                normalizationService,
+                                                countyDetailsCacheService);
     }
 
     @Test
-    void submitCountiesImport_shouldCreateAndEnqueueJob() {
+    void submitTerytCatalogImport_shouldCreateAndEnqueueJob() {
         AtomicReference<ImportJobEntity> savedJob = new AtomicReference<>();
 
-        when(countyImportService.runImportLogic()).thenReturn(Mono.empty());
         mockSuccessfulSave(savedJob);
         when(backgroundJobQueue.enqueueJob(any(), any())).thenReturn(Mono.empty());
 
-        StepVerifier.create(importJobService.submitCountiesImport())
-                    .assertNext(response -> assertJobResponse(response, savedJob.get().getId(), PENDING, COUNTIES))
+        StepVerifier.create(importJobService.submitTerytCatalogImport())
+                    .assertNext(response -> assertJobResponse(response, savedJob.get().getId(), PENDING, TERYT_CATALOG))
                     .verifyComplete();
 
         verifyInteractions();
     }
 
     @Test
-    void submitCountiesImport_shouldReturnConflictException_whenImportAlreadyRunning() {
-        when(countyImportService.runImportLogic()).thenReturn(Mono.empty());
+    void submitTerytCatalogImport_shouldReturnConflictException_whenImportAlreadyRunning() {
         when(importJobRepository.save(any(ImportJobEntity.class)))
                 .thenReturn(Mono.error(new DataIntegrityViolationException(DUPLICATE_KEY_ERROR)));
 
-        StepVerifier.create(importJobService.submitCountiesImport())
+        StepVerifier.create(importJobService.submitTerytCatalogImport())
                     .expectErrorSatisfies(this::assertConflictException)
                     .verify();
     }
@@ -89,11 +90,8 @@ public class ImportJobServiceTest {
     void submitFullImport_shouldCreateAndEnqueueJob() {
         AtomicReference<ImportJobEntity> savedJob = new AtomicReference<>();
 
-        mockFullImportDependencies();
         mockSuccessfulSave(savedJob);
         when(backgroundJobQueue.enqueueJob(any(), any())).thenReturn(Mono.empty());
-
-
         StepVerifier.create(importJobService.submitFullImport())
                     .assertNext(response -> assertJobResponse(response, savedJob.get().getId(), PENDING, FULL))
                     .verifyComplete();
@@ -103,7 +101,6 @@ public class ImportJobServiceTest {
 
     @Test
     void submitFullImport_shouldReturnConflictException_whenImportAlreadyRunning() {
-        mockFullImportDependencies();
         when(importJobRepository.save(any(ImportJobEntity.class)))
                 .thenReturn(Mono.error(new DataIntegrityViolationException(DUPLICATE_KEY_ERROR)));
 
@@ -116,10 +113,6 @@ public class ImportJobServiceTest {
     void submitTargetedImport_shouldCreateAndEnqueueJob() {
         AtomicReference<ImportJobEntity> savedJob = new AtomicReference<>();
         TargetedImportRequest request = new TargetedImportRequest(List.of("crimes_total"), List.of(2023));
-
-        lenient().when(bdlDataImportService.runTargetedImport(any(), any())).thenReturn(Mono.just(new ImportSummary(1)));
-        lenient().when(normalizationService.calculateAndSaveScoresForYears(any()))
-                 .thenReturn(Mono.just(new NormalizationSummary(List.of(2023))));
 
         mockSuccessfulSave(savedJob);
         when(backgroundJobQueue.enqueueJob(any(), any())).thenReturn(Mono.empty());
@@ -134,10 +127,6 @@ public class ImportJobServiceTest {
     @Test
     void submitTargetedImport_shouldReturnConflictException_whenImportAlreadyRunning() {
         TargetedImportRequest request = new TargetedImportRequest(List.of("crimes_total"), List.of(2023));
-
-        lenient().when(bdlDataImportService.runTargetedImport(any(), any())).thenReturn(Mono.just(new ImportSummary(1)));
-        lenient().when(normalizationService.calculateAndSaveScoresForYears(any()))
-                 .thenReturn(Mono.just(new NormalizationSummary(List.of(2023))));
 
         when(importJobRepository.save(any(ImportJobEntity.class)))
                 .thenReturn(Mono.error(new DataIntegrityViolationException(DUPLICATE_KEY_ERROR)));
@@ -154,12 +143,6 @@ public class ImportJobServiceTest {
                     savedJob.set(job);
                     return Mono.just(job);
                 });
-    }
-
-    private void mockFullImportDependencies() {
-        lenient().when(bdlDataImportService.runFullImport()).thenReturn(Mono.just(new ImportSummary(1)));
-        lenient().when(normalizationService.calculateAndSaveScoresForAllYears())
-                 .thenReturn(Mono.just(new NormalizationSummary(List.of(2023, 2024))));
     }
 
     private void assertJobResponse(JobResponse response, String expectedId, String expectedStatus, String expectedType) {
