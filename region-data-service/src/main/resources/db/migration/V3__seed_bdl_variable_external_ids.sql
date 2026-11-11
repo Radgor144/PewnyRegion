@@ -1,15 +1,10 @@
-INSERT INTO variable_external_ids (
-    variable_id,
-    provider,
-    external_id
-)
-SELECT
-    v.id,
-    'BDL',
-    mapping.external_id
-FROM (
-         VALUES
-             ('gross_salary', '64428'),
+INSERT INTO variable_external_ids (variable_id,
+                                   provider,
+                                   external_id)
+SELECT v.id,
+       'BDL',
+       mapping.external_id
+FROM (VALUES ('gross_salary', '64428'),
              ('doctors', '454185'),
              ('nurses', '472267'),
              ('flat_price_avg', '633692'),

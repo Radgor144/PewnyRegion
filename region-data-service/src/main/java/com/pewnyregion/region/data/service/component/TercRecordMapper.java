@@ -67,11 +67,8 @@ public class TercRecordMapper {
         return switch (unitLevel) {
             case VOIVODESHIP -> record.woj();
             case COUNTY -> record.woj() + record.pow();
-            case MUNICIPALITY ->
-                    record.woj() + record.pow() + record.gmi() + record.rodz();
-            default -> throw new IllegalArgumentException(
-                    "Unsupported territorial unit level: " + unitLevel
-            );
+            case MUNICIPALITY -> record.woj() + record.pow() + record.gmi() + record.rodz();
+            default -> throw new IllegalArgumentException("Unsupported territorial unit level: " + unitLevel);
         };
     }
 
@@ -80,9 +77,7 @@ public class TercRecordMapper {
             case VOIVODESHIP -> null;
             case COUNTY -> record.woj();
             case MUNICIPALITY -> record.woj() + record.pow();
-            default -> throw new IllegalArgumentException(
-                    "Unsupported territorial unit level: " + unitLevel
-            );
+            default -> throw new IllegalArgumentException("Unsupported territorial unit level: " + unitLevel);
         };
     }
 

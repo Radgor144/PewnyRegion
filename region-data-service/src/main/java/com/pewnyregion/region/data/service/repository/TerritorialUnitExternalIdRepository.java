@@ -34,7 +34,8 @@ public interface TerritorialUnitExternalIdRepository extends ReactiveCrudReposit
     Mono<Integer> upsert(@Param("territorialUnitId") Long territorialUnitId,
                          @Param("provider") String provider,
                          @Param("externalId") String externalId,
-                         @Param("providerLevel") String providerLevel);
+                         @Param("providerLevel") String providerLevel
+    );
 
     @Query("""
             SELECT external_mapping.*
