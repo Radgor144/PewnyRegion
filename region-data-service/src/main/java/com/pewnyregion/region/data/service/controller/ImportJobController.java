@@ -40,17 +40,13 @@ public class ImportJobController {
     }
 
     @PostMapping("/bdl/counties/{terytCode}")
-    public Mono<ResponseEntity<JobResponse>> importCounty(
-            @PathVariable String terytCode
-    ) {
+    public Mono<ResponseEntity<JobResponse>> importCounty(@PathVariable String terytCode) {
         return importJobService.submitBdlUnitImport(terytCode)
                                .map(ResponseEntity.accepted()::body);
     }
 
     @PostMapping("/bdl/targeted")
-    public Mono<ResponseEntity<JobResponse>> importTargeted(
-            @Valid @RequestBody TargetedImportRequest request
-    ) {
+    public Mono<ResponseEntity<JobResponse>> importTargeted(@Valid @RequestBody TargetedImportRequest request) {
         return importJobService.submitTargetedImport(request)
                                .map(ResponseEntity.accepted()::body);
     }
@@ -62,9 +58,7 @@ public class ImportJobController {
     }
 
     @GetMapping("/{jobId}")
-    public Mono<ResponseEntity<JobResponse>> getStatus(
-            @PathVariable String jobId
-    ) {
+    public Mono<ResponseEntity<JobResponse>> getStatus(@PathVariable String jobId) {
         return importJobService.getJobResponse(jobId)
                                .map(ResponseEntity::ok)
                                .defaultIfEmpty(ResponseEntity.notFound().build());

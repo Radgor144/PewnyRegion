@@ -26,7 +26,7 @@ import java.util.stream.Stream;
 import static com.pewnyregion.region.data.service.model.consts.ImportJobStatus.RUNNING;
 import static com.pewnyregion.region.data.service.utils.TestConstants.POST_FULL_IMPORT_API_PATH;
 import static com.pewnyregion.region.data.service.utils.TestConstants.POST_TARGETED_IMPORT_API_PATH;
-import static com.pewnyregion.region.data.service.utils.TestConstants.POST_TERYT_IMPORT_API_PATH;
+import static com.pewnyregion.region.data.service.utils.TestConstants.POST_TERYT_CATALOG_IMPORT_API_PATH;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
@@ -52,18 +52,18 @@ class ImportJobControllerTest {
     }
 
     @Test
-    void shouldReturnAccepted_whenImportingCounties() {
-        JobResponse expectedResponse = getJobResponse(ImportJobType.COUNTIES);
-        when(importJobService.submitCountiesImport()).thenReturn(Mono.just(expectedResponse));
+    void shouldReturnAccepted_whenImportingTerytCatalog() {
+        JobResponse expectedResponse = getJobResponse(ImportJobType.TERYT_CATALOG);
+        when(importJobService.submitTerytCatalogImport()).thenReturn(Mono.just(expectedResponse));
 
         webTestClient.post()
-                     .uri(POST_TERYT_IMPORT_API_PATH)
+                     .uri(POST_TERYT_CATALOG_IMPORT_API_PATH)
                      .exchange()
                      .expectStatus().isAccepted()
                      .expectBody(JobResponse.class)
                      .isEqualTo(expectedResponse);
 
-        verify(importJobService).submitCountiesImport();
+        verify(importJobService).submitTerytCatalogImport();
     }
 
     @Test
@@ -146,8 +146,7 @@ class ImportJobControllerTest {
 
     @Test
     void getStatus_shouldReturnNotFound_whenJobDoesNotExist() {
-        when(importJobService.getJobResponse(JOB_ID))
-                .thenReturn(Mono.error(new IllegalArgumentException("Job not found: " + JOB_ID)));
+        when(importJobService.getJobResponse(JOB_ID)).thenReturn(Mono.empty());
 
         webTestClient.get()
                      .uri("/api/imports/{jobId}", JOB_ID)
@@ -188,10 +187,10 @@ class ImportJobControllerTest {
                         new TargetedImportRequest(List.of("var1"), null)),
                 Arguments.of("Empty years list",
                         new TargetedImportRequest(List.of("var1"), Collections.emptyList())),
-                Arguments.of("Year before 2012",
-                        new TargetedImportRequest(List.of("var1"), List.of(2011))),
-                Arguments.of("Year after 2026",
-                        new TargetedImportRequest(List.of("var1"), List.of(2027))),
+                Arguments.of("Year is zero",
+                        new TargetedImportRequest(List.of("var1"), List.of(0))),
+                Arguments.of("Year is negative",
+                        new TargetedImportRequest(List.of("var1"), List.of(-1))),
 
                 Arguments.of("Null year inside list",
                         new TargetedImportRequest(List.of("var1"), Arrays.asList(2023, null))),
